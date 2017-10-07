@@ -1,15 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Fclp;
+using Protocols;
+using System;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
 
 namespace NameNode
 {
-    class Program
+    class Program : MarshalByRefObject, IDataNodeProtocol
     {
+        private static IDataNodeProtocol _nameNode = new NameNode();
+
         static void Main(string[] args)
         {
+            var parser = new FluentCommandLineParser<NameNodeOptions>();
+            parser.Setup(arg => arg.Port).As('p', "port").SetDefault(5150);
+
+            var result = parser.Parse(args);
+
+            if (result.HasErrors)
+            {
+                Console.WriteLine("Invalid options");
+            }
+            else
+            {
+                var program = new Program();
+                program.Run(parser.Object);
+
+                Console.ReadLine();
+            }
+        }
+
+        public void Run(NameNodeOptions options)
+        {
+            var tcpChannel = new TcpChannel(options.Port);
+            ChannelServices.RegisterChannel(tcpChannel, false);
+
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(Program), "DataNodeProtocol", WellKnownObjectMode.Singleton);
+        }
+
+        void IDataNodeProtocol.RegisterDataNode(IDataNodeRegistration dataNodeRegistration)
+        {
+            _nameNode.RegisterDataNode(dataNodeRegistration);
+        }
+
+        void IDataNodeProtocol.SendHeartbeat()
+        {
+            _nameNode.SendHeartbeat();
         }
     }
 }
