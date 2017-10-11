@@ -8,7 +8,7 @@ using System.ServiceModel;
 
 namespace NameNode
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     class Program : IDataNodeProtocol
     {
         private static IDataNodeProtocol _nameNode = new NameNode();
