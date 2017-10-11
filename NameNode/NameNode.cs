@@ -16,7 +16,7 @@ namespace NameNode
 
         }
 
-        Guid IDataNodeProtocol.RegisterDataNode(IDataNodeRegistration dataNodeRegistration)
+        Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
         {
             var dataNodeDescriptor = new DataNodeDescriptor();
             dataNodeDescriptor.IPAddress = dataNodeRegistration.IPAddress;

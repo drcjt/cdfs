@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace Protocols
 {
-    [Serializable]
-    public class DataNodeRegistration : IDataNodeRegistration
+    [DataContract]
+    public class DataNodeRegistration
     {
+        [DataMember]
         public string IPAddress { get; set; }
+        
+        [DataMember]
         public string HostName { get; set; }
     }
 }

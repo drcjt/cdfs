@@ -4,11 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.ServiceModel;
+
 namespace Protocols
 {
+    [ServiceContract]
     public interface IDataNodeProtocol
     {
-        Guid RegisterDataNode(IDataNodeRegistration dataNodeRegistration);
+        [OperationContract]
+        Guid RegisterDataNode(DataNodeRegistration dataNodeRegistration);
+
+        [OperationContract]
         void SendHeartbeat(Guid dataNodeID);
     }
 }

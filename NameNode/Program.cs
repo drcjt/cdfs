@@ -4,10 +4,12 @@ using System;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
+using System.ServiceModel;
 
 namespace NameNode
 {
-    class Program : MarshalByRefObject, IDataNodeProtocol
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    class Program : IDataNodeProtocol
     {
         private static IDataNodeProtocol _nameNode = new NameNode();
 
@@ -33,13 +35,17 @@ namespace NameNode
 
         public void Run(NameNodeOptions options)
         {
-            var tcpChannel = new TcpChannel(options.Port);
-            ChannelServices.RegisterChannel(tcpChannel, false);
+            var serviceHost = new ServiceHost(typeof(Program));
+            var serviceUri = "net.tcp://localhost:" + options.Port + "/DataNodeProtocol";
+            serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), serviceUri);
+            serviceHost.Open();
 
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(Program), "DataNodeProtocol", WellKnownObjectMode.Singleton);
+            Console.ReadLine();
+
+            serviceHost.Close();
         }
 
-        Guid IDataNodeProtocol.RegisterDataNode(IDataNodeRegistration dataNodeRegistration)
+        Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
         {
             return _nameNode.RegisterDataNode(dataNodeRegistration);
         }
