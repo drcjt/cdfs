@@ -8,7 +8,7 @@ namespace Protocols
 {
     public interface IDataNodeProtocol
     {
-        void RegisterDataNode(IDataNodeRegistration dataNodeRegistration);
-        void SendHeartbeat();
+        Guid RegisterDataNode(IDataNodeRegistration dataNodeRegistration);
+        void SendHeartbeat(Guid dataNodeID);
     }
 }

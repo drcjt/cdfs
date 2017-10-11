@@ -39,14 +39,14 @@ namespace NameNode
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(Program), "DataNodeProtocol", WellKnownObjectMode.Singleton);
         }
 
-        void IDataNodeProtocol.RegisterDataNode(IDataNodeRegistration dataNodeRegistration)
+        Guid IDataNodeProtocol.RegisterDataNode(IDataNodeRegistration dataNodeRegistration)
         {
-            _nameNode.RegisterDataNode(dataNodeRegistration);
+            return _nameNode.RegisterDataNode(dataNodeRegistration);
         }
 
-        void IDataNodeProtocol.SendHeartbeat()
+        void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
         {
-            _nameNode.SendHeartbeat();
+            _nameNode.SendHeartbeat(dataNodeID);
         }
     }
 }

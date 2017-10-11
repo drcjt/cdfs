@@ -9,20 +9,32 @@ namespace NameNode
 {
     public class NameNode : IDataNodeProtocol
     {
-        IList<IDataNodeRegistration> _dataNodes = new List<IDataNodeRegistration>();
+        IDictionary<Guid, DataNodeDescriptor> _dataNodes = new Dictionary<Guid, DataNodeDescriptor>();
 
         public NameNode()
         {
 
         }
 
-        void IDataNodeProtocol.RegisterDataNode(IDataNodeRegistration dataNodeRegistration)
+        Guid IDataNodeProtocol.RegisterDataNode(IDataNodeRegistration dataNodeRegistration)
         {
-            _dataNodes.Add(dataNodeRegistration);
+            var dataNodeDescriptor = new DataNodeDescriptor();
+            dataNodeDescriptor.IPAddress = dataNodeRegistration.IPAddress;
+            dataNodeDescriptor.HostName = dataNodeRegistration.HostName;
+
+            var dataNodeID = Guid.NewGuid();
+            _dataNodes[dataNodeID] = dataNodeDescriptor;
+
+            return dataNodeID;
         }
 
-        void IDataNodeProtocol.SendHeartbeat()
+        void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
         {
+            var dataNodeDescriptor = _dataNodes[dataNodeID];
+            if (dataNodeDescriptor != null)
+            {
+                dataNodeDescriptor.LastUpdate = DateTime.Now.Ticks;
+            }
         }
     }
 }

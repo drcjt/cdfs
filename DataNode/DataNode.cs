@@ -9,6 +9,7 @@ namespace DataNode
     public class DataNode
     {
         private IDataNodeProtocol _nameNode;
+        private Guid ID { get; set; }
 
         public DataNode(IDataNodeProtocol nameNode)
         {
@@ -21,7 +22,7 @@ namespace DataNode
             dataNodeRegistration.IPAddress = GetLocalIPAddress();
             dataNodeRegistration.HostName = Dns.GetHostName();
 
-            _nameNode.RegisterDataNode(dataNodeRegistration);
+            ID = _nameNode.RegisterDataNode(dataNodeRegistration);
 
             var timer = new Timer(1000);
             timer.Elapsed += new ElapsedEventHandler(SendHeartbeat);
@@ -30,7 +31,7 @@ namespace DataNode
 
         public void SendHeartbeat(object source, ElapsedEventArgs args)
         {
-            _nameNode.SendHeartbeat();
+            _nameNode.SendHeartbeat(ID);
         }
 
         public static string GetLocalIPAddress()
