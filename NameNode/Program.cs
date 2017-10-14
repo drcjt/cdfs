@@ -9,7 +9,7 @@ using System.ServiceModel;
 namespace NameNode
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    class Program : IDataNodeProtocol
+    class Program : IDataNodeProtocol, IClientProtocol
     {
         private static IDataNodeProtocol _nameNode = new NameNode();
 
@@ -36,13 +36,38 @@ namespace NameNode
         public void Run(NameNodeOptions options)
         {
             var serviceHost = new ServiceHost(typeof(Program));
-            var serviceUri = "net.tcp://localhost:" + options.Port + "/DataNodeProtocol";
-            serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), serviceUri);
+
+            var dataNodeServiceUri = "net.tcp://localhost:" + options.Port + "/DataNodeProtocol";
+            serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), dataNodeServiceUri);
+
+            var clientServiceUri = "net.tcp://localhost:" + options.Port + "/ClientProtocol";
+            serviceHost.AddServiceEndpoint(typeof(IClientProtocol), new NetTcpBinding(), clientServiceUri);
+
             serviceHost.Open();
 
             Console.ReadLine();
 
             serviceHost.Close();
+        }
+
+        void IClientProtocol.Create(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IClientProtocol.Delete(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        CdfsFileStatus[] IClientProtocol.GetListing(string filePath)
+        {
+            return new CdfsFileStatus[] { new CdfsFileStatus()  };
+        }
+
+        void IClientProtocol.ReadBlock()
+        {
+            throw new NotImplementedException();
         }
 
         Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
@@ -53,6 +78,11 @@ namespace NameNode
         void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
         {
             _nameNode.SendHeartbeat(dataNodeID);
+        }
+
+        void IClientProtocol.WriteBlock()
+        {
+            throw new NotImplementedException();
         }
     }
 }
