@@ -1,8 +1,5 @@
-﻿using Fclp;
-using Protocols;
+﻿using Protocols;
 using System;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Tcp;
 using System.ServiceModel;
 
 namespace DataNode
@@ -13,19 +10,16 @@ namespace DataNode
 
         static void Main(string[] args)
         {
-            var parser = new FluentCommandLineParser<DataNodeOptions>();
-            parser.Setup(arg => arg.NameNodeUri).As('n', "namenodeuri").SetDefault("net.tcp://localhost:5150/DataNodeProtocol");
+            var options = new DataNodeOptions();
 
-            var result = parser.Parse(args);
-
-            if (result.HasErrors)
+            if (CommandLine.Parser.Default.ParseArguments(args, options))
             {
-                Console.WriteLine("Invalid options");
+                var program = new Program();
+                program.Run(options);
             }
             else
             {
-                var program = new Program();
-                program.Run(parser.Object);
+                Console.WriteLine("Invalid options");
             }
         }
 

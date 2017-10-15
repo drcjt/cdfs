@@ -1,9 +1,5 @@
-﻿using Fclp;
-using Protocols;
+﻿using Protocols;
 using System;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Tcp;
 using System.ServiceModel;
 
 namespace NameNode
@@ -15,21 +11,16 @@ namespace NameNode
 
         static void Main(string[] args)
         {
-            var parser = new FluentCommandLineParser<NameNodeOptions>();
-            parser.Setup(arg => arg.Port).As('p', "port").SetDefault(5150);
+            var options = new NameNodeOptions();
 
-            var result = parser.Parse(args);
-
-            if (result.HasErrors)
+            if (CommandLine.Parser.Default.ParseArguments(args, options))
             {
-                Console.WriteLine("Invalid options");
+                var program = new Program();
+                program.Run(options);
             }
             else
             {
-                var program = new Program();
-                program.Run(parser.Object);
-
-                Console.ReadLine();
+                Console.WriteLine("Invalid options");
             }
         }
 
