@@ -1,16 +1,18 @@
-﻿using Protocols;
+﻿using NameNode.DependencyInjection;
+using Protocols;
 using System;
 using System.ServiceModel;
 
 namespace NameNode
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    class Program : IDataNodeProtocol, IClientProtocol
+    class Program
     {
-        private static IDataNodeProtocol _nameNode = new NameNode();
-
         static void Main(string[] args)
         {
+            log4net.Config.XmlConfigurator.Configure();
+            Singleton.Container.Configure(config => config.AddRegistry<NameNodeRegistry>());
+
             var options = new NameNodeOptions();
 
             if (CommandLine.Parser.Default.ParseArguments(args, options))
@@ -26,7 +28,7 @@ namespace NameNode
 
         public void Run(NameNodeOptions options)
         {
-            var serviceHost = new ServiceHost(typeof(Program));
+            var serviceHost = new ServiceHost(typeof(NameNodeService));
 
             var dataNodeServiceUri = "net.tcp://localhost:" + options.Port + "/DataNodeProtocol";
             serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), dataNodeServiceUri);
@@ -39,41 +41,6 @@ namespace NameNode
             Console.ReadLine();
 
             serviceHost.Close();
-        }
-
-        void IClientProtocol.Create(string filePath)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IClientProtocol.Delete(string filePath)
-        {
-            throw new NotImplementedException();
-        }
-
-        CdfsFileStatus[] IClientProtocol.GetListing(string filePath)
-        {
-            return new CdfsFileStatus[] { new CdfsFileStatus()  };
-        }
-
-        void IClientProtocol.ReadBlock()
-        {
-            throw new NotImplementedException();
-        }
-
-        Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
-        {
-            return _nameNode.RegisterDataNode(dataNodeRegistration);
-        }
-
-        void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
-        {
-            _nameNode.SendHeartbeat(dataNodeID);
-        }
-
-        void IClientProtocol.WriteBlock()
-        {
-            throw new NotImplementedException();
         }
     }
 }
