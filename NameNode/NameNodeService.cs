@@ -1,68 +1,63 @@
 ﻿using log4net;
 using NameNode.DependencyInjection;
+using NameNode.Interfaces;
 using Protocols;
 using System;
 using System.Collections.Generic;
 
 namespace NameNode
 {
-    [StructureMapServiceBehaviorAttribute]
-    class NameNodeService : IDataNodeProtocol, IClientProtocol
+    [StructureMapServiceBehavior]
+    public class NameNodeService : IDataNodeProtocol, IClientProtocol, INameNodeServiceManagement
     {
-        IDictionary<Guid, DataNodeDescriptor> _dataNodes = new Dictionary<Guid, DataNodeDescriptor>();
         ILog _logger;
+        IDataNodeProtocol _dataNodeProtocol;
+        IClientProtocol _clientNodeProtocol;
 
-        public NameNodeService(ILog logger)
+        public DateTime Started { get; }
+
+        public NameNodeService(ILog logger, IDataNodeProtocol dataNodeProtocol, IClientProtocol clientNodeProtocol)
         {
             _logger = logger;
+            _dataNodeProtocol = dataNodeProtocol;
+            _clientNodeProtocol = clientNodeProtocol;
+
+            Started = DateTime.Now;
         }
 
         void IClientProtocol.Create(string filePath)
         {
-            throw new NotImplementedException();
+            _clientNodeProtocol.Create(filePath);
         }
 
         void IClientProtocol.Delete(string filePath)
         {
-            throw new NotImplementedException();
+            _clientNodeProtocol.Delete(filePath);
         }
 
         CdfsFileStatus[] IClientProtocol.GetListing(string filePath)
         {
-            return new CdfsFileStatus[] { new CdfsFileStatus() };
+            return _clientNodeProtocol.GetListing(filePath);
         }
 
         void IClientProtocol.ReadBlock()
         {
-            throw new NotImplementedException();
-        }
-
-        Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
-        {
-            _logger.Info("DataNode registering");
-
-            var dataNodeDescriptor = new DataNodeDescriptor();
-            dataNodeDescriptor.IPAddress = dataNodeRegistration.IPAddress;
-            dataNodeDescriptor.HostName = dataNodeRegistration.HostName;
-
-            var dataNodeID = Guid.NewGuid();
-            _dataNodes[dataNodeID] = dataNodeDescriptor;
-
-            return dataNodeID;
-        }
-
-        void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
-        {
-            var dataNodeDescriptor = _dataNodes[dataNodeID];
-            if (dataNodeDescriptor != null)
-            {
-                dataNodeDescriptor.LastUpdate = DateTime.Now.Ticks;
-            }
+            _clientNodeProtocol.ReadBlock();
         }
 
         void IClientProtocol.WriteBlock()
         {
-            throw new NotImplementedException();
+            _clientNodeProtocol.WriteBlock();
+        }
+
+        Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
+        {
+            return _dataNodeProtocol.RegisterDataNode(dataNodeRegistration);
+        }
+
+        void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
+        {
+            _dataNodeProtocol.SendHeartbeat(dataNodeID);
         }
     }
 }

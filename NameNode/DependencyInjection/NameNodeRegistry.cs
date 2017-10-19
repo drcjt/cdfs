@@ -1,10 +1,7 @@
 ﻿using log4net;
+using NameNode.Interfaces;
+using Protocols;
 using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NameNode.DependencyInjection
 {
@@ -13,6 +10,13 @@ namespace NameNode.DependencyInjection
         public NameNodeRegistry()
         {
             For<ILog>().Use(c => LogManager.GetLogger(c.ParentType)).AlwaysUnique();
+            For<IClientProtocol>().Use<ClientProtocol>();
+            ForConcreteType<DataNodeProtocol>().Configure.Singleton();
+            ForConcreteType<NameNodeService>().Configure.Singleton();
+
+            For<IDataNodeProtocol>().Use(c => c.GetInstance<DataNodeProtocol>());
+            For<IDataNodeProtocolManagement>().Use(c => c.GetInstance<DataNodeProtocol>());
+            For<INameNodeServiceManagement>().Use(c => c.GetInstance<NameNodeService>());
         }
     }
 }

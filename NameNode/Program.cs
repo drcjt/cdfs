@@ -2,6 +2,7 @@
 using Protocols;
 using System;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 
 namespace NameNode
 {
@@ -30,17 +31,20 @@ namespace NameNode
         {
             var serviceHost = new ServiceHost(typeof(NameNodeService));
 
-            var dataNodeServiceUri = "net.tcp://localhost:" + options.Port + "/DataNodeProtocol";
-            serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), dataNodeServiceUri);
+            serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), "net.tcp://localhost:" + options.Port + "/DataNodeProtocol");
+            serviceHost.AddServiceEndpoint(typeof(IClientProtocol), new NetTcpBinding(), "net.tcp://localhost:" + options.Port + "/ClientProtocol");
 
-            var clientServiceUri = "net.tcp://localhost:" + options.Port + "/ClientProtocol";
-            serviceHost.AddServiceEndpoint(typeof(IClientProtocol), new NetTcpBinding(), clientServiceUri);
+            var mgmtServiceHost = new WebServiceHost(typeof(NameNodeManagementService), new Uri("http://localhost:8080"));
+            mgmtServiceHost.AddServiceEndpoint(typeof(INameNodeManagement), new WebHttpBinding(), "");
 
             serviceHost.Open();
+            mgmtServiceHost.Open();
 
+            Console.WriteLine("Press <Enter> to stop the service");
             Console.ReadLine();
 
             serviceHost.Close();
+            mgmtServiceHost.Close();
         }
     }
 }

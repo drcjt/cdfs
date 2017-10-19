@@ -45,6 +45,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,12 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientProtocol.cs" />
     <Compile Include="DataNodeDescriptor.cs" />
     <Compile Include="DataNodeDetail.cs" />
+    <Compile Include="DataNodeProtocol.cs" />
     <Compile Include="DependencyInjection\NameNodeRegistry.cs" />
     <Compile Include="DependencyInjection\Singleton.cs" />
     <Compile Include="DependencyInjection\StructureMapInstanceProvider.cs" />
     <Compile Include="DependencyInjection\StructureMapServiceBehaviorAttribute .cs" />
+    <Compile Include="Interfaces\IDataNodeProtocolManagement.cs" />
+    <Compile Include="Interfaces\INameNodeServiceManagement.cs" />
+    <Compile Include="NameNodeManagementService.cs" />
     <Compile Include="NameNodeOptions.cs" />
     <Compile Include="NameNodeService.cs" />
     <Compile Include="Program.cs" />
@@ -74,5 +80,6 @@
       <Name>Protocols</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
