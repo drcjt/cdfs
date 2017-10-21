@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Protocols
+namespace NameNode.WebApp.Models
 {
-    [DataContract]
     public class NameNodeStatus
     {
-        [DataMember]
         public DateTime Started { get; set; }
-
-        [DataMember]
         public int LiveNodes { get; set; }
-
-        [DataMember]
         public int DeadNodes { get; set; }
     }
 }

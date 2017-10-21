@@ -47,8 +47,6 @@
     <Compile Include="DataNodeRegistration.cs" />
     <Compile Include="IClientProtocol.cs" />
     <Compile Include="IDataNodeProtocol.cs" />
-    <Compile Include="INameNodeManagement.cs" />
-    <Compile Include="NameNodeStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,17 +1,21 @@
-﻿using System;
+﻿using StructureMap;
+using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
 namespace NameNode.DependencyInjection
 {
-    public class StructureMapInstanceProvider : IInstanceProvider
+    public class StructureMapInstanceProvider : IInstanceProvider, IContractBehavior
     {
         private readonly Type _serviceType;
+        private readonly IContainer _container;
 
-        public StructureMapInstanceProvider(Type serviceType)
+        public StructureMapInstanceProvider(IContainer container, Type serviceType)
         {
             _serviceType = serviceType;
+            _container = container;
         }
 
         public object GetInstance(InstanceContext instanceContext)
@@ -21,7 +25,7 @@ namespace NameNode.DependencyInjection
 
         public object GetInstance(InstanceContext instanceContext, Message message)
         {
-            return Singleton.Container.GetInstance(_serviceType);
+            return _container.GetInstance(_serviceType);
         }
 
         public void ReleaseInstance(InstanceContext instanceContext, object instance)
@@ -30,6 +34,23 @@ namespace NameNode.DependencyInjection
             {
                 (instance as IDisposable).Dispose();
             }
+        }
+
+        public void Validate(ContractDescription contractDescription, ServiceEndpoint endpoint)
+        {
+        }
+
+        public void ApplyDispatchBehavior(ContractDescription contractDescription, ServiceEndpoint endpoint, DispatchRuntime dispatchRuntime)
+        {
+            dispatchRuntime.InstanceProvider = this;
+        }
+
+        public void ApplyClientBehavior(ContractDescription contractDescription, ServiceEndpoint endpoint, ClientRuntime clientRuntime)
+        {
+        }
+
+        public void AddBindingParameters(ContractDescription contractDescription, ServiceEndpoint endpoint, BindingParameterCollection bindingParameters)
+        {
         }
     }
 }

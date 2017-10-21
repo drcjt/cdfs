@@ -1,8 +1,11 @@
 ﻿using NameNode.DependencyInjection;
+using NameNode.WebApp;
 using Protocols;
+using StructureMap;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using Topshelf;
 
 namespace NameNode
 {
@@ -12,8 +15,27 @@ namespace NameNode
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();
-            Singleton.Container.Configure(config => config.AddRegistry<NameNodeRegistry>());
 
+            var container = new Container(cfg =>
+            {
+                cfg.AddRegistry<NameNodeRegistry>();
+            });
+
+            HostFactory.Run(x => 
+            {
+                x.Service<Program>(s =>
+                {
+                    s.ConstructUsing(p => new Program());
+                    s.WhenStarted(p => p.Start(container));
+                    s.WhenStopped(p => p.Stop());
+                });
+                x.RunAsLocalSystem();
+
+                x.SetDescription("C# Distributed File System Name Node Service");
+                x.SetServiceName("CDFS_NameNode");
+            });
+
+            /*
             var options = new NameNodeOptions();
 
             if (CommandLine.Parser.Default.ParseArguments(args, options))
@@ -25,26 +47,33 @@ namespace NameNode
             {
                 Console.WriteLine("Invalid options");
             }
+            */
         }
 
-        public void Run(NameNodeOptions options)
+        public Program()
         {
-            var serviceHost = new ServiceHost(typeof(NameNodeService));
+        }
 
-            serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), "net.tcp://localhost:" + options.Port + "/DataNodeProtocol");
-            serviceHost.AddServiceEndpoint(typeof(IClientProtocol), new NetTcpBinding(), "net.tcp://localhost:" + options.Port + "/ClientProtocol");
+        private ServiceHost _serviceHost;
+        private CdfsWebApp _webApp;
+        public void Start(IContainer container)
+        {
+            _serviceHost = new StructureMapServiceHost(container, typeof(NameNodeService));
 
-            var mgmtServiceHost = new WebServiceHost(typeof(NameNodeManagementService), new Uri("http://localhost:8080"));
-            mgmtServiceHost.AddServiceEndpoint(typeof(INameNodeManagement), new WebHttpBinding(), "");
+            _serviceHost.AddServiceEndpoint(typeof(IDataNodeProtocol), new NetTcpBinding(), "net.tcp://localhost:5150/DataNodeProtocol");
+            _serviceHost.AddServiceEndpoint(typeof(IClientProtocol), new NetTcpBinding(), "net.tcp://localhost:5150/ClientProtocol");
 
-            serviceHost.Open();
-            mgmtServiceHost.Open();
+            _webApp = new CdfsWebApp();
+            _webApp.Start(container);
 
-            Console.WriteLine("Press <Enter> to stop the service");
-            Console.ReadLine();
+            _serviceHost.Open();
+        }
 
-            serviceHost.Close();
-            mgmtServiceHost.Close();
+        public void Stop()
+        {
+            _webApp.Stop();
+
+            _serviceHost.Close();
         }
     }
 }

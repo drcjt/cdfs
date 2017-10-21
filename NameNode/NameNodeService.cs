@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace NameNode
 {
-    [StructureMapServiceBehavior]
     public class NameNodeService : IDataNodeProtocol, IClientProtocol, INameNodeServiceManagement
     {
         ILog _logger;

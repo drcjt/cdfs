@@ -50,7 +50,7 @@ namespace NameNode
             return dn.LastUpdate < DateTime.Now.AddMilliseconds(-_heartBeatExpireIntervalMilliseconds).Ticks;
         }
 
-        public int LiveNodes => _dataNodes.Values.Where(c => !IsDataNodeDead(c)).Count();
+        public int LiveNodes => _dataNodes.Values.Count(c => !IsDataNodeDead(c));
         public int DeadNodes => _dataNodes.Count - LiveNodes;
     }
 }
