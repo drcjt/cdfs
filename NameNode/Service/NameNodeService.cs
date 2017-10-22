@@ -1,12 +1,16 @@
 ﻿using log4net;
-using NameNode.DependencyInjection;
 using NameNode.Interfaces;
 using Protocols;
 using System;
-using System.Collections.Generic;
 
-namespace NameNode
+namespace NameNode.Service
 {
+    /// <summary>
+    /// The main NameNode WCF service implementation
+    /// 
+    /// Limitation of WCF is that you can only have one service implementation class so this must
+    /// implement both of the service interfaces.
+    /// </summary>
     public class NameNodeService : IDataNodeProtocol, IClientProtocol, INameNodeServiceManagement
     {
         ILog _logger;

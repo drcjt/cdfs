@@ -51,7 +51,11 @@
       <HintPath>..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -66,17 +70,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientProtocol.cs" />
-    <Compile Include="DataNodeDescriptor.cs" />
-    <Compile Include="DataNodeDetail.cs" />
-    <Compile Include="DataNodeProtocol.cs" />
+    <Compile Include="Service\ClientProtocol.cs" />
+    <Compile Include="Service\DataNodeDescriptor.cs" />
+    <Compile Include="Service\DataNodeDetail.cs" />
+    <Compile Include="Service\DataNodeProtocol.cs" />
     <Compile Include="DependencyInjection\NameNodeRegistry.cs" />
     <Compile Include="DependencyInjection\StructureMapInstanceProvider.cs" />
     <Compile Include="DependencyInjection\StructureMapServiceHost.cs" />
     <Compile Include="Interfaces\IDataNodeProtocolManagement.cs" />
     <Compile Include="Interfaces\INameNodeServiceManagement.cs" />
-    <Compile Include="NameNodeOptions.cs" />
-    <Compile Include="NameNodeService.cs" />
+    <Compile Include="Options\ConfigurationManagerExtensions.cs" />
+    <Compile Include="Options\NameNodeOptions.cs" />
+    <Compile Include="Service\NameNodeService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApp\CdfsWebApp.cs" />
@@ -96,7 +101,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="WebApp\Views\main.html" />
+    <EmbeddedResource Include="WebApp\Views\cdfshealth.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

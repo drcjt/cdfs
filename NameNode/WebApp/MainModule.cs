@@ -18,7 +18,7 @@ namespace NameNode.WebApp
             model.LiveNodes = dataNodeServiceManagement.LiveNodes;
             model.DeadNodes = dataNodeServiceManagement.DeadNodes;
 
-            Get["/"] = p => View["main.html", model];
+            Get["/"] = p => View["cdfshealth.html", model];
         }
     }
 }
