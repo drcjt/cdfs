@@ -11,12 +11,12 @@ namespace NameNode.WebApp
 {
     public class MainModule : NancyModule
     {
-        public MainModule(INameNodeServiceManagement nameNodeServiceManagement, IDataNodeProtocolManagement dataNodeServiceManagement)
+        public MainModule(INameNodeStatus nameNodeServiceManagement, IDataNodesStatus dataNodesStatus)
         {
             var model = new NameNodeStatus();
             model.Started = nameNodeServiceManagement.Started;
-            model.LiveNodes = dataNodeServiceManagement.LiveNodes;
-            model.DeadNodes = dataNodeServiceManagement.DeadNodes;
+            model.LiveNodes = dataNodesStatus.LiveNodes;
+            model.DeadNodes = dataNodesStatus.DeadNodes;
 
             Get["/"] = p => View["cdfshealth.html", model];
         }

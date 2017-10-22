@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace NameNode.Interfaces
 {
-    public interface INameNodeServiceManagement
+    public interface IDataNodesStatus
     {
-        DateTime Started { get; }
+        int LiveNodes { get; }
+        int DeadNodes { get; }
     }
 }

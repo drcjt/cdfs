@@ -11,21 +11,21 @@ namespace NameNode.Service
     /// Limitation of WCF is that you can only have one service implementation class so this must
     /// implement both of the service interfaces.
     /// </summary>
-    public class NameNodeService : IDataNodeProtocol, IClientProtocol, INameNodeServiceManagement
+    public class NameNodeService : IDataNodeProtocol, IClientProtocol
     {
         ILog _logger;
         IDataNodeProtocol _dataNodeProtocol;
         IClientProtocol _clientNodeProtocol;
+        INameNodeStatus _nameNodeStatus;
 
-        public DateTime Started { get; }
-
-        public NameNodeService(ILog logger, IDataNodeProtocol dataNodeProtocol, IClientProtocol clientNodeProtocol)
+        public NameNodeService(ILog logger, IDataNodeProtocol dataNodeProtocol, IClientProtocol clientNodeProtocol, INameNodeStatus nameNodeStatus)
         {
             _logger = logger;
             _dataNodeProtocol = dataNodeProtocol;
             _clientNodeProtocol = clientNodeProtocol;
 
-            Started = DateTime.Now;
+            // Injection of NameNodeStatus forces the singleton to be created at this point recording the service startup time
+            _nameNodeStatus = nameNodeStatus;
         }
 
         void IClientProtocol.Create(string filePath)

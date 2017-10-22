@@ -7,15 +7,17 @@ using System.Linq;
 
 namespace NameNode.Service
 {
-    public class DataNodeProtocol : IDataNodeProtocol, IDataNodeProtocolManagement
+    public class DataNodeProtocol : IDataNodeProtocol
     {
         ILog _logger;
+        IDataNodeRepository _dataNodeRepository;
 
         IDictionary<Guid, DataNodeDescriptor> _dataNodes = new Dictionary<Guid, DataNodeDescriptor>();
 
-        public DataNodeProtocol(ILog logger)
+        public DataNodeProtocol(ILog logger, IDataNodeRepository dataNodeRepository)
         {
             _logger = logger;
+            _dataNodeRepository = dataNodeRepository;
         }
 
         /// <summary>
@@ -32,14 +34,7 @@ namespace NameNode.Service
             dataNodeDescriptor.IPAddress = dataNodeRegistration.IPAddress;
             dataNodeDescriptor.HostName = dataNodeRegistration.HostName;
 
-            // Allocate an ID for the data node
-            var dataNodeID = Guid.NewGuid();
-
-            // Persist the data node information
-            _dataNodes[dataNodeID] = dataNodeDescriptor;
-
-            // Return the data node ID
-            return dataNodeID;
+            return _dataNodeRepository.AddDataNode(dataNodeDescriptor);
         }
 
         /// <summary>
@@ -51,24 +46,11 @@ namespace NameNode.Service
             _logger.DebugFormat("Hearbeat recevied from datanode {0}", dataNodeID);
 
             // Update the data node descriptor to reflect the hearbeat
-            var dataNodeDescriptor = _dataNodes[dataNodeID];
+            var dataNodeDescriptor = _dataNodeRepository.GetDataNodeDescriptorById(dataNodeID);
             if (dataNodeDescriptor != null)
             {
                 dataNodeDescriptor.LastUpdate = DateTime.Now.Ticks;
             }
         }
-
-        // Data nodes become dead if they haven't sent a hearbeat in the last 1000 milliseconds
-        int _heartBeatExpireIntervalMilliseconds = 1000;
-
-        // Check if a data node is dead
-        bool IsDataNodeDead(DataNodeDescriptor dn)
-        {
-            return dn.LastUpdate < DateTime.Now.AddMilliseconds(-_heartBeatExpireIntervalMilliseconds).Ticks;
-        }
-
-        // Get the count of live and dead data nodes
-        public int LiveNodes => _dataNodes.Values.Count(c => !IsDataNodeDead(c));
-        public int DeadNodes => _dataNodes.Count - LiveNodes;
     }
 }

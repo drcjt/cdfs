@@ -1,10 +1,13 @@
-﻿using Protocols;
+﻿using NameNode.FileSystem;
+using Protocols;
 using System;
 
 namespace NameNode.Service
 {
     class ClientProtocol : IClientProtocol
     {
+        INodeDirectory rootDir = new INodeDirectory();
+
         void IClientProtocol.Create(string filePath)
         {
             throw new NotImplementedException();

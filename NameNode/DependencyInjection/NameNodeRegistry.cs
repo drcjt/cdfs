@@ -1,6 +1,7 @@
 ﻿using log4net;
 using NameNode.Interfaces;
 using NameNode.Service;
+using NameNode.Status;
 using Protocols;
 using StructureMap;
 
@@ -13,20 +14,13 @@ namespace NameNode.DependencyInjection
             // Use log4net for logging
             For<ILog>().Use(c => LogManager.GetLogger(c.ParentType)).AlwaysUnique();
 
-            // We must only have one instance of the main WCF service implementation class
-            // which is also used for the management interface for the service
-            ForSingletonOf<NameNodeService>().Use<NameNodeService>();
-            For<INameNodeServiceManagement>().Use(c => c.GetInstance<NameNodeService>());
+            For<IDataNodeRepository>().Use<DataNodeRepository>().Singleton();
 
-            // We must only have one instance of the main client protocol
-            ForSingletonOf<ClientProtocol>().Use<ClientProtocol>();
-            For<IClientProtocol>().Use(c => c.GetInstance<ClientProtocol>());
+            For<IClientProtocol>().Use<ClientProtocol>();
+            For<IDataNodeProtocol>().Use<DataNodeProtocol>();
 
-            // We must only have one instance of the main data node protocol
-            // which is also used for the management interface for the data nodes
-            ForSingletonOf<DataNodeProtocol>().Use<DataNodeProtocol>();
-            For<IDataNodeProtocol>().Use(c => c.GetInstance<DataNodeProtocol>());
-            For<IDataNodeProtocolManagement>().Use(c => c.GetInstance<DataNodeProtocol>());
+            For<INameNodeStatus>().Use<NameNodeStatus>().Singleton();
+            For<IDataNodesStatus>().Use<DataNodesStatus>();
         }
     }
 }
