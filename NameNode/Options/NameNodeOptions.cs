@@ -1,5 +1,4 @@
-﻿using CommandLine;
-using System;
+﻿using System;
 
 namespace NameNode.Options
 {
