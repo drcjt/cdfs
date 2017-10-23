@@ -12,8 +12,6 @@ namespace NameNode.Service
         ILog _logger;
         IDataNodeRepository _dataNodeRepository;
 
-        IDictionary<Guid, DataNodeDescriptor> _dataNodes = new Dictionary<Guid, DataNodeDescriptor>();
-
         public DataNodeProtocol(ILog logger, IDataNodeRepository dataNodeRepository)
         {
             _logger = logger;
