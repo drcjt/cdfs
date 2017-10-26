@@ -35,7 +35,9 @@ namespace DFSClient
 
             if (options is ListingSubOptions)
             {
-                var listing = _nameNode.GetListing("");
+                var listingOptions = options as ListingSubOptions;
+                var srcPath = listingOptions.FilePath.Count > 0 ? listingOptions.FilePath[0] : "";
+                var listing = _nameNode.GetListing(srcPath);
                 foreach (var file in listing)
                 {
                     Console.WriteLine(file);

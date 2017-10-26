@@ -2,6 +2,7 @@
 using NameNode.Interfaces;
 using Protocols;
 using System;
+using System.Collections.Generic;
 
 namespace NameNode.Service
 {
@@ -38,7 +39,7 @@ namespace NameNode.Service
             _clientNodeProtocol.Delete(filePath);
         }
 
-        CdfsFileStatus[] IClientProtocol.GetListing(string filePath)
+        IList<CdfsFileStatus> IClientProtocol.GetListing(string filePath)
         {
             return _clientNodeProtocol.GetListing(filePath);
         }

@@ -11,17 +11,17 @@ namespace Protocols
     public class CdfsFileStatus
     {
         [DataMember]
-        string FilePath { get; set; }
+        public string FilePath { get; set; }
         
         [DataMember]
-        long Length { get; set; }
+        public long Length { get; set; }
 
         [DataMember]
-        Boolean IsDirectory { get; set; }
+        public Boolean IsDirectory { get; set; }
 
         public override string ToString()
         {
-            return IsDirectory ? "<DIR>         " : Length + " " + FilePath;
+            return (IsDirectory ? "<DIR>         " : string.Format("{0,14}", Length)) + " " + FilePath;
         }
     }
 }

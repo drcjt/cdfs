@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Protocols
 {
@@ -17,7 +13,7 @@ namespace Protocols
         void Delete(string filePath);
 
         [OperationContract]
-        CdfsFileStatus[] GetListing(string filePath);
+        IList<CdfsFileStatus> GetListing(string filePath);
 
         [OperationContract]
         void WriteBlock();

@@ -1,10 +1,5 @@
 ﻿using CommandLine;
-using CommandLine.Text;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DFSClient
 {
@@ -16,6 +11,8 @@ namespace DFSClient
 
     public class ListingSubOptions : CommonSubOptions
     {        
+        [ValueList(typeof(List<string>), MaximumElements = 1)]
+        public IList<string> FilePath { get; set; }
     }
 
     public class PutSubOptions : CommonSubOptions
