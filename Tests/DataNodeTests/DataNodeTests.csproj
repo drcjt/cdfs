@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2B2D801A-907B-4C51-A851-98DF7396A527}</ProjectGuid>
+    <ProjectGuid>{0748AE97-AE8A-4938-874F-41C4A1384309}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DFSClientTests</RootNamespace>
-    <AssemblyName>DFSClientTests</AssemblyName>
+    <RootNamespace>DataNodeTests</RootNamespace>
+    <AssemblyName>DataNodeTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,16 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DFSClientTests.cs" />
+    <Compile Include="DataNodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DFSClient\DFSClient.csproj">
-      <Project>{48906012-a8f7-4293-9877-719f7c64ee5a}</Project>
-      <Name>DFSClient</Name>
+    <ProjectReference Include="..\..\DataNode\DataNode.csproj">
+      <Project>{BD5D6201-025E-4281-A627-979A71DC2470}</Project>
+      <Name>DataNode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Protocols\Protocols.csproj">
+      <Project>{6729BFDF-D0A8-4214-B2BF-8EFBB7F72D96}</Project>
+      <Name>Protocols</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{32C927B0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameNodeTests", "Tests\NameNodeTests\NameNodeTests.csproj", "{D911D789-A454-4E69-8914-605FCB203343}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataNodeTests", "DataNodeTests\DataNodeTests.csproj", "{0748AE97-AE8A-4938-874F-41C4A1384309}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataNodeTests", "Tests\DataNodeTests\DataNodeTests.csproj", "{0748AE97-AE8A-4938-874F-41C4A1384309}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFSClientTests", "DFSClientTests\DFSClientTests.csproj", "{2B2D801A-907B-4C51-A851-98DF7396A527}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFSClientTests", "Tests\DFSClientTests\DFSClientTests.csproj", "{2B2D801A-907B-4C51-A851-98DF7396A527}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
