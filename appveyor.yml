@@ -15,7 +15,7 @@ build_script:
     - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=1ad1e4fc533994e4a3c789311f19d72aa1f53367"
 
 test_script:
-    - packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"nunit3-console.exe" -targetargs:"/domain:single /result:myresults.xml;format=AppVeyor tests\bin\debug\CdfsTests.dll" -output:coverage.xml -returntargetcode
+    - packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"nunit3-console.exe" -targetargs:"/domain:single /result:myresults.xml;format=AppVeyor Tests\NameNodeTests\bin\debug\NameNodeTests.dll" -output:coverage.xml -returntargetcode
 
 after_test: 
     - packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
