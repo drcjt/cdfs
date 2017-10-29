@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using DFSClient;
 
 namespace DFSClientTests
 {
@@ -10,7 +11,7 @@ namespace DFSClientTests
         {
             // Just cause the DFSClient assembly to get loaded so that opencover can pick up lack of coverage
             // TODO Write some useful tests here!
-            var dfsclient = new DFSClient.Program();
+            var dfsclient = new Program();
         }
     }
 }
