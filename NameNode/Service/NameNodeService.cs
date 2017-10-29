@@ -14,14 +14,12 @@ namespace NameNode.Service
     /// </summary>
     public class NameNodeService : IDataNodeProtocol, IClientProtocol
     {
-        private readonly ILog _logger;
         private readonly IDataNodeProtocol _dataNodeProtocol;
         private readonly IClientProtocol _clientNodeProtocol;
         private readonly INameNodeStatus _nameNodeStatus;
 
-        public NameNodeService(ILog logger, IDataNodeProtocol dataNodeProtocol, IClientProtocol clientNodeProtocol, INameNodeStatus nameNodeStatus)
+        public NameNodeService(IDataNodeProtocol dataNodeProtocol, IClientProtocol clientNodeProtocol, INameNodeStatus nameNodeStatus)
         {
-            _logger = logger;
             _dataNodeProtocol = dataNodeProtocol;
             _clientNodeProtocol = clientNodeProtocol;
 
