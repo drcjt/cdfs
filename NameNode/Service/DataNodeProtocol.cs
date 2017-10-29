@@ -23,7 +23,7 @@ namespace NameNode.Service
         /// </summary>
         /// <param name="dataNodeRegistration">Data Node registration information</param>
         /// <returns></returns>
-        Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
+        public Guid RegisterDataNode(DataNodeRegistration dataNodeRegistration)
         {
             _logger.InfoFormat("DataNode registering, Hostname: {0}, IPAddress: {1}", dataNodeRegistration.HostName, dataNodeRegistration.IPAddress);
 
@@ -39,7 +39,7 @@ namespace NameNode.Service
         /// Process a heart beat sent by a data node
         /// </summary>
         /// <param name="dataNodeID">ID of the data node hearbeating</param>
-        void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
+        public void SendHeartbeat(Guid dataNodeID)
         {
             _logger.DebugFormat("Hearbeat recevied from datanode {0}", dataNodeID);
 
