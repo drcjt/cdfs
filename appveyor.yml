@@ -1,4 +1,4 @@
-version: 2.0.{build}
+version: 1.0.{build}
 os: Visual Studio 2017
 
 environment:
@@ -11,7 +11,7 @@ install:
 build_script:
     - choco install "msbuild-sonarqube-runner" -y
     - MSBuild.SonarQube.Runner.exe begin /k:"Cdfs" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=4f25726209d441b4d8223ac458fdb72d5710c7ed"
-    - msbuild "Cdfs.sln" /verbosity:normal /p:Platform=x64;AppxBundle=Never
+    - msbuild "Cdfs.sln" /verbosity:normal
     - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=4f25726209d441b4d8223ac458fdb72d5710c7ed"
 
 test_script:
