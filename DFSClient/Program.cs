@@ -4,7 +4,7 @@ using Protocols;
 
 namespace DFSClient
 {
-    class Program
+    public class Program
     {
         private IClientProtocol _nameNode;
 
