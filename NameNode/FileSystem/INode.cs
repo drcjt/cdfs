@@ -13,8 +13,8 @@ namespace NameNode.FileSystem
         public INode Parent { get; set; }
         public bool IsRoot => Parent == null;
 
-        public abstract bool IsFile { get; set; }
-        public abstract bool IsDirectory { get; set; }
+        public abstract bool IsFile { get; }
+        public abstract bool IsDirectory { get; }
 
         public string Name { get; set; }
     }

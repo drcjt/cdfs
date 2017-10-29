@@ -6,8 +6,6 @@ namespace DataNode
 {
     class Program
     {
-        private IDataNodeProtocol _nameNode;
-
         static void Main(string[] args)
         {
             var options = new DataNodeOptions();
@@ -26,7 +24,7 @@ namespace DataNode
         public void Run(DataNodeOptions options)
         {
             var serviceChannelFactory = new ChannelFactory<IDataNodeProtocol>(new NetTcpBinding(), options.NameNodeUri);
-            _nameNode = serviceChannelFactory.CreateChannel();
+            var _nameNode = serviceChannelFactory.CreateChannel();
 
             var dataNode = new DataNode(_nameNode);
             dataNode.Run();

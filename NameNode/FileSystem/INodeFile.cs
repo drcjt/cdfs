@@ -9,7 +9,7 @@ namespace NameNode.FileSystem
 {
     public class INodeFile : INode
     {
-        public override bool IsDirectory { get => false; set { } }
-        public override bool IsFile { get => true; set { } }
+        public override bool IsDirectory { get => false; }
+        public override bool IsFile { get => true; }
     }
 }

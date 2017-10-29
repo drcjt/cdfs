@@ -11,7 +11,7 @@ namespace NameNode.FileSystem
 {
     class INodeDirectory : INode, IEnumerable<INode>
     {
-        IList<INode> _children = new List<INode>();
+        private readonly IList<INode> _children = new List<INode>();
 
         public void AddChild(INode child)
         {
@@ -25,8 +25,8 @@ namespace NameNode.FileSystem
             _children.Remove(child);
         }
 
-        public override bool IsDirectory { get => true; set { } }
-        public override bool IsFile { get => false; set { } }
+        public override bool IsDirectory { get => true; }
+        public override bool IsFile { get => false; }
 
         public INode GetChild(string name)
         {

@@ -6,7 +6,7 @@ namespace DFSClient
 {
     public class Program
     {
-        private IClientProtocol _nameNode;
+
 
         static void Main(string[] args)
         {
@@ -31,7 +31,7 @@ namespace DFSClient
         public void Run(string verb, CommonSubOptions options)
         {
             var serviceChannelFactory = new ChannelFactory<IClientProtocol>(new NetTcpBinding(), options.NameNodeUri);
-            _nameNode = serviceChannelFactory.CreateChannel();
+            var _nameNode = serviceChannelFactory.CreateChannel();
 
             if (options is ListingSubOptions)
             {

@@ -9,8 +9,8 @@ namespace NameNode.Service
 {
     public class DataNodeProtocol : IDataNodeProtocol
     {
-        ILog _logger;
-        IDataNodeRepository _dataNodeRepository;
+        private readonly ILog _logger;
+        private readonly IDataNodeRepository _dataNodeRepository;
 
         public DataNodeProtocol(ILog logger, IDataNodeRepository dataNodeRepository)
         {

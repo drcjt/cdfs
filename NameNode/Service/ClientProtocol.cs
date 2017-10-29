@@ -7,7 +7,7 @@ namespace NameNode.Service
 {
     class ClientProtocol : IClientProtocol
     {
-        INodeDirectory _rootDir = new INodeDirectory();
+        private readonly INodeDirectory _rootDir = new INodeDirectory();
 
         public ClientProtocol()
         {

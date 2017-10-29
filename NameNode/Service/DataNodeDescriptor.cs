@@ -5,6 +5,6 @@
         public string IPAddress { get; set; }
         public string HostName { get; set; }
 
-        public long? LastUpdate;
+        public long? LastUpdate { get; set; }
     }
 }

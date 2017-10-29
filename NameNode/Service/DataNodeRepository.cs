@@ -9,7 +9,7 @@ namespace NameNode.Service
 {
     class DataNodeRepository : IDataNodeRepository
     {
-        IDictionary<Guid, DataNodeDescriptor> _dataNodes = new Dictionary<Guid, DataNodeDescriptor>();
+        private readonly IDictionary<Guid, DataNodeDescriptor> _dataNodes = new Dictionary<Guid, DataNodeDescriptor>();
 
         public Guid AddDataNode(DataNodeDescriptor descriptor)
         {
@@ -29,7 +29,7 @@ namespace NameNode.Service
         }
 
         // Data nodes become dead if they haven't sent a hearbeat in the last 1000 milliseconds
-        int _heartBeatExpireIntervalMilliseconds = 1000;
+        private readonly int _heartBeatExpireIntervalMilliseconds = 1000;
 
         // Check if a data node is dead
         public bool IsDataNodeDead(DataNodeDescriptor dn)

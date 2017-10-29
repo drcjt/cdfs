@@ -8,7 +8,7 @@ namespace DataNode
 {
     public class DataNode
     {
-        private IDataNodeProtocol _nameNode;
+        private readonly IDataNodeProtocol _nameNode;
         private Guid ID { get; set; }
 
         public DataNode(IDataNodeProtocol nameNode)
