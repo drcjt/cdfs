@@ -4,15 +4,17 @@ os: Visual Studio 2017
 environment:
     COVERALLS_REPO_TOKEN:  
        secure: lGGIj3WmsCghU2af2Y3pzOeViNSEv2MeV24znk/Jjx0mT7S+d+uv6sS5ziCylvKT
+    SONARQUBE_TOKEN:
+       secure: TNCZcZ/LjyzugcDd4jakS9r/N4ppY6eAv7YvQNDZdKRN63lRkhDwYMX+a5B1f1Fk
 
 install:
     - nuget restore
 
 build_script:
     - choco install "msbuild-sonarqube-runner" -y
-    - MSBuild.SonarQube.Runner.exe begin /k:"Cdfs" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=1ad1e4fc533994e4a3c789311f19d72aa1f53367" /d:"sonar.organization=drcjt-github"
+    - MSBuild.SonarQube.Runner.exe begin /k:"Cdfs" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=%SONARQUBE_TOKEN%" /d:"sonar.organization=drcjt-github"
     - msbuild "Cdfs.sln" /verbosity:normal
-    - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=1ad1e4fc533994e4a3c789311f19d72aa1f53367"
+    - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=%SONARQUBE_TOKEN"
 
 test_script:
     - packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*Tests]* -[Moq*]*" -target:"nunit3-console.exe" -targetargs:"/domain:single /result:myresults.xml;format=AppVeyor .\Tests\NameNodeTests\bin\debug\NameNodeTests.dll .\Tests\DataNodeTests\bin\debug\DataNodeTests.dll .\Tests\DFSClientTests\bin\debug\DFSClientTests.dll" -output:coverage.xml -returntargetcode
