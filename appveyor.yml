@@ -5,7 +5,7 @@ environment:
     COVERALLS_REPO_TOKEN:  
        secure: lGGIj3WmsCghU2af2Y3pzOeViNSEv2MeV24znk/Jjx0mT7S+d+uv6sS5ziCylvKT
     SONARQUBE_TOKEN:
-       secure: TNCZcZ/LjyzugcDd4jakS9r/N4ppY6eAv7YvQNDZdKRN63lRkhDwYMX+a5B1f1Fk
+       secure: /H4KJSrixYtM+HjJ/gCb9QogeN6WmmvdlsUQby/BVISc44V1EcZ078ZydkwMC+ep
 
 install:
     - nuget restore
