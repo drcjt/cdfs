@@ -11,11 +11,13 @@ namespace NameNode.Service
     {
         private readonly ILog _logger;
         private readonly IDataNodeRepository _dataNodeRepository;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public DataNodeProtocol(ILog logger, IDataNodeRepository dataNodeRepository)
+        public DataNodeProtocol(ILog logger, IDataNodeRepository dataNodeRepository, IDateTimeProvider dateTimeProvider)
         {
             _logger = logger;
             _dataNodeRepository = dataNodeRepository;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace NameNode.Service
             var dataNodeDescriptor = _dataNodeRepository.GetDataNodeDescriptorById(dataNodeID);
             if (dataNodeDescriptor != null)
             {
-                dataNodeDescriptor.LastUpdate = DateTime.Now.Ticks;
+                dataNodeDescriptor.LastUpdate = _dateTimeProvider.Now.Ticks;
             }
         }
     }

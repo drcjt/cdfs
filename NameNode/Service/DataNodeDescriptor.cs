@@ -1,6 +1,8 @@
-﻿namespace NameNode.Service
+﻿using NameNode.Interfaces;
+
+namespace NameNode.Service
 {
-    public class DataNodeDescriptor
+    public class DataNodeDescriptor : IDataNodeDescriptor
     {
         public string IPAddress { get; set; }
         public string HostName { get; set; }

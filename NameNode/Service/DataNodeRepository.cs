@@ -23,7 +23,7 @@ namespace NameNode.Service
             return dataNodeID;
         }
 
-        public DataNodeDescriptor GetDataNodeDescriptorById(Guid dataNodeId)
+        public IDataNodeDescriptor GetDataNodeDescriptorById(Guid dataNodeId)
         {
             return _dataNodes[dataNodeId];
         }
@@ -32,7 +32,7 @@ namespace NameNode.Service
         private readonly int _heartBeatExpireIntervalMilliseconds = 1000;
 
         // Check if a data node is dead
-        public bool IsDataNodeDead(DataNodeDescriptor dn)
+        public bool IsDataNodeDead(IDataNodeDescriptor dn)
         {
             return dn.LastUpdate < DateTime.Now.AddMilliseconds(-_heartBeatExpireIntervalMilliseconds).Ticks;
         }

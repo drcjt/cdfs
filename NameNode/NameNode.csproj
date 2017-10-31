@@ -67,10 +67,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystem\INode.cs" />
-    <Compile Include="FileSystem\INodeDirectory.cs" />
-    <Compile Include="FileSystem\INodeFile.cs" />
+    <Compile Include="FileSystem\Inode.cs" />
+    <Compile Include="FileSystem\InodeDirectory.cs" />
+    <Compile Include="FileSystem\InodeFile.cs" />
+    <Compile Include="Interfaces\IDataNodeDescriptor.cs" />
     <Compile Include="Interfaces\IDataNodeRepository.cs" />
+    <Compile Include="Interfaces\IDateTimeProvider.cs" />
     <Compile Include="Service\ClientProtocol.cs" />
     <Compile Include="Service\DataNodeDescriptor.cs" />
     <Compile Include="Service\DataNodeProtocol.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Options\ConfigurationManagerExtensions.cs" />
     <Compile Include="Options\NameNodeOptions.cs" />
     <Compile Include="Service\DataNodeRepository.cs" />
+    <Compile Include="Service\DateTimeProvider.cs" />
     <Compile Include="Status\DataNodesStatus.cs" />
     <Compile Include="Service\NameNodeService.cs" />
     <Compile Include="Program.cs" />

@@ -21,6 +21,8 @@ namespace NameNode.DependencyInjection
 
             For<INameNodeStatus>().Use<NameNodeStatus>().Singleton();
             For<IDataNodesStatus>().Use<DataNodesStatus>();
+
+            For<IDateTimeProvider>().Use<DateTimeProvider>();
         }
     }
 }

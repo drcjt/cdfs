@@ -8,9 +8,9 @@ using Protocols;
 
 namespace NameNode.FileSystem
 {
-    public abstract class INode
+    public abstract class Inode
     {
-        public INode Parent { get; set; }
+        public Inode Parent { get; set; }
         public bool IsRoot => Parent == null;
 
         public abstract bool IsFile { get; }

@@ -9,17 +9,17 @@ using System.IO;
 
 namespace NameNode.FileSystem
 {
-    class INodeDirectory : INode, IEnumerable<INode>
+    class InodeDirectory : Inode, IEnumerable<Inode>
     {
-        private readonly IList<INode> _children = new List<INode>();
+        private readonly IList<Inode> _children = new List<Inode>();
 
-        public void AddChild(INode child)
+        public void AddChild(Inode child)
         {
             child.Parent = this;
             _children.Add(child);
         }
 
-        public void RemoveChild(INode child)
+        public void RemoveChild(Inode child)
         {
             child.Parent = null;
             _children.Remove(child);
@@ -28,7 +28,7 @@ namespace NameNode.FileSystem
         public override bool IsDirectory { get => true; }
         public override bool IsFile { get => false; }
 
-        public INode GetChild(string name)
+        public Inode GetChild(string name)
         {
             foreach(var child in _children)
             {
@@ -39,20 +39,20 @@ namespace NameNode.FileSystem
             return null;
         }
 
-        public INodeDirectory GetINodeForFullDirectoryPath(string path)
+        public InodeDirectory GetINodeForFullDirectoryPath(string path)
         {
             var pathComponents = path.Split(Path.DirectorySeparatorChar);
 
-            INodeDirectory currentDirectory = this;
+            InodeDirectory currentDirectory = this;
             if (!string.IsNullOrEmpty(pathComponents[0]))
             {
                 int level = 0;
                 do
                 {
                     var nextDirectory = currentDirectory.GetChild(pathComponents[level]);
-                    if (nextDirectory != null && nextDirectory is INodeDirectory)
+                    if (nextDirectory != null && nextDirectory is InodeDirectory)
                     {
-                        currentDirectory = nextDirectory as INodeDirectory;
+                        currentDirectory = nextDirectory as InodeDirectory;
                     }
                     level++;
                 } while (level < pathComponents.Length && currentDirectory != null);
@@ -60,7 +60,7 @@ namespace NameNode.FileSystem
             return currentDirectory;
         }
 
-        public IEnumerator<INode> GetEnumerator()
+        public IEnumerator<Inode> GetEnumerator()
         {
             return _children.GetEnumerator();
         }
