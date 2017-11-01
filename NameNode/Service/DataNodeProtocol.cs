@@ -50,6 +50,7 @@ namespace NameNode.Service
             if (dataNodeDescriptor != null)
             {
                 dataNodeDescriptor.LastUpdate = _dateTimeProvider.Now.Ticks;
+                _dataNodeRepository.UpdateDataNode(dataNodeID, dataNodeDescriptor);
             }
         }
     }

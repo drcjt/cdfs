@@ -28,13 +28,14 @@ namespace NameNodeTests
         {
             // Arrange
             var dataNodeRegistration = new DataNodeRegistration();
-            _mockDataNodeRepository.Setup(x => x.AddDataNode(It.IsAny<DataNodeDescriptor>())).Returns(Guid.NewGuid());
+            var expectedDataNodeID = Guid.NewGuid();
+            _mockDataNodeRepository.Setup(x => x.AddDataNode(It.IsAny<DataNodeDescriptor>())).Returns(expectedDataNodeID);
 
             // Act
             var dataNodeID = _sut.RegisterDataNode(dataNodeRegistration);
 
             // Assert
-            _mockDataNodeRepository.VerifyAll();
+            Assert.AreEqual(expectedDataNodeID, dataNodeID);
         }
 
         [Test]
@@ -42,8 +43,8 @@ namespace NameNodeTests
         {
             // Arrange
             var dataNodeID = Guid.NewGuid();
-            var mockDataNodeDescriptor = new Mock<IDataNodeDescriptor>();
-            _mockDataNodeRepository.Setup(x => x.GetDataNodeDescriptorById(dataNodeID)).Returns(mockDataNodeDescriptor.Object);
+            var dataNodeDescriptor = new DataNodeDescriptor();
+            _mockDataNodeRepository.Setup(x => x.GetDataNodeDescriptorById(dataNodeID)).Returns(dataNodeDescriptor);
 
             var now = new DateTime(999);
             _mockDateTimeProvider.Setup(x => x.Now).Returns(now);
@@ -52,7 +53,7 @@ namespace NameNodeTests
             _sut.SendHeartbeat(dataNodeID);
 
             // Assert
-            mockDataNodeDescriptor.VerifySet(m => m.LastUpdate = now.Ticks);
+            _mockDataNodeRepository.Verify(x => x.UpdateDataNode(dataNodeID, It.Is<IDataNodeDescriptor>(dn => dn.LastUpdate == now.Ticks)), Times.Once);
         }
 
         [Test]
@@ -65,7 +66,7 @@ namespace NameNodeTests
             _sut.SendHeartbeat(Guid.NewGuid());
 
             // Assert
-            _mockDataNodeRepository.VerifyAll();
+            _mockDataNodeRepository.Verify(x => x.UpdateDataNode(It.IsAny<Guid>(), It.IsAny<IDataNodeDescriptor>()), Times.Never);
         }
     }
 }

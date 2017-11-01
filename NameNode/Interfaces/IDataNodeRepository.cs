@@ -9,8 +9,9 @@ namespace NameNode.Interfaces
 {
     public interface IDataNodeRepository
     {
-        Guid AddDataNode(DataNodeDescriptor descriptor);
+        Guid AddDataNode(IDataNodeDescriptor descriptor);
         IDataNodeDescriptor GetDataNodeDescriptorById(Guid dataNodeId);
+        void UpdateDataNode(Guid dataNodeId, IDataNodeDescriptor descriptor);
 
         bool IsDataNodeDead(IDataNodeDescriptor dn);
         int LiveNodes { get; }

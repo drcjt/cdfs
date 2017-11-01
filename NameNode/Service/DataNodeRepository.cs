@@ -9,23 +9,29 @@ namespace NameNode.Service
 {
     class DataNodeRepository : IDataNodeRepository
     {
-        private readonly IDictionary<Guid, DataNodeDescriptor> _dataNodes = new Dictionary<Guid, DataNodeDescriptor>();
+        private readonly IDictionary<Guid, IDataNodeDescriptor> _dataNodes = new Dictionary<Guid, IDataNodeDescriptor>();
 
-        public Guid AddDataNode(DataNodeDescriptor descriptor)
+        public Guid AddDataNode(IDataNodeDescriptor descriptor)
         {
             // Allocate an ID for the data node
             var dataNodeID = Guid.NewGuid();
 
             // Persist the data node information
-            _dataNodes[dataNodeID] = descriptor;
+            UpdateDataNode(dataNodeID, descriptor);
 
             // Return the data node ID
             return dataNodeID;
         }
 
+        public void UpdateDataNode(Guid dataNodeId, IDataNodeDescriptor descriptor)
+        {
+            _dataNodes[dataNodeId] = descriptor;
+        }
+
         public IDataNodeDescriptor GetDataNodeDescriptorById(Guid dataNodeId)
         {
-            return _dataNodes[dataNodeId];
+            // Return a copy of the descriptor to avoid leaky abstraction
+            return _dataNodes[dataNodeId] != null ? new DataNodeDescriptor(_dataNodes[dataNodeId]) : null;
         }
 
         // Data nodes become dead if they haven't sent a hearbeat in the last 1000 milliseconds
