@@ -7,19 +7,19 @@ namespace NameNode.Service
 {
     class ClientProtocol : IClientProtocol
     {
-        private readonly InodeDirectory _rootDir = new InodeDirectory();
+        private readonly INodeDirectory _rootDir = new NodeDirectory();
 
         public ClientProtocol()
         {
             _rootDir.Name = "";
 
-            /*
             // Simple mock files/directories for initial testing
-            _rootDir.AddChild(new INodeFile() { Name = "test.txt" });
-            _rootDir.AddChild(new INodeFile() { Name = "foo.bar" });
-            var wibbleDir = new INodeDirectory() { Name = "wibble" };
+            /*
+            _rootDir.AddChild(new NodeFile() { Name = "test.txt" });
+            _rootDir.AddChild(new NodeFile() { Name = "foo.bar" });
+            var wibbleDir = new NodeDirectory() { Name = "wibble" };
             _rootDir.AddChild(wibbleDir);
-            wibbleDir.AddChild(new INodeFile() { Name = "inwibble.csv " });
+            wibbleDir.AddChild(new NodeFile() { Name = "inwibble.csv " });
             */
         }
 

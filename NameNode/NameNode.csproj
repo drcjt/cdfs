@@ -67,9 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystem\Inode.cs" />
-    <Compile Include="FileSystem\InodeDirectory.cs" />
-    <Compile Include="FileSystem\InodeFile.cs" />
+    <Compile Include="FileSystem\INode.cs" />
+    <Compile Include="FileSystem\INodeDirectory.cs" />
+    <Compile Include="FileSystem\NodeDirectory.cs" />
+    <Compile Include="FileSystem\NodeFile.cs" />
     <Compile Include="Interfaces\IDataNodeDescriptor.cs" />
     <Compile Include="Interfaces\IDataNodeRepository.cs" />
     <Compile Include="Interfaces\IDateTimeProvider.cs" />
