@@ -27,9 +27,9 @@ namespace NameNode.Service
             _nameNodeStatus = nameNodeStatus;
         }
 
-        void IClientProtocol.Create(string filePath)
+        void IClientProtocol.Create(string fileName, string filePath)
         {
-            _clientNodeProtocol.Create(filePath);
+            _clientNodeProtocol.Create(fileName, filePath);
         }
 
         void IClientProtocol.Delete(string filePath)

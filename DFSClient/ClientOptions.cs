@@ -22,5 +22,8 @@ namespace DFSClient
 
         [VerbOption("ls", HelpText = "List directory contents")]
         public ListingSubOptions ListingVerb { get; set; }
+
+        [VerbOption("put", HelpText = "Add a file")]
+        public PutSubOptions PutVerb { get; set; } 
     }
 }

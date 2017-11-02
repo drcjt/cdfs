@@ -7,7 +7,7 @@ namespace Protocols
     public interface IClientProtocol
     {
         [OperationContract]
-        void Create(string filePath);
+        void Create(string fileName, string filePath);
 
         [OperationContract]
         void Delete(string filePath);

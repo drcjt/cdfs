@@ -1,4 +1,5 @@
 ﻿using log4net;
+using NameNode.FileSystem;
 using NameNode.Interfaces;
 using NameNode.Service;
 using NameNode.Status;
@@ -23,6 +24,8 @@ namespace NameNode.DependencyInjection
             For<IDataNodesStatus>().Use<DataNodesStatus>();
 
             For<IDateTimeProvider>().Use<DateTimeProvider>();
+
+            For<INodeDirectory>().Use<NodeDirectory>().Singleton();
         }
     }
 }

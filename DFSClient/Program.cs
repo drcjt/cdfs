@@ -50,7 +50,7 @@ namespace DFSClient
             else if (options is PutSubOptions)
             {
                 var putSubOptions = options as PutSubOptions;
-                _nameNode.Create(putSubOptions.FilePath[0]);
+                _nameNode.Create(putSubOptions.PutValues[0], putSubOptions.PutValues[1]);
             }
         }
     }

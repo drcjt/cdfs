@@ -17,11 +17,8 @@ namespace DFSClient
 
     public class PutSubOptions : CommonSubOptions
     {
-        [ValueList(typeof(List<string>), MaximumElements = 1)]
-        public IList<string> FileName { get; set; }
-
-        [ValueList(typeof(List<string>), MaximumElements = 1)]
-        public IList<string> FilePath { get; set; }
+        [ValueList(typeof(List<string>), MaximumElements = 2)]
+        public IList<string> PutValues { get; set; }
     }
 
     public class GetSubOptions : CommonSubOptions
