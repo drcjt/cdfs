@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using Protocols;
-
-namespace NameNode.FileSystem
+﻿namespace NameNode.FileSystem
 {
-    public abstract class Inode
+    public interface INode
     {
-        public Inode Parent { get; set; }
-        public bool IsRoot => Parent == null;
+        INode Parent { get; set; }
+        bool IsRoot { get; }
 
-        public abstract bool IsFile { get; }
-        public abstract bool IsDirectory { get; }
+        bool IsFile { get; }
+        bool IsDirectory { get; }
 
-        public string Name { get; set; }
+        string Name { get; set; }
     }
 }
