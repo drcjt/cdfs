@@ -36,21 +36,23 @@ namespace NameNode.FileSystem
             {
                 if (_root == null)
                 {
-                    _root = LoadFileImage("FSImage");
+                    if (!File.Exists("FSImage"))
+                    {
+                        _root = new NodeDirectory();
+                    }
+                    else
+                    {
+                        var lines = File.ReadLines("FSImage");
+                        _root = LoadFileImage(lines);
+                    }
                 }
 
                 return _root;
             }
         }
 
-        public static INodeDirectory LoadFileImage(string fileImage)
+        public static INodeDirectory LoadFileImage(IEnumerable<string> lines)
         {
-            if (!File.Exists(fileImage))
-            {
-                return new NodeDirectory();
-            }
-
-            var lines = File.ReadLines(fileImage);
             var lineEnumerator = lines.GetEnumerator();
             lineEnumerator.MoveNext();
 

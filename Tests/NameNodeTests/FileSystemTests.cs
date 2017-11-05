@@ -43,10 +43,10 @@ namespace NameNodeTests
         public void LoadFileImage_ImageHasOnlyRoot_CreatesRootNode()
         {
             // Arrange
-            var fileImage = "1,\"Root\",0";
+            var fileImageLines = new string[] { "1,\"Root\",0" };
 
             // Act
-            var result = FileSystem.LoadFileImage(fileImage);
+            var result = FileSystem.LoadFileImage(fileImageLines);
 
             // Assert
             Assert.AreEqual("Root", result.Name);
@@ -57,10 +57,10 @@ namespace NameNodeTests
         public void LoadFileImage_ImageHasyRootWithChild_CreatesRootAndChildNode()
         {
             // Arrange
-            var fileImage = "1,\"Root\",1\r\n0,\"Test\"";
+            var fileImageLines = new string[] { "1,\"Root\",1", "0,\"Test\"" };
 
             // Act
-            var result = FileSystem.LoadFileImage(fileImage);
+            var result = FileSystem.LoadFileImage(fileImageLines);
 
             // Assert
             Assert.AreEqual("Root", result.Name);
