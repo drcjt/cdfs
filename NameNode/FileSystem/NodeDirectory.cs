@@ -39,6 +39,8 @@ namespace NameNode.FileSystem
             return null;
         }
 
+        public int ChildCount { get => _children.Count; }
+        
         public INodeDirectory GetINodeForFullDirectoryPath(string path)
         {
             var pathComponents = path.Split(Path.DirectorySeparatorChar);

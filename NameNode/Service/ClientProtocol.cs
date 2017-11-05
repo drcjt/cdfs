@@ -8,18 +8,18 @@ namespace NameNode.Service
 {
     class ClientProtocol : IClientProtocol
     {
-        private readonly INodeDirectory _nodeDirectory;
+        private readonly IFileSystem _fileSystem;
 
-        public ClientProtocol(INodeDirectory nodeDirectory)
+        public ClientProtocol(IFileSystem fileSystem)
         {
-            _nodeDirectory = nodeDirectory;
+            _fileSystem = fileSystem;
         }
 
-        void IClientProtocol.Create(string fileName, string filePath)
+        void IClientProtocol.Create(string srcFile, string filePath)
         {
-            var directory = _nodeDirectory.GetINodeForFullDirectoryPath(filePath);
+            var directory = _fileSystem.Root.GetINodeForFullDirectoryPath(filePath);
             var fileNode = new NodeFile();
-            fileNode.Name = fileName;
+            fileNode.Name = Path.GetFileName(srcFile);
             directory.AddChild(fileNode);
         }
 
@@ -31,7 +31,7 @@ namespace NameNode.Service
         IList<CdfsFileStatus> IClientProtocol.GetListing(string filePath)
         {
             // Get Inode corresponding to specified directory
-            var directory = _nodeDirectory.GetINodeForFullDirectoryPath(filePath);
+            var directory = _fileSystem.Root.GetINodeForFullDirectoryPath(filePath);
 
             IList<CdfsFileStatus> results = new List<CdfsFileStatus>();
             foreach (var inode in directory)

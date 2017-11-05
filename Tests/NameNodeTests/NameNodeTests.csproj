@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DataNodeDescriptorTests.cs" />
     <Compile Include="DataNodeProtocolTests.cs" />
+    <Compile Include="FileSystemTests.cs" />
     <Compile Include="NodeDirectoryTests.cs" />
     <Compile Include="NodeFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

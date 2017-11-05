@@ -25,7 +25,7 @@ namespace NameNode.DependencyInjection
 
             For<IDateTimeProvider>().Use<DateTimeProvider>();
 
-            For<INodeDirectory>().Use<NodeDirectory>().Singleton();
+            For<IFileSystem>().Use<NameNode.FileSystem.FileSystem>().Singleton();
         }
     }
 }
