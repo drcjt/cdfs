@@ -9,5 +9,7 @@ namespace NameNode.FileSystem
     public interface IFileSystem
     {
         INodeDirectory Root { get; }
+        void Create(string srcFile, string filePath);
+        IList<INode> GetListing(string filePath);
     }
 }

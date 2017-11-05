@@ -17,10 +17,7 @@ namespace NameNode.Service
 
         void IClientProtocol.Create(string srcFile, string filePath)
         {
-            var directory = _fileSystem.Root.GetINodeForFullDirectoryPath(filePath);
-            var fileNode = new NodeFile();
-            fileNode.Name = Path.GetFileName(srcFile);
-            directory.AddChild(fileNode);
+            _fileSystem.Create(srcFile, filePath);
         }
 
         void IClientProtocol.Delete(string filePath)
@@ -30,11 +27,10 @@ namespace NameNode.Service
 
         IList<CdfsFileStatus> IClientProtocol.GetListing(string filePath)
         {
-            // Get Inode corresponding to specified directory
-            var directory = _fileSystem.Root.GetINodeForFullDirectoryPath(filePath);
+            var nodes = _fileSystem.GetListing(filePath);
 
             IList<CdfsFileStatus> results = new List<CdfsFileStatus>();
-            foreach (var inode in directory)
+            foreach (var inode in nodes)
             {
                 var fileStatus = new CdfsFileStatus() { FilePath = inode.Name, IsDirectory = inode.IsDirectory };
                 results.Add(fileStatus);

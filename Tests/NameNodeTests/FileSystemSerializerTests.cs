@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace NameNodeTests
 {
     [TestFixture]
-    class FileSystemTests
+    class FileSystemSerializerTests
     {
         [Test]
         public void SaveNode_RootWithOneChild_SavesJustNodeDetails()
@@ -18,9 +18,10 @@ namespace NameNodeTests
             // Arrange
             var rootWithSimpleChild = new NodeDirectory { Name = "Root" };
             rootWithSimpleChild.AddChild(new NodeFile { Name = "Test" });
+            var fileSystemSerializer = new FileSystemSerializer();
 
             // Act
-            var result = FileSystem.SaveFileImage(rootWithSimpleChild);
+            var result = fileSystemSerializer.Serialize(rootWithSimpleChild);
 
             // Assert
             Assert.AreEqual("1,\"Root\",1\r\n0,\"Test\"", result);
@@ -31,9 +32,10 @@ namespace NameNodeTests
         {
             // Arrange
             var rootWithNoChildren = new NodeDirectory { Name = "Root" };
+            var fileSystemSerializer = new FileSystemSerializer();
 
             // Act
-            var result = FileSystem.SaveFileImage(rootWithNoChildren);
+            var result = fileSystemSerializer.Serialize(rootWithNoChildren);
 
             // Assert
             Assert.AreEqual("1,\"Root\",0", result);
@@ -44,9 +46,10 @@ namespace NameNodeTests
         {
             // Arrange
             var fileImageLines = new string[] { "1,\"Root\",0" };
+            var fileSystemSerializer = new FileSystemSerializer();
 
             // Act
-            var result = FileSystem.LoadFileImage(fileImageLines);
+            var result = fileSystemSerializer.Deserialize(fileImageLines.Cast<string>().GetEnumerator());
 
             // Assert
             Assert.AreEqual("Root", result.Name);
@@ -58,9 +61,10 @@ namespace NameNodeTests
         {
             // Arrange
             var fileImageLines = new string[] { "1,\"Root\",1", "0,\"Test\"" };
+            var fileSystemSerializer = new FileSystemSerializer();
 
             // Act
-            var result = FileSystem.LoadFileImage(fileImageLines);
+            var result = fileSystemSerializer.Deserialize(fileImageLines.Cast<string>().GetEnumerator());
 
             // Assert
             Assert.AreEqual("Root", result.Name);

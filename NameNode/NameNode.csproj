@@ -68,7 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FileSystem\FileSystemSerializer.cs" />
     <Compile Include="FileSystem\IFileSystem.cs" />
+    <Compile Include="FileSystem\IFileSystemSerializer.cs" />
     <Compile Include="FileSystem\INode.cs" />
     <Compile Include="FileSystem\INodeDirectory.cs" />
     <Compile Include="FileSystem\NodeDirectory.cs" />

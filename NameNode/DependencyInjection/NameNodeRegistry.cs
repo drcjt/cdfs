@@ -26,6 +26,7 @@ namespace NameNode.DependencyInjection
             For<IDateTimeProvider>().Use<DateTimeProvider>();
 
             For<IFileSystem>().Use<NameNode.FileSystem.FileSystem>().Singleton();
+            For<IFileSystemSerializer>().Use<FileSystemSerializer>();
         }
     }
 }
