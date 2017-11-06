@@ -25,5 +25,11 @@ namespace DFSClient
 
         [VerbOption("put", HelpText = "Add a file")]
         public PutSubOptions PutVerb { get; set; } 
+
+        [VerbOption("rm", HelpText = "Delete a file or directory")]
+        public DeleteSubOptions DeleteVerb { get; set; }
+
+        [VerbOption("mkdir", HelpText = "Create a directory")]
+        public MkdirSubOptions MkdirVerb { get; set; }
     }
 }

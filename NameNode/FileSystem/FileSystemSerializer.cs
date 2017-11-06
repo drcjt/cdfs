@@ -32,8 +32,10 @@ namespace NameNode.FileSystem
             }
             else
             {
-                result = new NodeDirectory();
-                result.Name = lineparts[1].Trim('"');
+                result = new NodeDirectory
+                {
+                    Name = lineparts[1].Trim('"')
+                };
 
                 lineEnumerator.MoveNext();
                 var childCount = int.Parse(lineparts[2]);

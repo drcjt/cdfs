@@ -27,37 +27,42 @@ namespace NameNode.Service
             _nameNodeStatus = nameNodeStatus;
         }
 
-        void IClientProtocol.Create(string fileName, string filePath)
+        public void Create(string srcFile, string filePath)
         {
-            _clientNodeProtocol.Create(fileName, filePath);
+            _clientNodeProtocol.Create(srcFile, filePath);
         }
 
-        void IClientProtocol.Delete(string filePath)
+        public void Delete(string filePath)
         {
             _clientNodeProtocol.Delete(filePath);
         }
 
-        IList<CdfsFileStatus> IClientProtocol.GetListing(string filePath)
+        public void Mkdir(string directoryPath)
+        {
+            _clientNodeProtocol.Mkdir(directoryPath);
+        }
+
+        public IList<CdfsFileStatus> GetListing(string filePath)
         {
             return _clientNodeProtocol.GetListing(filePath);
         }
 
-        void IClientProtocol.ReadBlock()
+        public void ReadBlock()
         {
             _clientNodeProtocol.ReadBlock();
         }
 
-        void IClientProtocol.WriteBlock()
+        public void WriteBlock()
         {
             _clientNodeProtocol.WriteBlock();
         }
 
-        Guid IDataNodeProtocol.RegisterDataNode(DataNodeRegistration dataNodeRegistration)
+        public Guid RegisterDataNode(DataNodeRegistration dataNodeRegistration)
         {
             return _dataNodeProtocol.RegisterDataNode(dataNodeRegistration);
         }
 
-        void IDataNodeProtocol.SendHeartbeat(Guid dataNodeID)
+        public void SendHeartbeat(Guid dataNodeID)
         {
             _dataNodeProtocol.SendHeartbeat(dataNodeID);
         }

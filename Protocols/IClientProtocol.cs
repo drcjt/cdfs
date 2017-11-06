@@ -13,6 +13,9 @@ namespace Protocols
         void Delete(string filePath);
 
         [OperationContract]
+        void Mkdir(string directoryPath);
+
+        [OperationContract]
         IList<CdfsFileStatus> GetListing(string filePath);
 
         [OperationContract]

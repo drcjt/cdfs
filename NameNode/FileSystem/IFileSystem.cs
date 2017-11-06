@@ -10,6 +10,8 @@ namespace NameNode.FileSystem
     {
         INodeDirectory Root { get; }
         void Create(string srcFile, string filePath);
+        void Delete(string filePath);
+        void Mkdir(string directoryPath);
         IList<INode> GetListing(string filePath);
     }
 }

@@ -15,17 +15,22 @@ namespace NameNode.Service
             _fileSystem = fileSystem;
         }
 
-        void IClientProtocol.Create(string srcFile, string filePath)
+        public void Create(string srcFile, string filePath)
         {
             _fileSystem.Create(srcFile, filePath);
         }
 
-        void IClientProtocol.Delete(string filePath)
+        public void Delete(string filePath)
         {
-            throw new NotImplementedException();
+            _fileSystem.Delete(filePath);
         }
 
-        IList<CdfsFileStatus> IClientProtocol.GetListing(string filePath)
+        public void Mkdir(string directoryPath)
+        {
+            _fileSystem.Mkdir(directoryPath);
+        }
+
+        public IList<CdfsFileStatus> GetListing(string filePath)
         {
             var nodes = _fileSystem.GetListing(filePath);
 
@@ -38,12 +43,12 @@ namespace NameNode.Service
             return results;
         }
 
-        void IClientProtocol.ReadBlock()
+        public void ReadBlock()
         {
             throw new NotImplementedException();
         }
 
-        void IClientProtocol.WriteBlock()
+        public void WriteBlock()
         {
             throw new NotImplementedException();
         }

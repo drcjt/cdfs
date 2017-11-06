@@ -21,9 +21,15 @@ namespace DFSClient
         public IList<string> PutValues { get; set; }
     }
 
-    public class GetSubOptions : CommonSubOptions
+    public class DeleteSubOptions : CommonSubOptions
     {
         [ValueList(typeof(List<string>), MaximumElements = 1)]
-        public IList<string> FileName { get; set; }
+        public IList<string> FilePath { get; set; }
+    }
+
+    public class MkdirSubOptions : CommonSubOptions
+    {
+        [ValueList(typeof(List<string>), MaximumElements = 1)]
+        public IList<string> DirectoryPath { get; set; }
     }
 }

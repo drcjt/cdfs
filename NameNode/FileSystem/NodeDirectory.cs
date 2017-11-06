@@ -41,25 +41,65 @@ namespace NameNode.FileSystem
 
         public int ChildCount { get => _children.Count; }
         
-        public INodeDirectory GetINodeForFullDirectoryPath(string path)
+        public void CreateINodesInPath(string path)
+        {
+            var pathComponents = path.Split(Path.DirectorySeparatorChar);
+            if (pathComponents != null && !string.IsNullOrEmpty(pathComponents[0]))
+            {
+                INodeDirectory currentNode = this;
+                int level = 0;
+                do
+                {
+                    var nextDirectory = currentNode.GetChild(pathComponents[level]);
+                    if (nextDirectory == null)
+                    {
+                        nextDirectory = new NodeDirectory { Name = pathComponents[level] };
+                        currentNode.AddChild(nextDirectory);
+                    }
+                    currentNode = nextDirectory as INodeDirectory;
+                    level++;
+                } while (level < pathComponents.Length && currentNode != null);
+            }
+        }
+
+        public INode GetINodeForPath(string path, bool directoryOnly = true)
         {
             var pathComponents = path.Split(Path.DirectorySeparatorChar);
 
-            INodeDirectory currentDirectory = this;
+            INode currentNode = this;
             if (!string.IsNullOrEmpty(pathComponents[0]))
             {
                 int level = 0;
                 do
                 {
-                    var nextDirectory = currentDirectory.GetChild(pathComponents[level]);
-                    if (nextDirectory != null && nextDirectory is INodeDirectory)
+                    if (currentNode is INodeDirectory)
                     {
-                        currentDirectory = nextDirectory as INodeDirectory;
+                        var nextDirectory = (currentNode as INodeDirectory).GetChild(pathComponents[level]);
+                        if (nextDirectory != null)
+                        {
+                            if (nextDirectory is INodeDirectory)
+                            {
+                                currentNode = nextDirectory as INodeDirectory;
+                            }
+                            else
+                            {
+                                if (!directoryOnly)
+                                {
+                                    currentNode = nextDirectory;
+                                }
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        level++;
                     }
-                    level++;
-                } while (level < pathComponents.Length && currentDirectory != null);
+                } while (level < pathComponents.Length && currentNode != null);
             }
-            return currentDirectory;
+
+            return currentNode;
         }
 
         public IEnumerator<INode> GetEnumerator()

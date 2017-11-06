@@ -114,7 +114,7 @@ namespace NameNodeTests
             var nodeDirectory = new NodeDirectory();
 
             // Act
-            var result = nodeDirectory.GetINodeForFullDirectoryPath(String.Empty);
+            var result = nodeDirectory.GetINodeForPath(String.Empty);
 
             // Assert
             Assert.AreEqual(nodeDirectory, result);
@@ -129,7 +129,7 @@ namespace NameNodeTests
             topLevelDirectory.AddChild(childLevelDirectory);
 
             // Act
-            var result = topLevelDirectory.GetINodeForFullDirectoryPath("ChildDirectory");
+            var result = topLevelDirectory.GetINodeForPath("ChildDirectory");
 
             // Assert
             Assert.AreEqual(childLevelDirectory, result);
@@ -143,7 +143,7 @@ namespace NameNodeTests
             topLevelDirectory.AddChild(new NodeFile() { Name = "ChildFile" });
 
             // Act
-            var result = topLevelDirectory.GetINodeForFullDirectoryPath("ChildFile");
+            var result = topLevelDirectory.GetINodeForPath("ChildFile");
 
             // Assert
             Assert.AreEqual(topLevelDirectory, result);
@@ -158,7 +158,7 @@ namespace NameNodeTests
             var secondLevelChildDirectory = new NodeDirectory() { Name = "SecondLevelChildDirectory" };
 
             // Act
-            var result = topLevelDirectory.GetINodeForFullDirectoryPath(@"FirstLevelChildDirectory\SecondLevelChildDirectory");
+            var result = topLevelDirectory.GetINodeForPath(@"FirstLevelChildDirectory\SecondLevelChildDirectory");
 
             // Assert
             Assert.AreEqual(secondLevelChildDirectory, result);

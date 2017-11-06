@@ -8,6 +8,7 @@ namespace NameNode.FileSystem
         void RemoveChild(INode child);
         INode GetChild(string name);
         int ChildCount { get;  }
-        INodeDirectory GetINodeForFullDirectoryPath(string path);
+        INode GetINodeForPath(string path, bool directoryOnly = true);
+        void CreateINodesInPath(string path);
     }
 }

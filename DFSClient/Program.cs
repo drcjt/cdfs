@@ -43,14 +43,20 @@ namespace DFSClient
                     Console.WriteLine(file);
                 }
             }
-            else if (options is GetSubOptions)
-            {
-
-            }
             else if (options is PutSubOptions)
             {
                 var putSubOptions = options as PutSubOptions;
                 _nameNode.Create(putSubOptions.PutValues[0], putSubOptions.PutValues[1]);
+            }
+            else if (options is DeleteSubOptions)
+            {
+                var deleteSubOptions = options as DeleteSubOptions;
+                _nameNode.Delete(deleteSubOptions.FilePath[0]);
+            }
+            else if (options is MkdirSubOptions)
+            {
+                var mkdirSubOptions = options as MkdirSubOptions;
+                _nameNode.Mkdir(mkdirSubOptions.DirectoryPath[0]);
             }
         }
     }
