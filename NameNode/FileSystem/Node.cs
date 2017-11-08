@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace NameNode.FileSystem
 {
-    public interface IFileSystemSerializer
+    public class Node : INode
     {
-        string Serialize(IDirectory root);
-        IDirectory Deserialize(IEnumerator<string> fileImageLines);
+        public string Name { get; set; }
+
+        public INode Parent { get; set; }
+        public bool IsRoot => Parent == null;
     }
 }

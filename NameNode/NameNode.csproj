@@ -56,6 +56,9 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,10 +74,14 @@
     <Compile Include="FileSystem\FileSystemSerializer.cs" />
     <Compile Include="FileSystem\IFileSystem.cs" />
     <Compile Include="FileSystem\IFileSystemSerializer.cs" />
+    <Compile Include="FileSystem\IFile.cs" />
+    <Compile Include="FileSystem\IDirectory.cs" />
     <Compile Include="FileSystem\INode.cs" />
-    <Compile Include="FileSystem\INodeDirectory.cs" />
-    <Compile Include="FileSystem\NodeDirectory.cs" />
-    <Compile Include="FileSystem\NodeFile.cs" />
+    <Compile Include="FileSystem\Directory.cs" />
+    <Compile Include="FileSystem\File.cs" />
+    <Compile Include="FileSystem\INodeWalker.cs" />
+    <Compile Include="FileSystem\Node.cs" />
+    <Compile Include="FileSystem\NodeWalker.cs" />
     <Compile Include="Interfaces\IDataNodeDescriptor.cs" />
     <Compile Include="Interfaces\IDataNodeRepository.cs" />
     <Compile Include="Interfaces\IDateTimeProvider.cs" />

@@ -6,24 +6,12 @@ namespace NameNodeTests
     [TestFixture]
     class NodeFileTests
     {
-        private NodeFile _nodeFile;
+        private File _nodeFile;
 
         [SetUp]
         public void Setup()
         {
-            _nodeFile = new NodeFile();
-        }
-
-        [Test]
-        public void IsDirectory_Always_ReturnsFalse()
-        {
-            Assert.IsFalse(_nodeFile.IsDirectory);
-        }
-
-        [Test]
-        public void IsFile_Always_ReturnsTrue()
-        {
-            Assert.IsTrue(_nodeFile.IsFile);
+            _nodeFile = new File();
         }
 
         [Test]
@@ -35,7 +23,7 @@ namespace NameNodeTests
         [Test]
         public void IsRoot_WhenParentIsANodeFile_ReturnsFalse()
         {
-            _nodeFile.Parent = new NodeFile();
+            _nodeFile.Parent = new File();
 
             Assert.IsFalse(_nodeFile.IsRoot);
         }

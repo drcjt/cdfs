@@ -16,8 +16,8 @@ namespace NameNodeTests
         public void SaveNode_RootWithOneChild_SavesJustNodeDetails()
         {
             // Arrange
-            var rootWithSimpleChild = new NodeDirectory { Name = "Root" };
-            rootWithSimpleChild.AddChild(new NodeFile { Name = "Test" });
+            var rootWithSimpleChild = new Directory { Name = "Root" };
+            rootWithSimpleChild.AddChild(new File { Name = "Test" });
             var fileSystemSerializer = new FileSystemSerializer();
 
             // Act
@@ -31,7 +31,7 @@ namespace NameNodeTests
         public void SaveNode_RootHasNoChildren_SavesJustNodeDetails()
         {
             // Arrange
-            var rootWithNoChildren = new NodeDirectory { Name = "Root" };
+            var rootWithNoChildren = new Directory { Name = "Root" };
             var fileSystemSerializer = new FileSystemSerializer();
 
             // Act

@@ -8,10 +8,12 @@ namespace NameNode.FileSystem
 {
     public interface IFileSystem
     {
-        INodeDirectory Root { get; }
-        void Create(string srcFile, string filePath);
+        IDirectory Root { get; }
+        void SaveFileImage();
+
+        void Create(string srcFile, string directoryPath);
         void Delete(string filePath);
         void Mkdir(string directoryPath);
-        IList<INode> GetListing(string filePath);
+        IList<INode> GetListing(string directoryPath);
     }
 }

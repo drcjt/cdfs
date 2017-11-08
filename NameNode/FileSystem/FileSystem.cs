@@ -13,27 +13,29 @@ namespace NameNode.FileSystem
     {
         private readonly ILog _logger;
         private readonly IFileSystemSerializer _fileSystemSerializer;
+        private readonly INodeWalker _walker;
 
-        public FileSystem(ILog logger, IFileSystemSerializer fileSystemSerializer)
+        public FileSystem(ILog logger, IFileSystemSerializer fileSystemSerializer, INodeWalker walker)
         {
             _logger = logger;
             _fileSystemSerializer = fileSystemSerializer;
+            _walker = walker;
         }
 
-        private INodeDirectory _root = null;
+        private IDirectory _root = null;
 
-        public INodeDirectory Root {
+        public IDirectory Root {
             get
             {
                 if (_root == null)
                 {
-                    if (!File.Exists("FSImage"))
+                    if (!System.IO.File.Exists("FSImage"))
                     {
-                        _root = new NodeDirectory();
+                        _root = new Directory();
                     }
                     else
                     {
-                        var lines = File.ReadLines("FSImage");
+                        var lines = System.IO.File.ReadLines("FSImage");
                         _root = _fileSystemSerializer.Deserialize(lines.GetEnumerator());
                         _logger.Debug("Loaded File Image");
                     }
@@ -43,24 +45,21 @@ namespace NameNode.FileSystem
             }
         }
 
-        private void SaveFileImage()
+        public void SaveFileImage()
         {
             _logger.Debug("Saving File Image");
-            File.WriteAllText("FSImage", _fileSystemSerializer.Serialize(Root));
+            System.IO.File.WriteAllText("FSImage", _fileSystemSerializer.Serialize(Root));
         }
 
-        public void Create(string srcFile, string filePath)
+        public void Create(string srcFile, string directoryPath)
         {
-            var directory = Root.GetINodeForPath(filePath) as INodeDirectory;
+            var directory = _walker.GetNodeByPath(Root, directoryPath) as IDirectory;
             if (directory != null)
             {
-                var fileNode = new NodeFile
-                {
-                    Name = Path.GetFileName(srcFile)
-                };
+                var fileNode = new File { Name = Path.GetFileName(srcFile) };
                 directory.AddChild(fileNode);
 
-                _logger.DebugFormat("Created new INode: {0}{1}{2}", filePath, Path.DirectorySeparatorChar, srcFile);
+                _logger.DebugFormat("Created new INode: {0}{1}{2}", directoryPath, Path.DirectorySeparatorChar, srcFile);
 
                 SaveFileImage();
             }
@@ -68,13 +67,13 @@ namespace NameNode.FileSystem
 
         public void Delete(string filePath)
         {
-            var inode = Root.GetINodeForPath(filePath, false);
-            if (inode != null)
+            var fileNode = _walker.GetNodeByPath(Root, filePath);
+            if (fileNode != null)
             {
-                var parentDirectory = inode.Parent as INodeDirectory;
+                var parentDirectory = fileNode.Parent as IDirectory;
                 if (parentDirectory != null)
                 {
-                    parentDirectory.RemoveChild(inode);
+                    parentDirectory.RemoveChild(fileNode);
                     _logger.DebugFormat("Deleted file: {0}", filePath);
                 }
             }
@@ -84,12 +83,12 @@ namespace NameNode.FileSystem
 
         public void Mkdir(string directoryPath)
         {
-            Root.CreateINodesInPath(directoryPath);
+            _walker.TraverseByPath(Root, directoryPath, (node, pathComponent) => node ?? new Directory() { Name = pathComponent, Parent = node });
         }
 
-        public IList<INode> GetListing(string filePath)
+        public IList<INode> GetListing(string directoryPath)
         {
-            var directory = Root.GetINodeForPath(filePath) as INodeDirectory;
+            var directory = _walker.GetNodeByPath(Root, directoryPath) as IDirectory;
 
             var results = new List<INode>();
             if (directory != null)

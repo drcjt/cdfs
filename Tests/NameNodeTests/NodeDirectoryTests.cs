@@ -15,8 +15,8 @@ namespace NameNodeTests
         public void AddChild_ToEmptyNodeDirectory_UpdatesParentOnAddedChild()
         {
             // Arrange
-            var nodeDirectory = new NodeDirectory();
-            var childNode = new NodeFile();
+            var nodeDirectory = new Directory();
+            var childNode = new File();
 
             // Act
             nodeDirectory.AddChild(childNode);
@@ -29,8 +29,8 @@ namespace NameNodeTests
         public void RemoveChild_FromNodeDirectory_HasNullParent()
         {
             // Arrange
-            var nodeDirectory = new NodeDirectory();
-            var childNode = new NodeFile();
+            var nodeDirectory = new Directory();
+            var childNode = new File();
             nodeDirectory.AddChild(childNode);
 
             // Act
@@ -44,7 +44,7 @@ namespace NameNodeTests
         public void GetChild_WithEmptyNodeDirectory_ReturnsNull()
         {
             // Arrange
-            var nodeDirectory = new NodeDirectory();
+            var nodeDirectory = new Directory();
 
             // Act
             var result = nodeDirectory.GetChild("A Node");
@@ -57,8 +57,8 @@ namespace NameNodeTests
         public void GetChild_FromNodeDirectoryContainingChild_ReturnsChild()
         {
             // Arrange
-            var nodeDirectory = new NodeDirectory();
-            var child = new NodeFile() { Name = "A Node" };
+            var nodeDirectory = new Directory();
+            var child = new File() { Name = "A Node" };
             nodeDirectory.AddChild(child);
 
             // Act
@@ -69,37 +69,11 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void IsDirectory_Always_ReturnsTrue()
-        {
-            // Arrange
-            var nodeDirectory = new NodeDirectory();
-
-            // Act
-            var isDirectory = nodeDirectory.IsDirectory;
-
-            // Assert
-            Assert.IsTrue(isDirectory);
-        }
-
-        [Test]
-        public void IsFile_Always_ReturnsFalse()
-        {
-            // Arrange
-            var nodeDirectory = new NodeDirectory();
-
-            // Act
-            var isFile = nodeDirectory.IsFile;
-
-            // Assert
-            Assert.IsFalse(isFile);
-        }
-
-        [Test]
         public void IsRoot_WhenParentIsANodeFile_ReturnsFalse()
         {
             // Arrange
-            var nodeDirectory = new NodeDirectory();
-            nodeDirectory.Parent = new NodeFile();
+            var nodeDirectory = new Directory();
+            nodeDirectory.Parent = new File();
 
             // Act
             var isRoot = nodeDirectory.IsRoot;
@@ -108,67 +82,10 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void GetINodeForFullDirectoryPath_WithEmptyPath_ReturnsCurrentNode()
-        {
-            // Arrange
-            var nodeDirectory = new NodeDirectory();
-
-            // Act
-            var result = nodeDirectory.GetINodeForPath(String.Empty);
-
-            // Assert
-            Assert.AreEqual(nodeDirectory, result);
-        }
-
-        [Test]
-        public void GetINodeForFullDirectoryPath_WithDirectoryPath_ReturnsChildDirectory()
-        {
-            // Arrange
-            var topLevelDirectory = new NodeDirectory();
-            var childLevelDirectory = new NodeDirectory() { Name = "ChildDirectory" };
-            topLevelDirectory.AddChild(childLevelDirectory);
-
-            // Act
-            var result = topLevelDirectory.GetINodeForPath("ChildDirectory");
-
-            // Assert
-            Assert.AreEqual(childLevelDirectory, result);
-        }
-
-        [Test]
-        public void GetINodeForFullDirectoryPath_WithFilePath_ReturnsCurrentNode()
-        {
-            // Arrange
-            var topLevelDirectory = new NodeDirectory();
-            topLevelDirectory.AddChild(new NodeFile() { Name = "ChildFile" });
-
-            // Act
-            var result = topLevelDirectory.GetINodeForPath("ChildFile");
-
-            // Assert
-            Assert.AreEqual(topLevelDirectory, result);
-        }
-
-        [Test]
-        public void GetINoodeForFullDirectoryPath_WithMultiLevelDirectoryPath_ReturnsChildDirectory()
-        {
-            // Arrange
-            var topLevelDirectory = new NodeDirectory();
-            var firstLevelChildDirectory = new NodeDirectory() { Name = "FirstLevelChildDirectory" };
-            var secondLevelChildDirectory = new NodeDirectory() { Name = "SecondLevelChildDirectory" };
-
-            // Act
-            var result = topLevelDirectory.GetINodeForPath(@"FirstLevelChildDirectory\SecondLevelChildDirectory");
-
-            // Assert
-            Assert.AreEqual(secondLevelChildDirectory, result);
-        }
-
-        [Test]
         public void GetEnumerator_WithoutChildren_EnumeratesNothing()
         {
             // Arrange
-            var nodeDirectory = new NodeDirectory();
+            var nodeDirectory = new Directory();
 
             // Act
             var enumerator = nodeDirectory.GetEnumerator();
@@ -181,10 +98,10 @@ namespace NameNodeTests
         public void GetEnumerator_WithChildren_EnumeratesChildren()
         {
             // Arrange
-            var nodeDirectory = new NodeDirectory();
-            nodeDirectory.AddChild(new NodeFile() { Name = "Child_1" });
-            nodeDirectory.AddChild(new NodeFile() { Name = "Child_2" });
-            nodeDirectory.AddChild(new NodeFile() { Name = "Child_3" });
+            var nodeDirectory = new Directory();
+            nodeDirectory.AddChild(new File() { Name = "Child_1" });
+            nodeDirectory.AddChild(new File() { Name = "Child_2" });
+            nodeDirectory.AddChild(new File() { Name = "Child_3" });
 
             // Act
             var enumerator = nodeDirectory.GetEnumerator();

@@ -9,10 +9,10 @@ namespace NameNode.FileSystem
 {
     public class FileSystemSerializer : IFileSystemSerializer
     {
-        public INodeDirectory Deserialize(IEnumerator<string> fileImageLines)
+        public IDirectory Deserialize(IEnumerator<string> fileImageLines)
         {
             fileImageLines.MoveNext();
-            return DeserializeNodes(fileImageLines) as INodeDirectory;
+            return DeserializeNodes(fileImageLines) as IDirectory;
         }
 
         internal static INode DeserializeNodes(IEnumerator<string> lineEnumerator)
@@ -24,7 +24,7 @@ namespace NameNode.FileSystem
             if (lineparts[0] == "0")
             {
                 // Line represents a node file
-                result = new NodeFile
+                result = new File
                 {
                     Name = lineparts[1].Trim('"')
                 };
@@ -32,7 +32,7 @@ namespace NameNode.FileSystem
             }
             else
             {
-                result = new NodeDirectory
+                var directory = new Directory
                 {
                     Name = lineparts[1].Trim('"')
                 };
@@ -42,14 +42,15 @@ namespace NameNode.FileSystem
                 for (int childIndex = 0; childIndex < childCount; childIndex++)
                 {
                     var child = DeserializeNodes(lineEnumerator);
-                    (result as INodeDirectory).AddChild(child);
+                   directory.AddChild(child);
                 }
+                result = directory;
             }
 
             return result;
         }
 
-        public string Serialize(INodeDirectory root)
+        public string Serialize(IDirectory root)
         {
             return SerializeNode(root);
         }
@@ -58,17 +59,17 @@ namespace NameNode.FileSystem
         {
             var result = new StringBuilder();
 
-            result.Append(node is INodeDirectory ? "1" : "0");
+            result.Append(node is IDirectory ? "1" : "0");
             result.Append(",");
 
             // Save node details
             result.AppendFormat("\"{0}\"", node.Name);
 
-            if (node is INodeDirectory)
+            if (node is IDirectory)
             {
                 result.Append(",");
 
-                var nodeDirectory = node as INodeDirectory;
+                var nodeDirectory = node as IDirectory;
 
                 result.Append(nodeDirectory.ChildCount);
 

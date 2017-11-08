@@ -16,7 +16,7 @@ namespace NameNode.Service
         }
 
         public void Create(string srcFile, string filePath)
-        {
+        {            
             _fileSystem.Create(srcFile, filePath);
         }
 
@@ -37,7 +37,7 @@ namespace NameNode.Service
             IList<CdfsFileStatus> results = new List<CdfsFileStatus>();
             foreach (var inode in nodes)
             {
-                var fileStatus = new CdfsFileStatus() { FilePath = inode.Name, IsDirectory = inode.IsDirectory };
+                var fileStatus = new CdfsFileStatus() { FilePath = inode.Name, IsDirectory = inode is IDirectory };
                 results.Add(fileStatus);
             }
             return results;
