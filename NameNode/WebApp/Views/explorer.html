@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Browse Directory</h1>
+        </div>
+        <div class="row">
+            <form method="get" action="/browse">
+                <div class="input-group">
+                    <input class="form-control" type="text" id="path" name="path"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" id="btn-nav-directory"><span class="input-group-btn">Go!</span></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <br/>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @Each
+                    <tr>
+                        <td>
+                            @IfNot.IsFile
+                            <a style="cursor:pointer" href="/browse?path=@!Current.FullPath">@Current.Name</a>
+                            @EndIf
+                            @If.IsFile
+                            @Current.Name
+                            @EndIf
+                        </td>
+                    </tr>
+                    @EndEach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

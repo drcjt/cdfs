@@ -104,7 +104,9 @@
     <Compile Include="Status\NameNodeStatus.cs" />
     <Compile Include="WebApp\CdfsWebApp.cs" />
     <Compile Include="WebApp\CustomBootstrapper.cs" />
+    <Compile Include="WebApp\ExplorerModule.cs" />
     <Compile Include="WebApp\MainModule.cs" />
+    <Compile Include="WebApp\Models\FileStatus.cs" />
     <Compile Include="WebApp\Models\NameNodeStatus.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +119,9 @@
       <Name>Protocols</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="WebApp\Views\explorer.html" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WebApp\Views\cdfshealth.html" />
   </ItemGroup>

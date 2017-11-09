@@ -83,7 +83,13 @@ namespace NameNode.FileSystem
 
         public void Mkdir(string directoryPath)
         {
-            _walker.TraverseByPath(Root, directoryPath, (node, pathComponent) => node ?? new Directory() { Name = pathComponent, Parent = node });
+            foreach(var (parent, child, pathComponent) in _walker.TraverseByPath(Root, directoryPath))
+            {
+                if (child == null && parent is IDirectory)
+                {
+                    (parent as IDirectory).AddChild(new Directory { Name = pathComponent });
+                }
+            }
         }
 
         public IList<INode> GetListing(string directoryPath)

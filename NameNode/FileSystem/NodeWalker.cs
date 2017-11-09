@@ -9,27 +9,27 @@ namespace NameNode.FileSystem
     {
         public INode GetNodeByPath(INode root, string path)
         {
-            return TraverseByPath(root, path).Last();
+            return TraverseByPath(root, path).Last().child;
         }
 
-        public IEnumerable<INode> TraverseByPath(INode root, string path, Func<INode, string, INode> nodeProcessor = null)
+        public IEnumerable<(INode parent, INode child, string pathComponent)> TraverseByPath(INode root, string path) //, Func<INode, INode, string, INode> nodeProcessor = null)
         {
-            INode currentNode = root;
+            path = path.TrimStart(Path.DirectorySeparatorChar);
             if (!string.IsNullOrEmpty(path))
             {
+                INode currentNode = root;
                 foreach (var pathComponent in path.Split(Path.DirectorySeparatorChar))
                 {
                     if (currentNode != null && currentNode is IDirectory)
                     {
                         var childNode = (currentNode as IDirectory).GetChild(pathComponent);
-                        currentNode = nodeProcessor != null ? nodeProcessor(childNode, pathComponent) : childNode;
-                        yield return currentNode;
+                        yield return (currentNode, childNode, pathComponent);
                     }
                 }
             }
             else
             {
-                yield break;
+                yield return (root, root, null);
             }
         }
     }

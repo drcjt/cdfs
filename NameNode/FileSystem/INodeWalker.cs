@@ -9,6 +9,6 @@ namespace NameNode.FileSystem
     public interface INodeWalker
     {
         INode GetNodeByPath(INode root, string path);
-        IEnumerable<INode> TraverseByPath(INode root, string path, Func<INode, string, INode> nodeProcessor = null);
+        IEnumerable<(INode parent, INode child, string pathComponent)> TraverseByPath(INode root, string path);
     }
 }

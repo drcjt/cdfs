@@ -12,5 +12,7 @@ namespace NameNode.FileSystem
 
         INode Parent { get; set; }
         bool IsRoot { get; }
+
+        string FullPath { get; }
     }
 }
