@@ -7,30 +7,24 @@ namespace NameNode.FileSystem
 {
     public class NodeWalker : INodeWalker
     {
-        public INode GetNodeByPath(INode root, string path)
+        public INode GetNodeByPath(INode root, string path, bool stopAtLastExistingNode = false)
         {
-            return TraverseByPath(root, path).Last().child;
-        }
+            INode currentNode = root;
 
-        public IEnumerable<(INode parent, INode child, string pathComponent)> TraverseByPath(INode root, string path) //, Func<INode, INode, string, INode> nodeProcessor = null)
-        {
-            path = path.TrimStart(Path.DirectorySeparatorChar);
             if (!string.IsNullOrEmpty(path))
             {
-                INode currentNode = root;
-                foreach (var pathComponent in path.Split(Path.DirectorySeparatorChar))
+                var pathComponents = FileSystemPath.GetComponents(path);
+
+                foreach (var pathComponent in pathComponents)
                 {
                     if (currentNode != null && currentNode is IDirectory)
                     {
                         var childNode = (currentNode as IDirectory).GetChild(pathComponent);
-                        yield return (currentNode, childNode, pathComponent);
+                        currentNode = childNode ?? (stopAtLastExistingNode ? currentNode : null);
                     }
                 }
             }
-            else
-            {
-                yield return (root, root, null);
-            }
+            return currentNode;
         }
     }
 }

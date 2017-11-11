@@ -56,7 +56,7 @@ namespace NameNode.FileSystem
             var directory = _walker.GetNodeByPath(Root, directoryPath) as IDirectory;
             if (directory != null)
             {
-                var fileNode = new File { Name = Path.GetFileName(srcFile) };
+                var fileNode = new File { Name = FileSystemPath.GetFileName(srcFile) };
                 directory.AddChild(fileNode);
 
                 _logger.DebugFormat("Created new INode: {0}{1}{2}", directoryPath, Path.DirectorySeparatorChar, srcFile);
@@ -83,18 +83,25 @@ namespace NameNode.FileSystem
 
         public void Mkdir(string directoryPath)
         {
-            foreach(var (parent, child, pathComponent) in _walker.TraverseByPath(Root, directoryPath))
+            var parentDirectory = _walker.GetNodeByPath(Root, directoryPath, true) as IDirectory;
+            if (parentDirectory != null)
             {
-                if (child == null && parent is IDirectory)
+                string parentDirectoryPath = parentDirectory.FullPath;
+                int startingComponentIndex = FileSystemPath.GetComponents(parentDirectoryPath).Length;
+
+                var pathComponents = FileSystemPath.GetComponents(directoryPath);
+                for (int componentIndex = startingComponentIndex; componentIndex < pathComponents.Length; componentIndex++)
                 {
-                    (parent as IDirectory).AddChild(new Directory { Name = pathComponent });
+                    var newDirectory = new Directory { Name = pathComponents[componentIndex] };
+                    parentDirectory.AddChild(newDirectory);
+                    parentDirectory = newDirectory;
                 }
             }
         }
 
         public IList<INode> GetListing(string directoryPath)
         {
-            var directory = _walker.GetNodeByPath(Root, directoryPath) as IDirectory;
+            var directory = _walker.GetNodeByPath(Root, directoryPath, true) as IDirectory;
 
             var results = new List<INode>();
             if (directory != null)

@@ -8,7 +8,6 @@ namespace NameNode.FileSystem
 {
     public interface INodeWalker
     {
-        INode GetNodeByPath(INode root, string path);
-        IEnumerable<(INode parent, INode child, string pathComponent)> TraverseByPath(INode root, string path);
+        INode GetNodeByPath(INode root, string path, bool stopAtLastExistingNode = false);
     }
 }

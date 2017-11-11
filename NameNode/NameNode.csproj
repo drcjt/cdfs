@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FileSystem\FileSystemPath.cs" />
     <Compile Include="FileSystem\FileSystemSerializer.cs" />
     <Compile Include="FileSystem\IFileSystem.cs" />
     <Compile Include="FileSystem\IFileSystemSerializer.cs" />
