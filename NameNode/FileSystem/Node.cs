@@ -14,6 +14,6 @@ namespace NameNode.FileSystem
         public INode Parent { get; set; }
         public bool IsRoot => Parent == null;
 
-        public string FullPath { get => Parent == null ? "" : $"{Parent.FullPath}{Path.DirectorySeparatorChar}{Name}"; }
+        public string FullPath { get => Parent == null ? Name : FileSystemPath.Combine(Parent.FullPath, Name); }
     }
 }

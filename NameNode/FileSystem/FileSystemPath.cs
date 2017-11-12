@@ -23,5 +23,10 @@ namespace NameNode.FileSystem
         {
             return path.TrimStart(Path.DirectorySeparatorChar);
         }
+
+        public static string Combine(string path1, string path2)
+        {
+            return path1 == null ? null : Path.Combine(path1, path2);
+        }
     }
 }

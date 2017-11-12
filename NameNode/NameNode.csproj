@@ -72,8 +72,10 @@
   <ItemGroup>
     <Compile Include="FileSystem\FileSystem.cs" />
     <Compile Include="FileSystem\FileSystemPath.cs" />
+    <Compile Include="FileSystem\FileSystemReaderWriter.cs" />
     <Compile Include="FileSystem\FileSystemSerializer.cs" />
     <Compile Include="FileSystem\IFileSystem.cs" />
+    <Compile Include="FileSystem\IFileSystemReaderWriter.cs" />
     <Compile Include="FileSystem\IFileSystemSerializer.cs" />
     <Compile Include="FileSystem\IFile.cs" />
     <Compile Include="FileSystem\IDirectory.cs" />

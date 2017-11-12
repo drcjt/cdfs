@@ -1,15 +1,10 @@
 ﻿using NameNode.FileSystem;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NameNodeTests
 {
     [TestFixture]
-    class NodeDirectoryTests
+    class DirectoryTests
     {
         [Test]
         public void AddChild_ToEmptyNodeDirectory_UpdatesParentOnAddedChild()
@@ -66,19 +61,6 @@ namespace NameNodeTests
 
             // Assert
             Assert.AreEqual(result, child);
-        }
-
-        [Test]
-        public void IsRoot_WhenParentIsANodeFile_ReturnsFalse()
-        {
-            // Arrange
-            var nodeDirectory = new Directory();
-            nodeDirectory.Parent = new File();
-
-            // Act
-            var isRoot = nodeDirectory.IsRoot;
-
-            Assert.IsFalse(nodeDirectory.IsRoot);
         }
 
         [Test]

@@ -13,13 +13,15 @@ namespace NameNode.FileSystem
     {
         private readonly ILog _logger;
         private readonly IFileSystemSerializer _fileSystemSerializer;
+        private readonly IFileSystemReaderWriter _fileSystemReaderWriter;
         private readonly INodeWalker _walker;
 
-        public FileSystem(ILog logger, IFileSystemSerializer fileSystemSerializer, INodeWalker walker)
+        public FileSystem(ILog logger, INodeWalker walker, IFileSystemSerializer fileSystemSerializer, IFileSystemReaderWriter fileSystemReaderWriter)
         {
             _logger = logger;
-            _fileSystemSerializer = fileSystemSerializer;
             _walker = walker;
+            _fileSystemSerializer = fileSystemSerializer;
+            _fileSystemReaderWriter = fileSystemReaderWriter;
         }
 
         private IDirectory _root = null;
@@ -29,13 +31,13 @@ namespace NameNode.FileSystem
             {
                 if (_root == null)
                 {
-                    if (!System.IO.File.Exists("FSImage"))
+                    if (!_fileSystemReaderWriter.FileSystemImageExists("FSImage"))
                     {
                         _root = new Directory();
                     }
                     else
                     {
-                        var lines = System.IO.File.ReadLines("FSImage");
+                        var lines = _fileSystemReaderWriter.ReadFileSystemImageLines("FSImage");
                         _root = _fileSystemSerializer.Deserialize(lines.GetEnumerator());
                         _logger.Debug("Loaded File Image");
                     }
@@ -48,7 +50,7 @@ namespace NameNode.FileSystem
         public void SaveFileImage()
         {
             _logger.Debug("Saving File Image");
-            System.IO.File.WriteAllText("FSImage", _fileSystemSerializer.Serialize(Root));
+            _fileSystemReaderWriter.WriteFileSystemImage("FSImage", _fileSystemSerializer.Serialize(Root));
         }
 
         public void Create(string srcFile, string directoryPath)
@@ -59,7 +61,7 @@ namespace NameNode.FileSystem
                 var fileNode = new File { Name = FileSystemPath.GetFileName(srcFile) };
                 directory.AddChild(fileNode);
 
-                _logger.DebugFormat("Created new INode: {0}{1}{2}", directoryPath, Path.DirectorySeparatorChar, srcFile);
+                _logger.DebugFormat($"Created new INode: {fileNode.FullPath}");
 
                 SaveFileImage();
             }

@@ -27,6 +27,7 @@ namespace NameNode.DependencyInjection
 
             For<IFileSystem>().Use<FileSystem.FileSystem>().Singleton();
             For<IFileSystemSerializer>().Use<FileSystemSerializer>();
+            For<IFileSystemReaderWriter>().Use<FileSystemReaderWriter>();
             For<INodeWalker>().Use<NodeWalker>();
         }
     }
