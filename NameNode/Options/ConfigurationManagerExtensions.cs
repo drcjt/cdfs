@@ -17,7 +17,7 @@ namespace NameNode.Options
         /// <returns></returns>
         public static T GetValue<T>(this NameValueCollection nameValuePairs, string configKey, T defaultValue)
         {
-            T returnValue = default(T);
+            T returnValue;
 
             if (nameValuePairs.AllKeys.Contains(configKey))
             {
