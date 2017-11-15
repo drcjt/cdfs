@@ -38,7 +38,7 @@ namespace NameNode.FileSystem
                     else
                     {
                         var lines = _fileSystemReaderWriter.ReadFileSystemImageLines("FSImage");
-                        _root = _fileSystemSerializer.Deserialize(lines.GetEnumerator());
+                        _root = _fileSystemSerializer.Deserialize(lines);
                         _logger.Debug("Loaded File Image");
                     }
                 }
@@ -56,28 +56,34 @@ namespace NameNode.FileSystem
         public void Create(string srcFile, string directoryPath)
         {
             var directory = _walker.GetNodeByPath(Root, directoryPath) as IDirectory;
-            if (directory != null)
+
+            if (directory == null)
             {
-                var fileNode = new File { Name = FileSystemPath.GetFileName(srcFile) };
-                directory.AddChild(fileNode);
-
-                _logger.DebugFormat($"Created new INode: {fileNode.FullPath}");
-
-                SaveFileImage();
+                throw new ArgumentException("Path does not exist", "directoryPath");
             }
+
+            var fileNode = new File { Name = FileSystemPath.GetFileName(srcFile) };
+            directory.AddChild(fileNode);
+
+            _logger.DebugFormat($"Created new INode: {fileNode.FullPath}");
+
+            SaveFileImage();
         }
 
         public void Delete(string filePath)
         {
             var fileNode = _walker.GetNodeByPath(Root, filePath);
-            if (fileNode != null)
+            
+            if (fileNode == null)
             {
-                var parentDirectory = fileNode.Parent as IDirectory;
-                if (parentDirectory != null)
-                {
-                    parentDirectory.RemoveChild(fileNode);
-                    _logger.DebugFormat("Deleted file: {0}", filePath);
-                }
+                throw new ArgumentException("Path does not exist", "filePath");
+            }
+
+            var parentDirectory = fileNode.Parent as IDirectory;
+            if (parentDirectory != null)
+            {
+                parentDirectory.RemoveChild(fileNode);
+                _logger.DebugFormat("Deleted file: {0}", filePath);
             }
 
             SaveFileImage();
@@ -86,19 +92,29 @@ namespace NameNode.FileSystem
         public void Mkdir(string directoryPath)
         {
             var parentDirectory = _walker.GetNodeByPath(Root, directoryPath, true) as IDirectory;
-            if (parentDirectory != null)
-            {
-                string parentDirectoryPath = parentDirectory.FullPath;
-                int startingComponentIndex = FileSystemPath.GetComponents(parentDirectoryPath).Length;
 
-                var pathComponents = FileSystemPath.GetComponents(directoryPath);
-                for (int componentIndex = startingComponentIndex; componentIndex < pathComponents.Length; componentIndex++)
-                {
-                    var newDirectory = new Directory { Name = pathComponents[componentIndex] };
-                    parentDirectory.AddChild(newDirectory);
-                    parentDirectory = newDirectory;
-                }
+            if (parentDirectory == null)
+            {
+                throw new ArgumentException("Parent directory does not exist", "directoryPath");
             }
+
+            if (string.IsNullOrEmpty(FileSystemPath.Normalize(directoryPath)))
+            {
+                throw new ArgumentException("Must specify a directory to create", "directoryPath");
+            }
+
+            string parentDirectoryPath = parentDirectory.FullPath;
+            int startingComponentIndex = FileSystemPath.GetComponents(parentDirectoryPath).Length - 1;
+
+            var pathComponents = FileSystemPath.GetComponents(directoryPath);
+            for (int componentIndex = startingComponentIndex; componentIndex < pathComponents.Length; componentIndex++)
+            {
+                var newDirectory = new Directory { Name = pathComponents[componentIndex] };
+                parentDirectory.AddChild(newDirectory);
+                parentDirectory = newDirectory;
+            }
+
+            SaveFileImage();
         }
 
         public IList<INode> GetListing(string directoryPath)

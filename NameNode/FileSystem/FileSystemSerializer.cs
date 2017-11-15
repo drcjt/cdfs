@@ -9,10 +9,11 @@ namespace NameNode.FileSystem
 {
     public class FileSystemSerializer : IFileSystemSerializer
     {
-        public IDirectory Deserialize(IEnumerator<string> fileImageLines)
+        public IDirectory Deserialize(IEnumerable<string> fileImageLines)
         {
-            fileImageLines.MoveNext();
-            return DeserializeNodes(fileImageLines) as IDirectory;
+            var fileImageLinesEnumerator = fileImageLines.GetEnumerator();
+            fileImageLinesEnumerator.MoveNext();
+            return DeserializeNodes(fileImageLinesEnumerator) as IDirectory;
         }
 
         internal static INode DeserializeNodes(IEnumerator<string> lineEnumerator)

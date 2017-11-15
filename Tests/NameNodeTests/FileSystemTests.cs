@@ -30,10 +30,10 @@ namespace NameNodeTests
             var root = fileSystem.Root;
 
             // Assert
-            Assert.IsNull(root.Parent);
-            Assert.IsNull(root.Name);
-            Assert.AreEqual(0, root.Count());
-            Assert.IsTrue(root is IDirectory);
+            Assert.That(root.Parent, Is.Null);
+            Assert.That(root.Name, Is.Null);
+            Assert.That(root.Count(), Is.EqualTo(0));
+            Assert.That(root is IDirectory, Is.True);
         }
 
         [Test]
@@ -41,28 +41,26 @@ namespace NameNodeTests
         {
             // Arrange
             var mockLogger = new Mock<ILog>();
-            var fileSystemSerializer = new FileSystemSerializer();
+            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var mockNodeWalker = new Mock<INodeWalker>();
 
-            var mockFileSystemImageLines = new string[] { "1,\"Root\",1", "0,\"File\"" };
+            var fileImageLines = new string[] { "1,\"Root\",1", "0,\"File\"" };
+
+            var deserializedRoot = new Directory { Name = "Root" };
+            deserializedRoot.AddChild(new File { Name = "File" });
 
             mockFileSystemReaderWriter.Setup(x => x.FileSystemImageExists(It.IsAny<string>())).Returns(true);
-            mockFileSystemReaderWriter.Setup(x => x.ReadFileSystemImageLines(It.IsAny<string>())).Returns(mockFileSystemImageLines);
+            mockFileSystemReaderWriter.Setup(x => x.ReadFileSystemImageLines(It.IsAny<string>())).Returns(fileImageLines);
+            mockFileSystemSerializer.Setup(x => x.Deserialize(fileImageLines)).Returns(deserializedRoot);
 
-            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, fileSystemSerializer, mockFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
 
             // Act
             var root = fileSystem.Root;
 
             // Assert
-            Assert.IsNull(root.Parent);
-            Assert.AreEqual("Root", root.Name);
-            Assert.AreEqual(1, root.Count());
-            Assert.IsTrue(root is IDirectory);
-
-            Assert.AreEqual("File", root.ElementAt<INode>(0).Name);
-            Assert.IsTrue(root.ElementAt<INode>(0) is IFile);
+            Assert.That(root, Is.EqualTo(deserializedRoot));
         }
 
         [Test]
@@ -88,18 +86,19 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void CreateFile_WithDefaultRoot_AddsFileAndSavesFileSystem()
+        public void CreateFile_InExistingDirectory_AddsFileAndSavesFileSystem()
         {
             // Arrange
             var mockLogger = new Mock<ILog>();
             var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
-            var nodeWalker = new NodeWalker();
+            var mockNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(mockLogger.Object, nodeWalker, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
 
             mockFileSystemSerializer.Setup(x => x.Serialize(fileSystem.Root)).Returns("SerializedFileSystemImage");
             mockFileSystemReaderWriter.Setup(x => x.WriteFileSystemImage("FSImage", "SerializedFileSystemImage"));
+            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "", false)).Returns(fileSystem.Root);
 
             // Act
             fileSystem.Create("NewFile", "");
@@ -113,6 +112,150 @@ namespace NameNodeTests
             mockFileSystemSerializer.VerifyAll();
         }
 
+        [Test]
+        public void CreateFile_InNonExistantDirectory_ThrowsArgumentException()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILog>();
+            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
+            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var mockNodeWalker = new Mock<INodeWalker>();
 
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+
+            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "", false)).Returns<INode>(null);
+
+            // Act
+            var ex = Assert.Throws<ArgumentException>(() => fileSystem.Create("NewFile", "NonExistantDirectory"));
+
+            // Assert
+            Assert.That(ex.Message, Does.StartWith("Path does not exist"));
+            Assert.That(ex.ParamName, Is.EqualTo("directoryPath"));
+        }
+
+        [Test]
+        public void DeleteFile_ThatDoesntExist_ThrowsArgumentException()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILog>();
+            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
+            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var mockNodeWalker = new Mock<INodeWalker>();
+
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+
+            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "", false)).Returns<INode>(null);
+
+            // Act
+            var ex = Assert.Throws<ArgumentException>(() => fileSystem.Delete("NewFile"));
+
+            // Assert
+            Assert.That(ex.Message, Does.StartWith("Path does not exist"));
+            Assert.That(ex.ParamName, Is.EqualTo("filePath"));
+        }
+
+        [Test]
+        public void DeleteFile_ThatExists_RemovesFileAndSavesFileSystem()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILog>();
+            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
+            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var mockNodeWalker = new Mock<INodeWalker>();
+
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+
+            var parentOfNodeToDelete = new Directory { Name = "Parent" };
+            var nodeToDelete = new File { Name = "NewFile" };
+            parentOfNodeToDelete.AddChild(nodeToDelete);
+
+            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewFile", false)).Returns(nodeToDelete);
+
+            // Act
+            fileSystem.Delete("NewFile");
+
+            // Assert
+            Assert.That(parentOfNodeToDelete.Count(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Mkdir_WithNonExistantParentDirectory_ThrowsArgumentException()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILog>();
+            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
+            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var mockNodeWalker = new Mock<INodeWalker>();
+
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+
+            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewDirectory", true)).Returns<INode>(null);
+
+            // Act
+            var ex = Assert.Throws<ArgumentException>(() => fileSystem.Mkdir("NewDirectory"));
+
+            // Assert
+            Assert.That(ex.Message, Does.StartWith("Parent directory does not exist"));
+            Assert.That(ex.ParamName, Is.EqualTo("directoryPath"));
+        }
+
+        [Test]
+        public void Mkdir_WithOnlyRootDirectory_ThrowsArgumentException()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILog>();
+            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
+            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var mockNodeWalker = new Mock<INodeWalker>();
+
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+
+            var mockRoot = new Directory { Name = "" };
+            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "\\", true)).Returns(mockRoot);
+
+            // Act
+            var ex = Assert.Throws<ArgumentException>(() => fileSystem.Mkdir("\\"));
+
+            // Assert
+            Assert.That(ex.Message, Does.StartWith("Must specify a directory to create"));
+            Assert.That(ex.ParamName, Is.EqualTo("directoryPath"));
+        }
+
+        [Test]
+        public void Mkdir_MultipleMissingDirectories_AddsDirectories()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILog>();
+            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
+            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var mockNodeWalker = new Mock<INodeWalker>();
+
+            var fileSystem = new FileSystem(mockLogger.Object, mockNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+
+            var mockRoot = new Directory { Name = "" };
+
+            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewDirectory\\NewSubDirectory", true)).Returns(mockRoot);
+
+            mockFileSystemSerializer.Setup(x => x.Serialize(fileSystem.Root)).Returns("SerializedFileSystemImage");
+            mockFileSystemReaderWriter.Setup(x => x.WriteFileSystemImage("FSImage", "SerializedFileSystemImage"));
+
+            // Act
+            fileSystem.Mkdir("NewDirectory\\NewSubDirectory");
+
+            // Assert
+            Assert.That(mockRoot.Count(), Is.EqualTo(1));
+
+            var newDirectory = mockRoot.ElementAt<INode>(0);
+            Assert.That(newDirectory.Name, Is.EqualTo("NewDirectory"));
+            Assert.That(newDirectory is IDirectory, Is.True);
+
+            var newSubDirectory = (newDirectory as IDirectory).ElementAt<INode>(0);
+            Assert.That(newSubDirectory.Name, Is.EqualTo("NewSubDirectory"));
+            Assert.That(newSubDirectory is IDirectory, Is.True);
+
+            // Assert
+            mockFileSystemReaderWriter.VerifyAll();
+            mockFileSystemSerializer.VerifyAll();
+        }
     }
 }

@@ -9,6 +9,6 @@ namespace NameNode.FileSystem
     public interface IFileSystemSerializer
     {
         string Serialize(IDirectory root);
-        IDirectory Deserialize(IEnumerator<string> fileImageLines);
+        IDirectory Deserialize(IEnumerable<string> fileImageLines);
     }
 }

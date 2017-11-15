@@ -49,7 +49,7 @@ namespace NameNodeTests
             var fileSystemSerializer = new FileSystemSerializer();
 
             // Act
-            var result = fileSystemSerializer.Deserialize(fileImageLines.Cast<string>().GetEnumerator());
+            var result = fileSystemSerializer.Deserialize(fileImageLines);
 
             // Assert
             Assert.AreEqual("Root", result.Name);
@@ -64,7 +64,7 @@ namespace NameNodeTests
             var fileSystemSerializer = new FileSystemSerializer();
 
             // Act
-            var result = fileSystemSerializer.Deserialize(fileImageLines.Cast<string>().GetEnumerator());
+            var result = fileSystemSerializer.Deserialize(fileImageLines);
 
             // Assert
             Assert.AreEqual("Root", result.Name);
