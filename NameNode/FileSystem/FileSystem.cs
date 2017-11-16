@@ -121,13 +121,15 @@ namespace NameNode.FileSystem
         {
             var directory = _walker.GetNodeByPath(Root, directoryPath, true) as IDirectory;
 
-            var results = new List<INode>();
-            if (directory != null)
+            if (directory == null)
             {
-                foreach (var inode in directory)
-                {
-                    results.Add(inode);
-                }
+                throw new ArgumentException("Path does not exist", "directoryPath");
+            }
+
+            var results = new List<INode>();
+            foreach (var inode in directory)
+            {
+                results.Add(inode);
             }
             return results;
         }
