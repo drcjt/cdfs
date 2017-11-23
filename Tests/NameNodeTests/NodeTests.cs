@@ -28,7 +28,7 @@ namespace NameNodeTests
         public void IsRoot_NodeWithParent_ReturnsFalse()
         {
             // Arrange
-            var nodeDirectory = new Node() { Parent = new Node() };
+            var nodeDirectory = new Node { Parent = new Node() };
 
             // Act
             var isRoot = nodeDirectory.IsRoot;
@@ -41,7 +41,7 @@ namespace NameNodeTests
         public void FullPath_NodeWithNoParent_ReturnsNodeName()
         {
             // Arrange
-            var node = new Node() { Name = "NodeName" };
+            var node = new Node { Name = "NodeName" };
 
             // Act
             var fullPath = node.FullPath;
@@ -54,7 +54,7 @@ namespace NameNodeTests
         public void FullPath_NodeWithParent_ReturnsParentPathCombinedWithNodeName()
         {
             // Arrange
-            var node = new Node() { Name = "NodeName", Parent = new Node() { Name = "ParentPath" } };
+            var node = new Node { Name = "NodeName", Parent = new Node { Name = "ParentPath" } };
 
             // Act
             var fullPath = node.FullPath;

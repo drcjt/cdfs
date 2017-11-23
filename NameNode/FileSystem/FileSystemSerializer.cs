@@ -16,7 +16,7 @@ namespace NameNode.FileSystem
             return DeserializeNodes(fileImageLinesEnumerator) as IDirectory;
         }
 
-        internal static INode DeserializeNodes(IEnumerator<string> lineEnumerator)
+        internal INode DeserializeNodes(IEnumerator<string> lineEnumerator)
         {
             INode result = null;
 
@@ -56,7 +56,7 @@ namespace NameNode.FileSystem
             return SerializeNode(root);
         }
 
-        internal static string SerializeNode(INode node)
+        internal string SerializeNode(INode node)
         {
             var result = new StringBuilder();
 
