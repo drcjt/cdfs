@@ -7,7 +7,7 @@ namespace NameNodeTests
     class DirectoryTests
     {
         [Test]
-        public void AddChild_ToEmptyNodeDirectory_UpdatesParentOnAddedChild()
+        public void AddChild_EmptyNodeDirectory_UpdatesParentOnAddedChild()
         {
             // Arrange
             var nodeDirectory = new Directory();
@@ -21,7 +21,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void RemoveChild_FromNodeDirectory_HasNullParent()
+        public void RemoveChild_ChildExists_RemovedNodeHasNullParent()
         {
             // Arrange
             var nodeDirectory = new Directory();
@@ -36,7 +36,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void GetChild_WithEmptyNodeDirectory_ReturnsNull()
+        public void GetChild_EmptyNodeDirectory_ReturnsNull()
         {
             // Arrange
             var nodeDirectory = new Directory();
@@ -49,7 +49,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void GetChild_FromNodeDirectoryContainingChild_ReturnsChild()
+        public void GetChild_ChildExists_ReturnsChild()
         {
             // Arrange
             var nodeDirectory = new Directory();

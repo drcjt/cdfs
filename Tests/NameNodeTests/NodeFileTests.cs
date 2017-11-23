@@ -6,27 +6,31 @@ namespace NameNodeTests
     [TestFixture]
     class NodeFileTests
     {
-        private File _nodeFile;
-
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void IsRoot_NodeWithNoParent_ReturnsTrue()
         {
-            _nodeFile = new File();
+            // Arrange
+            var nodeFile = new File();
+
+            // Act
+            var isRoot = nodeFile.IsRoot;
+
+            // Assert
+            Assert.IsTrue(isRoot);
         }
 
         [Test]
-        public void IsRoot_WhenParentIsNull_ReturnsTrue()
+        public void IsRoot_NodeWithParent_ReturnsFalse()
         {
-            Assert.IsTrue(_nodeFile.IsRoot);
+            // Arrange
+            var nodeFile = new File();
+            nodeFile.Parent = new File();
+
+            // Act
+            var isRoot = nodeFile.IsRoot;
+
+            // Assert
+            Assert.IsFalse(isRoot);
         }
-
-        [Test]
-        public void IsRoot_WhenParentIsANodeFile_ReturnsFalse()
-        {
-            _nodeFile.Parent = new File();
-
-            Assert.IsFalse(_nodeFile.IsRoot);
-        }
-
     }
 }

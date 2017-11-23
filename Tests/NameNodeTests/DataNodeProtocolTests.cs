@@ -11,28 +11,20 @@ namespace NameNodeTests
     [TestFixture]
     class DataNodeProtocolTests
     {
-        Mock<IDataNodeRepository> _mockDataNodeRepository;
-        Mock<IDateTimeProvider> _mockDateTimeProvider;
-        DataNodeProtocol _sut;
-
-        [SetUp]
-        public void Setup()
-        {
-            _mockDataNodeRepository = new Mock<IDataNodeRepository>();
-            _mockDateTimeProvider = new Mock<IDateTimeProvider>();
-            _sut = new DataNodeProtocol(new Mock<ILog>().Object, _mockDataNodeRepository.Object, _mockDateTimeProvider.Object);
-        }
-
         [Test]
         public void RegisterDataNode_WhenNodeNotPreviouslyRegistered_DataNodeIsRegistered()
         {
             // Arrange
+            var stubDataNodeRepository = new Mock<IDataNodeRepository>();            
             var dataNodeRegistration = new DataNodeRegistration();
             var expectedDataNodeID = Guid.NewGuid();
-            _mockDataNodeRepository.Setup(x => x.AddDataNode(It.IsAny<DataNodeDescriptor>())).Returns(expectedDataNodeID);
+            stubDataNodeRepository.Setup(x => x.AddDataNode(It.IsAny<DataNodeDescriptor>())).Returns(expectedDataNodeID);
+
+            var stubDateTimeProvider = new Mock<IDateTimeProvider>();
+            var dataNodeProtocol = new DataNodeProtocol(new Mock<ILog>().Object, stubDataNodeRepository.Object, stubDateTimeProvider.Object);
 
             // Act
-            var dataNodeID = _sut.RegisterDataNode(dataNodeRegistration);
+            var dataNodeID = dataNodeProtocol.RegisterDataNode(dataNodeRegistration);
 
             // Assert
             Assert.AreEqual(expectedDataNodeID, dataNodeID);
@@ -42,31 +34,38 @@ namespace NameNodeTests
         public void SendHeartbeat_WithRegisteredDataNodeID_UpdatesLastUpdatedTime()
         {
             // Arrange
+            var mockDataNodeRepository = new Mock<IDataNodeRepository>();
             var dataNodeID = Guid.NewGuid();
             var dataNodeDescriptor = new DataNodeDescriptor();
-            _mockDataNodeRepository.Setup(x => x.GetDataNodeDescriptorById(dataNodeID)).Returns(dataNodeDescriptor);
+            mockDataNodeRepository.Setup(x => x.GetDataNodeDescriptorById(dataNodeID)).Returns(dataNodeDescriptor);
 
+            var stubDateTimeProvider = new Mock<IDateTimeProvider>();
             var now = new DateTime(999);
-            _mockDateTimeProvider.Setup(x => x.Now).Returns(now);
+            stubDateTimeProvider.Setup(x => x.Now).Returns(now);
+
+            var dataNodeProtocol = new DataNodeProtocol(new Mock<ILog>().Object, mockDataNodeRepository.Object, stubDateTimeProvider.Object);
 
             // Act
-            _sut.SendHeartbeat(dataNodeID);
+            dataNodeProtocol.SendHeartbeat(dataNodeID);
 
             // Assert
-            _mockDataNodeRepository.Verify(x => x.UpdateDataNode(dataNodeID, It.Is<IDataNodeDescriptor>(dn => dn.LastUpdate == now.Ticks)), Times.Once);
+            mockDataNodeRepository.Verify(x => x.UpdateDataNode(dataNodeID, It.Is<IDataNodeDescriptor>(dn => dn.LastUpdate == now.Ticks)), Times.Once);
         }
 
         [Test]
         public void SendHeartbeat_WithUnregisteredDataNodeID_DoesntUpdateLastUpdatedTime()
         {
             // Arrange
-            _mockDataNodeRepository.Setup(x => x.GetDataNodeDescriptorById(It.IsAny<Guid>())).Returns<IDataNodeDescriptor>(null);
+            var mockDataNodeRepository = new Mock<IDataNodeRepository>();
+            mockDataNodeRepository.Setup(x => x.GetDataNodeDescriptorById(It.IsAny<Guid>())).Returns<IDataNodeDescriptor>(null);
+            var stubDateTimeProvider = new Mock<IDateTimeProvider>();
+            var dataNodeProtocol = new DataNodeProtocol(new Mock<ILog>().Object, mockDataNodeRepository.Object, stubDateTimeProvider.Object);
 
             // Act
-            _sut.SendHeartbeat(Guid.NewGuid());
+            dataNodeProtocol.SendHeartbeat(Guid.NewGuid());
 
             // Assert
-            _mockDataNodeRepository.Verify(x => x.UpdateDataNode(It.IsAny<Guid>(), It.IsAny<IDataNodeDescriptor>()), Times.Never);
+            mockDataNodeRepository.Verify(x => x.UpdateDataNode(It.IsAny<Guid>(), It.IsAny<IDataNodeDescriptor>()), Times.Never);
         }
     }
 }

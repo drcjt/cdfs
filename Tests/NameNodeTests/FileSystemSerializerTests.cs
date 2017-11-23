@@ -13,7 +13,7 @@ namespace NameNodeTests
     class FileSystemSerializerTests
     {
         [Test]
-        public void SaveNode_RootWithOneChild_SavesJustNodeDetails()
+        public void SaveNode_RootWithOneChild_SavesRootAndChildNodeDetails()
         {
             // Arrange
             var rootWithSimpleChild = new Directory { Name = "Root" };
@@ -28,7 +28,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void SaveNode_RootHasNoChildren_SavesJustNodeDetails()
+        public void SaveNode_RootHasNoChildren_SavesRootNodeDetails()
         {
             // Arrange
             var rootWithNoChildren = new Directory { Name = "Root" };
@@ -57,7 +57,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void LoadFileImage_ImageHasyRootWithChild_CreatesRootAndChildNode()
+        public void LoadFileImage_ImageHasRootWithChild_CreatesRootAndChildNode()
         {
             // Arrange
             var fileImageLines = new string[] { "1,\"Root\",1", "0,\"Test\"" };

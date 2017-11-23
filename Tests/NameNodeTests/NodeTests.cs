@@ -12,7 +12,7 @@ namespace NameNodeTests
     class NodeTests
     {
         [Test]
-        public void IsRoot_WithNoParent_ReturnsTrue()
+        public void IsRoot_ByDefault_ReturnsTrue()
         {
             // Arrange
             var nodeDirectory = new Node();
@@ -25,7 +25,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void IsRoot_WithParent_ReturnsFalse()
+        public void IsRoot_NodeWithParent_ReturnsFalse()
         {
             // Arrange
             var nodeDirectory = new Node() { Parent = new Node() };
@@ -38,7 +38,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void FullPath_WithNoParent_ReturnsNodeName()
+        public void FullPath_NodeWithNoParent_ReturnsNodeName()
         {
             // Arrange
             var node = new Node() { Name = "NodeName" };
@@ -51,7 +51,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void FullPath_WithParent_ReturnsParentPathCombinedWithNodeName()
+        public void FullPath_NodeWithParent_ReturnsParentPathCombinedWithNodeName()
         {
             // Arrange
             var node = new Node() { Name = "NodeName", Parent = new Node() { Name = "ParentPath" } };
