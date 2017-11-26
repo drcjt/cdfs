@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Block.cs" />
     <Compile Include="CdfsFileStatus.cs" />
     <Compile Include="DataNodeRegistration.cs" />
     <Compile Include="IClientProtocol.cs" />
     <Compile Include="IDataNodeProtocol.cs" />
+    <Compile Include="LocatedBlock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

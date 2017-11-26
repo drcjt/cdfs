@@ -52,5 +52,19 @@ namespace NameNode.Service
         {
             throw new NotImplementedException();
         }
+
+        public LocatedBlock AddBlock(string srcFile)
+        {
+            var blockId = Guid.NewGuid();
+            var block = new Block(blockId, 0, DateTime.Now);
+
+            var node = _fileSystem.GetFile(srcFile);
+            node.AddBlock(block);
+
+            var locatedBlock = new LocatedBlock();
+            locatedBlock.Block = block;
+
+            return locatedBlock;
+        }
     }
 }

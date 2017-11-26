@@ -66,5 +66,10 @@ namespace NameNode.Service
         {
             _dataNodeProtocol.SendHeartbeat(dataNodeID);
         }
+
+        public LocatedBlock AddBlock(string srcFile)
+        {
+            return _clientNodeProtocol.AddBlock(srcFile);
+        }
     }
 }

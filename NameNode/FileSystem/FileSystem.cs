@@ -133,5 +133,12 @@ namespace NameNode.FileSystem
             }
             return results;
         }
+
+        public IFile GetFile(string filePath)
+        {
+            var file = _walker.GetNodeByPath(Root, filePath) as IFile;
+
+            return file;
+        }
     }
 }

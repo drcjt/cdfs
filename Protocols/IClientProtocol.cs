@@ -10,6 +10,9 @@ namespace Protocols
         void Create(string srcFile, string filePath);
 
         [OperationContract]
+        LocatedBlock AddBlock(string srcFile);
+
+        [OperationContract]
         void Delete(string filePath);
 
         [OperationContract]

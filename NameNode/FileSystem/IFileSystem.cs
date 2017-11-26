@@ -15,5 +15,7 @@ namespace NameNode.FileSystem
         void Delete(string filePath);
         void Mkdir(string directoryPath);
         IList<INode> GetListing(string directoryPath);
+
+        IFile GetFile(string srcFile);
     }
 }
