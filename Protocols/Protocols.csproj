@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Block.cs" />
     <Compile Include="CdfsFileStatus.cs" />
+    <Compile Include="DataNodeID.cs" />
     <Compile Include="DataNodeRegistration.cs" />
     <Compile Include="IClientProtocol.cs" />
     <Compile Include="IDataNodeProtocol.cs" />

@@ -3,12 +3,7 @@
 namespace Protocols
 {
     [DataContract]
-    public class DataNodeRegistration
+    public class DataNodeRegistration : DataNodeID
     {
-        [DataMember]
-        public string IPAddress { get; set; }
-        
-        [DataMember]
-        public string HostName { get; set; }
     }
 }

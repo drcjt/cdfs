@@ -43,6 +43,13 @@ namespace NameNode.Service
             return dn.LastUpdate < DateTime.Now.AddMilliseconds(-_heartBeatExpireIntervalMilliseconds).Ticks;
         }
 
+        private readonly Random _random = new Random();
+
+        public Guid GetRandomDataNodeId()
+        {
+            return _dataNodes.Keys.ElementAt(_random.Next(_dataNodes.Count()));
+        }
+
         public int LiveNodes => _dataNodes.Values.Count(c => !IsDataNodeDead(c));
         public int DeadNodes => _dataNodes.Count - LiveNodes;
     }

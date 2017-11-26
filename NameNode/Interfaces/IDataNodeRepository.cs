@@ -11,6 +11,8 @@ namespace NameNode.Interfaces
     {
         Guid AddDataNode(IDataNodeDescriptor descriptor);
         IDataNodeDescriptor GetDataNodeDescriptorById(Guid dataNodeId);
+        Guid GetRandomDataNodeId();
+
         void UpdateDataNode(Guid dataNodeId, IDataNodeDescriptor descriptor);
 
         bool IsDataNodeDead(IDataNodeDescriptor dn);

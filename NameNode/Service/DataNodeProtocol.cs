@@ -33,7 +33,7 @@ namespace NameNode.Service
             var dataNodeDescriptor = new DataNodeDescriptor();
             dataNodeDescriptor.IPAddress = dataNodeRegistration.IPAddress;
             dataNodeDescriptor.HostName = dataNodeRegistration.HostName;
-
+            
             return _dataNodeRepository.AddDataNode(dataNodeDescriptor);
         }
 

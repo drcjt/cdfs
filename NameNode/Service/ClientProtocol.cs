@@ -1,4 +1,5 @@
 ﻿using NameNode.FileSystem;
+using NameNode.Interfaces;
 using Protocols;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,12 @@ namespace NameNode.Service
     class ClientProtocol : IClientProtocol
     {
         private readonly IFileSystem _fileSystem;
+        private readonly IDataNodeRepository _dataNodeRepository;
 
-        public ClientProtocol(IFileSystem fileSystem)
+        public ClientProtocol(IFileSystem fileSystem, IDataNodeRepository dataNodeRepository)
         {
             _fileSystem = fileSystem;
+            _dataNodeRepository = dataNodeRepository;
         }
 
         public void Create(string srcFile, string filePath)
@@ -61,8 +64,16 @@ namespace NameNode.Service
             var node = _fileSystem.GetFile(srcFile);
             node.AddBlock(block);
 
-            var locatedBlock = new LocatedBlock();
-            locatedBlock.Block = block;
+            var randomDataNodeID = _dataNodeRepository.GetRandomDataNodeId();
+            var dataNodeDescriptor = _dataNodeRepository.GetDataNodeDescriptorById(randomDataNodeID);
+
+            var dataNodeID = new DataNodeID { HostName = dataNodeDescriptor.HostName, Id = randomDataNodeID, IPAddress = dataNodeDescriptor.IPAddress };
+
+            var locatedBlock = new LocatedBlock
+            {
+                Block = block,
+                Locations = new List<DataNodeID> { dataNodeID }
+            };
 
             return locatedBlock;
         }
