@@ -1,26 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using log4net;
+using NameNode.FileSystem.Interfaces;
 
 namespace NameNode.FileSystem
 {
     public class FileSystemReaderWriter : IFileSystemReaderWriter
     {
-        public bool FileSystemImageExists(string path)
+        private readonly ILog _logger;
+        private readonly IFileSystemSerializer _fileSystemSerializer;
+        private readonly IFileSystemImageFile _fileSystemImageFile;
+
+        public FileSystemReaderWriter(ILog logger, IFileSystemSerializer fileSystemSerializer, IFileSystemImageFile fileSystemImageFile)
         {
-            return System.IO.File.Exists(path);
+            _logger = logger;
+            _fileSystemSerializer = fileSystemSerializer;
+            _fileSystemImageFile = fileSystemImageFile;
         }
 
-        public IEnumerable<string> ReadFileSystemImageLines(string path)
+        public void WriteFileSystem(IDirectory root)
         {
-            return System.IO.File.ReadLines(path);
+            _logger.Debug("Saving File Image");
+            _fileSystemImageFile.WriteFileSystemImage(_fileSystemSerializer.Serialize(root));
         }
 
-        public void WriteFileSystemImage(string path, string contents)
+        public IDirectory ReadFileSystem()
         {
-            System.IO.File.WriteAllText(path, contents);
+            IDirectory root = null;
+            if (!_fileSystemImageFile.FileSystemImageExists())
+            {
+                root = new Directory();
+            }
+            else
+            {
+                var lines = _fileSystemImageFile.ReadFileSystemImageLines();
+                root = _fileSystemSerializer.Deserialize(lines);
+                _logger.Debug("Loaded File Image");
+            }
+
+            return root;
         }
     }
 }

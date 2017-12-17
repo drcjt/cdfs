@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NameNode.FileSystem
+namespace NameNode.FileSystem.Interfaces
 {
     public interface IDirectory : INode, IEnumerable<INode>
     {

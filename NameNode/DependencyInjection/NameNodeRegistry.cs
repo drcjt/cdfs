@@ -1,5 +1,6 @@
 ﻿using log4net;
 using NameNode.FileSystem;
+using NameNode.FileSystem.Interfaces;
 using NameNode.Interfaces;
 using NameNode.Service;
 using NameNode.Status;
@@ -25,9 +26,12 @@ namespace NameNode.DependencyInjection
 
             For<IDateTimeProvider>().Use<DateTimeProvider>();
 
+            For<IFileSystemImageFile>().Use<FileSystemImageFile>().Ctor<string>("imageFileName").Is("FSImage").Singleton();
+
             For<IFileSystem>().Use<FileSystem.FileSystem>().Singleton();
             For<IFileSystemSerializer>().Use<FileSystemSerializer>();
             For<IFileSystemReaderWriter>().Use<FileSystemReaderWriter>();
+
             For<INodeWalker>().Use<NodeWalker>();
         }
     }

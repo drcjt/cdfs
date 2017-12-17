@@ -1,12 +1,10 @@
 ﻿using log4net;
 using Moq;
 using NameNode.FileSystem;
+using NameNode.FileSystem.Interfaces;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NameNodeTests
 {
@@ -14,102 +12,53 @@ namespace NameNodeTests
     class FileSystemTests
     {
         [Test]
-        public void Root_MissingFileSystemImage_ReturnsNewDirectory()
+        public void Root_Uninitialised_ReadsFileSystem()
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            stubFileSystemReaderWriter.Setup(x => x.FileSystemImageExists(It.IsAny<string>())).Returns(false);
+            var rootDirectoryName = "TheRoot";
+            var directoryRoot = new Directory { Name = rootDirectoryName };
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            stubFileSystemReaderWriter.Setup(x => x.ReadFileSystem()).Returns(directoryRoot);
+
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             // Act
             var root = fileSystem.Root;
 
             // Assert
             Assert.IsNull(root.Parent);
-            Assert.IsNull(root.Name);
+            Assert.AreEqual(rootDirectoryName, root.Name);
             Assert.AreEqual(0, root.Count());
             Assert.IsTrue(root is IDirectory);
         }
 
         [Test]
-        public void Root_ValidFileSystemImage_ReturnsNodesRepresentingImage()
+        public void CreateFile_ValidFilePath_AddsFile()
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileImageLines = new string[] { "1,\"Root\",1", "0,\"File\"" };
+            var rootDirectoryName = "TheRoot";
+            var directoryRoot = new Directory { Name = rootDirectoryName };
 
-            var deserializedRoot = new Directory { Name = "Root" };
-            deserializedRoot.AddChild(new File { Name = "File" });
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
-            stubFileSystemReaderWriter.Setup(x => x.FileSystemImageExists(It.IsAny<string>())).Returns(true);
-            stubFileSystemReaderWriter.Setup(x => x.ReadFileSystemImageLines(It.IsAny<string>())).Returns(fileImageLines);
-            stubFileSystemSerializer.Setup(x => x.Deserialize(fileImageLines)).Returns(deserializedRoot);
-
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
-
-            // Act
-            var root = fileSystem.Root;
-
-            // Assert
-            Assert.AreEqual(deserializedRoot, root);
-        }
-
-        [Test]
-        public void SaveFileImage_Always_SerializesAndWritesFileSystem()
-        {
-            // Arrange
-            var stubLogger = new Mock<ILog>();
-            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
-            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
-            var stubNodeWalker = new Mock<INodeWalker>();
-
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
-
-            mockFileSystemSerializer.Setup(x => x.Serialize(fileSystem.Root)).Returns("SerializedFileSystemImage");
-            mockFileSystemReaderWriter.Setup(x => x.WriteFileSystemImage("FSImage", "SerializedFileSystemImage"));
-
-            // Act
-            fileSystem.SaveFileImage();
-
-            // Assert
-            mockFileSystemReaderWriter.VerifyAll();
-            mockFileSystemSerializer.VerifyAll();
-        }
-
-        [Test]
-        public void CreateFile_ValidFilePath_AddsFileAndSavesFileSystem()
-        {
-            // Arrange
-            var stubLogger = new Mock<ILog>();
-            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
-            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
-            var stubNodeWalker = new Mock<INodeWalker>();
-
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
-
-            mockFileSystemSerializer.Setup(x => x.Serialize(fileSystem.Root)).Returns("SerializedFileSystemImage");
-            mockFileSystemReaderWriter.Setup(x => x.WriteFileSystemImage("FSImage", "SerializedFileSystemImage"));
-            stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "", false)).Returns(fileSystem.Root);
+            stubFileSystemReaderWriter.Setup(x => x.WriteFileSystem(It.IsAny<IDirectory>()));
+            stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "", false)).Returns(directoryRoot);
 
             // Act
             fileSystem.Create("NewFile", "");
 
             // Assert
-            Assert.AreEqual(1, fileSystem.Root.Count());
-            Assert.IsTrue(fileSystem.Root.ElementAt<INode>(0) is IFile);
-            Assert.AreEqual("NewFile", fileSystem.Root.ElementAt<INode>(0).Name);
-
-            mockFileSystemReaderWriter.VerifyAll();
-            mockFileSystemSerializer.VerifyAll();
+            Assert.AreEqual(1, directoryRoot.Count());
+            Assert.IsTrue(directoryRoot.ElementAt<INode>(0) is IFile);
+            Assert.AreEqual("NewFile", directoryRoot.ElementAt<INode>(0).Name);
         }
 
         [Test]
@@ -117,11 +66,10 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "", false)).Returns<INode>(null);
 
@@ -138,11 +86,10 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "", false)).Returns<INode>(null);
 
@@ -159,11 +106,10 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             var parentDirectory = new Directory { Name = "Parent" };
             var fileToDelete = new File { Name = "NewFile" };
@@ -183,11 +129,10 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewDirectory", true)).Returns<INode>(null);
 
@@ -204,11 +149,10 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             var mockRoot = new Directory { Name = "" };
             stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "\\", true)).Returns(mockRoot);
@@ -226,18 +170,16 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
-            var mockFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, mockFileSystemSerializer.Object, mockFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             var directoryRoot = new Directory { Name = "" };
 
             stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewDirectory\\NewSubDirectory", true)).Returns(directoryRoot);
 
-            mockFileSystemSerializer.Setup(x => x.Serialize(fileSystem.Root)).Returns("SerializedFileSystemImage");
-            mockFileSystemReaderWriter.Setup(x => x.WriteFileSystemImage("FSImage", "SerializedFileSystemImage"));
+            stubFileSystemReaderWriter.Setup(x => x.WriteFileSystem(It.IsAny<IDirectory>()));
 
             // Act
             fileSystem.Mkdir("NewDirectory\\NewSubDirectory");
@@ -252,10 +194,6 @@ namespace NameNodeTests
             var newSubDirectory = (newDirectory as IDirectory).ElementAt<INode>(0);
             Assert.AreEqual("NewSubDirectory", newSubDirectory.Name);
             Assert.IsTrue(newSubDirectory is IDirectory);
-
-            // Verify Mocks
-            mockFileSystemReaderWriter.VerifyAll();
-            mockFileSystemSerializer.VerifyAll();
         }
 
         [Test]
@@ -263,11 +201,10 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var mockNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, mockNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, mockNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewDirectory\\NewSubDirectory", true)).Returns<INode>(null);
 
@@ -284,11 +221,10 @@ namespace NameNodeTests
         {
             // Arrange
             var stubLogger = new Mock<ILog>();
-            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
             var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemSerializer.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLogger.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
             var rootDirectory = new Directory { Name = "" };
             rootDirectory.AddChild(new File { Name = "File1" });

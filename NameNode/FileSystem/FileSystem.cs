@@ -1,26 +1,20 @@
 ﻿using log4net;
+using NameNode.FileSystem.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NameNode.FileSystem
 {
     public class FileSystem : IFileSystem
     {
         private readonly ILog _logger;
-        private readonly IFileSystemSerializer _fileSystemSerializer;
-        private readonly IFileSystemReaderWriter _fileSystemReaderWriter;
         private readonly INodeWalker _walker;
+        private readonly IFileSystemReaderWriter _fileSystemReaderWriter;
 
-        public FileSystem(ILog logger, INodeWalker walker, IFileSystemSerializer fileSystemSerializer, IFileSystemReaderWriter fileSystemReaderWriter)
+        public FileSystem(ILog logger, INodeWalker walker, IFileSystemReaderWriter fileSystemReaderWriter)
         {
             _logger = logger;
             _walker = walker;
-            _fileSystemSerializer = fileSystemSerializer;
             _fileSystemReaderWriter = fileSystemReaderWriter;
         }
 
@@ -31,26 +25,15 @@ namespace NameNode.FileSystem
             {
                 if (_root == null)
                 {
-                    if (!_fileSystemReaderWriter.FileSystemImageExists("FSImage"))
-                    {
-                        _root = new Directory();
-                    }
-                    else
-                    {
-                        var lines = _fileSystemReaderWriter.ReadFileSystemImageLines("FSImage");
-                        _root = _fileSystemSerializer.Deserialize(lines);
-                        _logger.Debug("Loaded File Image");
-                    }
+                    _root = _fileSystemReaderWriter.ReadFileSystem();
                 }
-
                 return _root;
             }
         }
 
-        public void SaveFileImage()
+        private void OnFileSystemChanged()
         {
-            _logger.Debug("Saving File Image");
-            _fileSystemReaderWriter.WriteFileSystemImage("FSImage", _fileSystemSerializer.Serialize(Root));
+            _fileSystemReaderWriter.WriteFileSystem(Root);
         }
 
         public void Create(string srcFile, string directoryPath)
@@ -67,7 +50,7 @@ namespace NameNode.FileSystem
 
             _logger.DebugFormat($"Created new INode: {fileNode.FullPath}");
 
-            SaveFileImage();
+            OnFileSystemChanged();
         }
 
         public void Delete(string filePath)
@@ -86,7 +69,7 @@ namespace NameNode.FileSystem
                 _logger.DebugFormat("Deleted file: {0}", filePath);
             }
 
-            SaveFileImage();
+            OnFileSystemChanged();
         }
 
         public void Mkdir(string directoryPath)
@@ -114,7 +97,7 @@ namespace NameNode.FileSystem
                 parentDirectory = newDirectory;
             }
 
-            SaveFileImage();
+            OnFileSystemChanged();
         }
 
         public IList<INode> GetListing(string directoryPath)

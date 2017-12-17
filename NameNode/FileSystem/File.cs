@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NameNode.FileSystem.Interfaces;
 using Protocols;
 
 namespace NameNode.FileSystem

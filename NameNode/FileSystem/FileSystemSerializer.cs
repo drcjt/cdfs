@@ -1,9 +1,6 @@
-﻿using System;
+﻿using NameNode.FileSystem.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NameNode.FileSystem
 {
@@ -51,39 +48,45 @@ namespace NameNode.FileSystem
             return result;
         }
 
-        public string Serialize(IDirectory root)
+        public IEnumerable<string> Serialize(IDirectory root)
         {
             return SerializeNode(root);
         }
 
-        internal string SerializeNode(INode node)
+        internal IEnumerable<string> SerializeNode(INode node)
         {
-            var result = new StringBuilder();
+            var result = new List<string>();
 
-            result.Append(node is IDirectory ? "1" : "0");
-            result.Append(",");
+            var line = new StringBuilder();
+
+            line.Append(node is IDirectory ? "1" : "0");
+            line.Append(",");
 
             // Save node details
-            result.AppendFormat("\"{0}\"", node.Name);
+            line.AppendFormat("\"{0}\"", node.Name);
 
             if (node is IDirectory)
             {
-                result.Append(",");
+                line.Append(",");
 
                 var nodeDirectory = node as IDirectory;
 
-                result.Append(nodeDirectory.ChildCount);
+                line.Append(nodeDirectory.ChildCount);
+                result.Add(line.ToString());
 
                 // Enumerate children and save them
                 foreach (var child in nodeDirectory)
                 {
                     var savedChildren = SerializeNode(child);
-                    result.AppendLine();
-                    result.Append(savedChildren);
+                    result.AddRange(savedChildren);
                 }
             }
+            else
+            {
+                result.Add(line.ToString());
+            }
 
-            return result.ToString();
+            return result;
         }
     }
 }

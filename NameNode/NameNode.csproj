@@ -71,18 +71,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FileSystem\FileSystemImageFile.cs" />
     <Compile Include="FileSystem\FileSystemPath.cs" />
     <Compile Include="FileSystem\FileSystemReaderWriter.cs" />
     <Compile Include="FileSystem\FileSystemSerializer.cs" />
-    <Compile Include="FileSystem\IFileSystem.cs" />
-    <Compile Include="FileSystem\IFileSystemReaderWriter.cs" />
-    <Compile Include="FileSystem\IFileSystemSerializer.cs" />
-    <Compile Include="FileSystem\IFile.cs" />
-    <Compile Include="FileSystem\IDirectory.cs" />
-    <Compile Include="FileSystem\INode.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="FileSystem\File.cs" />
-    <Compile Include="FileSystem\INodeWalker.cs" />
+    <Compile Include="FileSystem\Interfaces\IDirectory.cs" />
+    <Compile Include="FileSystem\Interfaces\IFile.cs" />
+    <Compile Include="FileSystem\Interfaces\IFileSystem.cs" />
+    <Compile Include="FileSystem\Interfaces\IFileSystemImageFile.cs" />
+    <Compile Include="FileSystem\Interfaces\IFileSystemReaderWriter.cs" />
+    <Compile Include="FileSystem\Interfaces\IFileSystemSerializer.cs" />
+    <Compile Include="FileSystem\Interfaces\INode.cs" />
+    <Compile Include="FileSystem\Interfaces\INodeWalker.cs" />
     <Compile Include="FileSystem\Node.cs" />
     <Compile Include="FileSystem\NodeWalker.cs" />
     <Compile Include="Interfaces\IDataNodeDescriptor.cs" />
@@ -128,5 +130,6 @@
   <ItemGroup>
     <EmbeddedResource Include="WebApp\Views\cdfshealth.html" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

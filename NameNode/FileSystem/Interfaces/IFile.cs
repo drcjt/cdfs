@@ -1,7 +1,7 @@
 ﻿using Protocols;
 using System.Collections.Generic;
 
-namespace NameNode.FileSystem
+namespace NameNode.FileSystem.Interfaces
 {
     public interface IFile : INode
     {

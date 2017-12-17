@@ -1,11 +1,7 @@
-﻿using Moq;
-using NameNode.FileSystem;
+﻿using NameNode.FileSystem;
+using NameNode.FileSystem.Interfaces;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NameNodeTests
 {
@@ -24,7 +20,9 @@ namespace NameNodeTests
             var result = fileSystemSerializer.Serialize(rootWithSimpleChild);
 
             // Assert
-            Assert.AreEqual("1,\"Root\",1\r\n0,\"Test\"", result);
+            Assert.AreEqual(2, result.Count());
+            Assert.AreEqual("1,\"Root\",1", result.ElementAt(0));
+            Assert.AreEqual("0,\"Test\"", result.ElementAt(1));
         }
 
         [Test]
@@ -38,7 +36,8 @@ namespace NameNodeTests
             var result = fileSystemSerializer.Serialize(rootWithNoChildren);
 
             // Assert
-            Assert.AreEqual("1,\"Root\",0", result);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual("1,\"Root\",0", result.ElementAt(0));
         }
 
         [Test]

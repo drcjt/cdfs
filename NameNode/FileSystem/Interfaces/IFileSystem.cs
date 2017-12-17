@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace NameNode.FileSystem
+namespace NameNode.FileSystem.Interfaces
 {
     public interface IFileSystem
     {
         IDirectory Root { get; }
-        void SaveFileImage();
 
         void Create(string srcFile, string directoryPath);
         void Delete(string filePath);
