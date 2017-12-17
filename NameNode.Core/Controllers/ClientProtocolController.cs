@@ -1,15 +1,50 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Protocols.Core;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace NameNode.Core.Controllers
 {
     [Produces("application/json")]
-    [Route("api/ClientProtocol")]
     public class ClientProtocolController : Controller
     {
+        private readonly IClientProtocol _clientProtocol;
+
+        public ClientProtocolController(IClientProtocol clientProtocol)
+        {
+            _clientProtocol = clientProtocol;
+        }
+
+        // POST: api/Create
+        [HttpPost]
+        public void Create(string srcFile, string filePath)
+        {
+            _clientProtocol.Create(srcFile, filePath);
+        }
+
+        // POST: api/AddBlock
+        [HttpPost]
+        public LocatedBlock AddBlock(string srcFile)
+        {
+            return null;
+        }
+
+        // DELETE: api/Delete
+        [HttpDelete]
+        public void Delete(string filePath)
+        {
+            _clientProtocol.Delete(filePath);
+        }
+
+        [HttpPost]
+        public void Mkdir(string directoryPath)
+        {
+            _clientProtocol.Mkdir(directoryPath);
+        }
+
+        [HttpGet]
+        public IList<CdfsFileStatus> GetListing(string filePath)
+        {
+            return _clientProtocol.GetListing(filePath);
+        }       
     }
 }
