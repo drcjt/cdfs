@@ -1,7 +1,6 @@
 ﻿using DataNode.Core.Options;
 using Newtonsoft.Json;
 using Protocols.Core;
-using Refit;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;

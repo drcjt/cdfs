@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFSClient", "DFSClient\DFSClient.csproj", "{48906012-A8F7-4293-9877-719F7C64EE5A}"
 EndProject
@@ -17,13 +17,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataNodeTests", "Tests\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFSClientTests", "Tests\DFSClientTests\DFSClientTests.csproj", "{2B2D801A-907B-4C51-A851-98DF7396A527}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameNode.Core", "NameNode.Core\NameNode.Core.csproj", "{17E48374-A5B3-41F5-8DFD-DAB633B91119}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameNode.Core", "NameNode.Core\NameNode.Core.csproj", "{17E48374-A5B3-41F5-8DFD-DAB633B91119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocols.Core", "Protocols.Core\Protocols.Core.csproj", "{4007196D-48C8-4626-97E5-5C5AE61497FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocols.Core", "Protocols.Core\Protocols.Core.csproj", "{4007196D-48C8-4626-97E5-5C5AE61497FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataNode", "DataNode\DataNode.csproj", "{BD5D6201-025E-4281-A627-979A71DC2470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataNode.Core", "DataNode.Core\DataNode.Core.csproj", "{C4833C36-6D24-46ED-AC4D-31B12416CED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataNode.Core", "DataNode.Core\DataNode.Core.csproj", "{C4833C36-6D24-46ED-AC4D-31B12416CED8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFSClient.Core", "DFSClient.Core\DFSClient.Core.csproj", "{DA5E0D0E-DE33-4644-ADEA-28665DDAD468}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{C4833C36-6D24-46ED-AC4D-31B12416CED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4833C36-6D24-46ED-AC4D-31B12416CED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4833C36-6D24-46ED-AC4D-31B12416CED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA5E0D0E-DE33-4644-ADEA-28665DDAD468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA5E0D0E-DE33-4644-ADEA-28665DDAD468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA5E0D0E-DE33-4644-ADEA-28665DDAD468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA5E0D0E-DE33-4644-ADEA-28665DDAD468}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
