@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 
 namespace DFSClient
 {
@@ -30,7 +29,7 @@ namespace DFSClient
         {
             var serializedDataNodeId = JsonConvert.SerializeObject(dataNodeGuid);
             var contentData = new StringContent(serializedDataNodeId, System.Text.Encoding.UTF8, "application/json");
-            var response = Client.PostAsync("/DataNodeProtocol/SendHeartbeat", contentData).Result;
+            Client.PostAsync("/DataNodeProtocol/SendHeartbeat", contentData);
         }
 
         public void Create(string srcFile, string filePath)
@@ -39,7 +38,7 @@ namespace DFSClient
             values.Add("srcFile", srcFile);
             values.Add("filePath", filePath);
             var contentData = new FormUrlEncodedContent(values);
-            var response = Client.PostAsync("/ClientProtocol/Create", contentData).Result;
+            Client.PostAsync("/ClientProtocol/Create", contentData);
         }
 
         public LocatedBlock AddBlock(string srcFile)
@@ -53,7 +52,7 @@ namespace DFSClient
 
         public void Delete(string filePath)
         {
-            var response = Client.DeleteAsync(string.Format("/ClientProtocol/Delete?filePath={0}", filePath)).Result;
+            Client.DeleteAsync(string.Format("/ClientProtocol/Delete?filePath={0}", filePath));
         }
 
         public void Mkdir(string directoryPath)
@@ -61,7 +60,7 @@ namespace DFSClient
             var values = new Dictionary<string, string>();
             values.Add("directoryPath", directoryPath);
             var contentData = new FormUrlEncodedContent(values);
-            var response = Client.PostAsync("/ClientProtocol/Mkdir", contentData).Result;
+            Client.PostAsync("/ClientProtocol/Mkdir", contentData);
         }
 
         public IList<CdfsFileStatus> GetListing(string filePath)

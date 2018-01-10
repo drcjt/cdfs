@@ -117,9 +117,9 @@ namespace NameNode.FileSystem
             return results;
         }
 
-        public IFile GetFile(string filePath)
+        public IFile GetFile(string srcFile)
         {
-            var file = _walker.GetNodeByPath(Root, filePath) as IFile;
+            var file = _walker.GetNodeByPath(Root, srcFile) as IFile;
 
             return file;
         }

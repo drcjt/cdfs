@@ -29,7 +29,7 @@ namespace DataNode.ProtocolWrappers
         {
             var serializedDataNodeId = JsonConvert.SerializeObject(dataNodeGuid);
             var contentData = new StringContent(serializedDataNodeId, System.Text.Encoding.UTF8, "application/json");
-            var response = Client.PostAsync("/DataNodeProtocol/SendHeartbeat", contentData).Result;
+            Client.PostAsync("/DataNodeProtocol/SendHeartbeat", contentData);
         }
     }
 }

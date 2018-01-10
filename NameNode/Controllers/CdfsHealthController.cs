@@ -12,8 +12,8 @@ namespace NameNode.Controllers
 {
     public class CdfsHealthController : Controller
     {
-        INameNodeStatus _nameNodeStatus;
-        IDataNodesStatus _dataNodesStatus;
+        private readonly INameNodeStatus _nameNodeStatus;
+        private readonly IDataNodesStatus _dataNodesStatus;
 
         public CdfsHealthController(INameNodeStatus nameNodeStatus, IDataNodesStatus dataNodesStatus)
         {
@@ -23,10 +23,12 @@ namespace NameNode.Controllers
 
         public ActionResult Index()
         {
-            var model = new NameNodeStatusModel();
-            model.Started = _nameNodeStatus.Started;
-            model.LiveNodes = _dataNodesStatus.LiveNodes;
-            model.DeadNodes = _dataNodesStatus.DeadNodes;
+            var model = new NameNodeStatusModel
+            {
+                Started = _nameNodeStatus.Started,
+                LiveNodes = _dataNodesStatus.LiveNodes,
+                DeadNodes = _dataNodesStatus.DeadNodes
+            };
 
             return View(model);
         }

@@ -32,13 +32,13 @@ namespace NameNode.Services
         /// <summary>
         /// Process a heart beat sent by a data node
         /// </summary>
-        /// <param name="dataNodeID">ID of the data node hearbeating</param>
-        public void SendHeartbeat(Guid dataNodeID)
+        /// <param name="dataNodeGuid">GUID of the data node hearbeating</param>
+        public void SendHeartbeat(Guid dataNodeGuid)
         {
-            _logger.LogDebug("Heartbeat recevied from datanode {0}", dataNodeID);
+            _logger.LogDebug("Heartbeat recevied from datanode {0}", dataNodeGuid);
 
             // Update the data node descriptor to reflect the hearbeat
-            _dataNodeRepository.SetLastUpdateTicks(dataNodeID, _dateTimeProvider.Now.Ticks);
+            _dataNodeRepository.SetLastUpdateTicks(dataNodeGuid, _dateTimeProvider.Now.Ticks);
         }
     }
 }
