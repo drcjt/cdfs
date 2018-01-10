@@ -22,6 +22,8 @@ namespace NameNodeTests.Core
             stubDataNodeRepository.Setup(x => x.AddDataNode(mockDataNodeId.Object)).Returns(expectedDataNodeID);
 
             var stubDateTimeProvider = new Mock<IDateTimeProvider>();
+
+            // TODO - see this post re. ILoggerFactory -> https://stackoverflow.com/questions/45221362/how-to-moq-mock-a-loggerfactory-in-c-sharp-aspnet-core
             var stubLoggerFactory = new Mock<ILoggerFactory>();
             stubLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
             var dataNodeProtocol = new DataNodeProtocol(stubLoggerFactory.Object, stubDataNodeRepository.Object, stubDateTimeProvider.Object);
