@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DataNode.Core.Models;
+using DataNode.Models;
 
-namespace DataNode.Core.Controllers
+namespace DataNode.Controllers
 {
     public class HomeController : Controller
     {

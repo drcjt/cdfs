@@ -1,8 +1,8 @@
-﻿using NameNode.Core.FileSystem.Interfaces;
+﻿using NameNode.FileSystem.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NameNode.Core.FileSystem
+namespace NameNode.FileSystem
 {
     public class FileSystemImageFile : IFileSystemImageFile
     {

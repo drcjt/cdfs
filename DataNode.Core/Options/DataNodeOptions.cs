@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataNode.Core.Options
+namespace DataNode.Options
 {
     public class DataNodeOptions : IDataNodeOptions
     {

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace NameNodeTests.Core
+namespace NameNodeTests
 {
     [TestFixture]
     class FileTests

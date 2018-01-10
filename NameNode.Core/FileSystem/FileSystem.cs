@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using NameNode.Core.FileSystem.Interfaces;
+using NameNode.FileSystem.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace NameNode.Core.FileSystem
+namespace NameNode.FileSystem
 {
     public class FileSystem : IFileSystem
     {

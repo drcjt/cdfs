@@ -1,6 +1,6 @@
-﻿using NameNode.Core.Services;
+﻿using NameNode.Services;
 
-namespace NameNode.Core.Status
+namespace NameNode.Status
 {
     public class DataNodesStatus : IDataNodesStatus
     {

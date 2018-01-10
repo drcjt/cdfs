@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Protocols.Core;
+using Protocols;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace DataNode.Core.Services
+namespace DataNode.Services
 {
     public class DataNodeService : IDataNodeApplication
     {

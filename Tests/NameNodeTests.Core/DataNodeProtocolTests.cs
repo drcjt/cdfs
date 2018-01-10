@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using NameNode.Core.Services;
+using NameNode.Services;
 using NUnit.Framework;
-using Protocols.Core;
+using Protocols;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NameNodeTests.Core
+namespace NameNodeTests
 {
     [TestFixture]
     class DataNodeProtocolTests

@@ -1,4 +1,4 @@
-﻿namespace NameNode.Core.FileSystem.Interfaces
+﻿namespace NameNode.FileSystem.Interfaces
 {
     public interface INode
     {

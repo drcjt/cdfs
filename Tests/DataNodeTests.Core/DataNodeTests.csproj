@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DataNode.Core\DataNode.Core.csproj" />
-    <ProjectReference Include="..\..\Protocols.Core\Protocols.Core.csproj" />
+    <ProjectReference Include="..\..\DataNode.Core\DataNode.csproj" />
+    <ProjectReference Include="..\..\Protocols.Core\Protocols.csproj" />
   </ItemGroup>
 
 </Project>

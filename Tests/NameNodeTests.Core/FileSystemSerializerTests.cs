@@ -1,9 +1,9 @@
-﻿using NameNode.Core.FileSystem;
-using NameNode.Core.FileSystem.Interfaces;
+﻿using NameNode.FileSystem;
+using NameNode.FileSystem.Interfaces;
 using NUnit.Framework;
 using System.Linq;
 
-namespace NameNodeTests.Core
+namespace NameNodeTests
 {
     [TestFixture]
     class FileSystemSerializerTests

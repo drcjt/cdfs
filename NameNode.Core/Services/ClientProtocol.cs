@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using NameNode.Core.FileSystem.Interfaces;
-using Protocols.Core;
+using NameNode.FileSystem.Interfaces;
+using Protocols;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NameNode.Core.Services
+namespace NameNode.Services
 {
     public class ClientProtocol : IClientProtocol
     {

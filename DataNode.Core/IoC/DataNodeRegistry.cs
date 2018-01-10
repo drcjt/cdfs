@@ -1,10 +1,10 @@
-﻿using DataNode.Core.ProtocolWrappers;
-using DataNode.Core.Services;
-using Protocols.Core;
+﻿using DataNode.ProtocolWrappers;
+using DataNode.Services;
+using Protocols;
 using StructureMap;
 using StructureMap.Pipeline;
 
-namespace DataNode.Core.IoC
+namespace DataNode.IoC
 {
     public class DataNodeRegistry : Registry
     {

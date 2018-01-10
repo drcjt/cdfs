@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Protocols.Core\Protocols.Core.csproj" />
+    <ProjectReference Include="..\Protocols.Core\Protocols.csproj" />
   </ItemGroup>
 
 </Project>

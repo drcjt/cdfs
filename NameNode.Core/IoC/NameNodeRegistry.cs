@@ -1,11 +1,11 @@
-﻿using NameNode.Core.FileSystem;
-using NameNode.Core.FileSystem.Interfaces;
-using NameNode.Core.Services;
-using NameNode.Core.Status;
-using Protocols.Core;
+﻿using NameNode.FileSystem;
+using NameNode.FileSystem.Interfaces;
+using NameNode.Services;
+using NameNode.Status;
+using Protocols;
 using StructureMap;
 
-namespace NameNode.Core.IoC
+namespace NameNode.IoC
 {
     public class NameNodeRegistry : Registry
     {

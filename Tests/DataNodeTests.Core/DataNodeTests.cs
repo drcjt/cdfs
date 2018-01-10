@@ -1,11 +1,11 @@
-﻿using DataNode.Core.Services;
+﻿using DataNode.Services;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
-using Protocols.Core;
+using Protocols;
 using System;
 
-namespace DataNodeTests.Core
+namespace DataNodeTests
 {
     [TestFixture]
     public class DataNodeTests

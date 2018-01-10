@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "DFSClient.Core": {
+    "DFSClient": {
       "commandName": "Project"
     }
   }

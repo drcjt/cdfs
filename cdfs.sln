@@ -5,19 +5,19 @@ VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{32C927B0-5886-4CD4-8727-E9BC16385678}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameNode.Core", "NameNode.Core\NameNode.Core.csproj", "{17E48374-A5B3-41F5-8DFD-DAB633B91119}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameNode", "NameNode.Core\NameNode.csproj", "{17E48374-A5B3-41F5-8DFD-DAB633B91119}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocols.Core", "Protocols.Core\Protocols.Core.csproj", "{4007196D-48C8-4626-97E5-5C5AE61497FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocols", "Protocols.Core\Protocols.csproj", "{4007196D-48C8-4626-97E5-5C5AE61497FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataNode.Core", "DataNode.Core\DataNode.Core.csproj", "{C4833C36-6D24-46ED-AC4D-31B12416CED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataNode", "DataNode.Core\DataNode.csproj", "{C4833C36-6D24-46ED-AC4D-31B12416CED8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFSClient.Core", "DFSClient.Core\DFSClient.Core.csproj", "{DA5E0D0E-DE33-4644-ADEA-28665DDAD468}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFSClient", "DFSClient.Core\DFSClient.csproj", "{DA5E0D0E-DE33-4644-ADEA-28665DDAD468}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataNodeTests.Core", "Tests\DataNodeTests.Core\DataNodeTests.Core.csproj", "{394652BC-CE22-4998-B89C-066D26E4D030}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataNodeTests", "Tests\DataNodeTests.Core\DataNodeTests.csproj", "{394652BC-CE22-4998-B89C-066D26E4D030}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFSClientTests.Core", "Tests\DFSClientTests.Core\DFSClientTests.Core.csproj", "{823D8103-CE21-42AC-8F32-995C2BA1DF27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFSClientTests", "Tests\DFSClientTests.Core\DFSClientTests.csproj", "{823D8103-CE21-42AC-8F32-995C2BA1DF27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameNodeTests.Core", "Tests\NameNodeTests.Core\NameNodeTests.Core.csproj", "{4B09E80A-283C-41E1-822F-59652A6CF95F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameNodeTests", "Tests\NameNodeTests.Core\NameNodeTests.csproj", "{4B09E80A-283C-41E1-822F-59652A6CF95F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NameNode.Core.FileSystem.Interfaces;
-using NameNode.Core.Models;
+using NameNode.FileSystem.Interfaces;
+using NameNode.Models;
 
-namespace NameNode.Core.Controllers
+namespace NameNode.Controllers
 {
     public class ExplorerController : Controller
     {

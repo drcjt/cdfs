@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Protocols.Core;
+using Protocols;
 
-namespace NameNode.Core.Controllers
+namespace NameNode.Controllers
 {
     [Produces("application/json")]
     public class DataNodeProtocolController : Controller

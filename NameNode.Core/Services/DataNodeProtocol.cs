@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Protocols.Core;
+using Protocols;
 using System;
 
-namespace NameNode.Core.Services
+namespace NameNode.Services
 {
     public class DataNodeProtocol : IDataNodeProtocol
     {

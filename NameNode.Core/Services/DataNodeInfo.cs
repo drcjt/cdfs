@@ -1,10 +1,10 @@
-﻿using Protocols.Core;
+﻿using Protocols;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NameNode.Core.Services
+namespace NameNode.Services
 {
     public class DataNodeInfo
     {

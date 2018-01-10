@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DFSClient.Core
+namespace DFSClient
 {
     public abstract class CommonSubOptions
     {

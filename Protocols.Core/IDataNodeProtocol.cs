@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Protocols.Core
+namespace Protocols
 {
     public interface IDataNodeProtocol
     {

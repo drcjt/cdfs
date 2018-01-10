@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Protocols.Core;
+using Protocols;
 using System.Collections.Generic;
 
-namespace NameNode.Core.Controllers
+namespace NameNode.Controllers
 {
     [Produces("application/json")]
     public class ClientProtocolController : Controller

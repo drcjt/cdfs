@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using NameNode.Core.FileSystem;
-using NameNode.Core.FileSystem.Interfaces;
+using NameNode.FileSystem;
+using NameNode.FileSystem.Interfaces;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NameNodeTests.Core
+namespace NameNodeTests
 {
     [TestFixture]
     class FileSystemReaderWriterTests

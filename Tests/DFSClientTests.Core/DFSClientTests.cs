@@ -1,7 +1,7 @@
-﻿using DFSClient.Core;
+﻿using DFSClient;
 using NUnit.Framework;
 
-namespace DFSClientTests.Core
+namespace DFSClientTests
 {
     [TestFixture]
     public class DFSClientTests

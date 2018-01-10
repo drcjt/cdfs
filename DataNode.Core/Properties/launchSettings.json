@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DataNode.Core": {
+    "DataNode": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

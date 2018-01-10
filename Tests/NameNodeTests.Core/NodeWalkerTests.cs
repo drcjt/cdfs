@@ -1,7 +1,7 @@
-﻿using NameNode.Core.FileSystem;
+﻿using NameNode.FileSystem;
 using NUnit.Framework;
 
-namespace NameNodeTests.Core
+namespace NameNodeTests
 {
     [TestFixture]
     class NodeWalkerTests

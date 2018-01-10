@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DFSClient.Core
+namespace DFSClient
 {
     public class Program
     {

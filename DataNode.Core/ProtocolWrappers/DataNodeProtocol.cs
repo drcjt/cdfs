@@ -1,11 +1,11 @@
-﻿using DataNode.Core.Options;
+﻿using DataNode.Options;
 using Newtonsoft.Json;
-using Protocols.Core;
+using Protocols;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace DataNode.Core.ProtocolWrappers
+namespace DataNode.ProtocolWrappers
 {
     public class DataNodeProtocol : IDataNodeProtocol
     {

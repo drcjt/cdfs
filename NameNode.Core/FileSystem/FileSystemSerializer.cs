@@ -1,8 +1,8 @@
-﻿using NameNode.Core.FileSystem.Interfaces;
+﻿using NameNode.FileSystem.Interfaces;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NameNode.Core.FileSystem
+namespace NameNode.FileSystem
 {
     public class FileSystemSerializer : IFileSystemSerializer
     {

@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using Protocols.Core;
+using Protocols;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace DFSClient.Core
+namespace DFSClient
 {
     public class ClientProtocol : IClientProtocol
     {

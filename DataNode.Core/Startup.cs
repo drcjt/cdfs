@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StructureMap;
-using DataNode.Core.IoC;
-using DataNode.Core.Services;
-using DataNode.Core.Options;
+using DataNode.IoC;
+using DataNode.Services;
+using DataNode.Options;
 
-namespace DataNode.Core
+namespace DataNode
 {
     public class Startup
     {

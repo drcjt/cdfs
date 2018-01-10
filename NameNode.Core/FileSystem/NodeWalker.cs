@@ -1,6 +1,6 @@
-﻿using NameNode.Core.FileSystem.Interfaces;
+﻿using NameNode.FileSystem.Interfaces;
 
-namespace NameNode.Core.FileSystem
+namespace NameNode.FileSystem
 {
     public class NodeWalker : INodeWalker
     {

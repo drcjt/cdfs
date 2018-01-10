@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Protocols.Core
+namespace Protocols
 {
     public class Block
     {

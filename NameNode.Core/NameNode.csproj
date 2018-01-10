@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Protocols.Core\Protocols.Core.csproj" />
+    <Folder Include="FileSystem\Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FileSystem\Interfaces\" />
+    <ProjectReference Include="..\Protocols.Core\Protocols.csproj" />
   </ItemGroup>
 
 </Project>

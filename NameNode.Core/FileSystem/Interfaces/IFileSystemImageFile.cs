@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NameNode.Core.FileSystem.Interfaces
+namespace NameNode.FileSystem.Interfaces
 {
     public interface IFileSystemImageFile
     {

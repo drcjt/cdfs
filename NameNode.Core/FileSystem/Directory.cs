@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
-using NameNode.Core.FileSystem.Interfaces;
+using NameNode.FileSystem.Interfaces;
 
-namespace NameNode.Core.FileSystem
+namespace NameNode.FileSystem
 {
     public class Directory : Node, IDirectory
     {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace NameNode.Core.FileSystem
+namespace NameNode.FileSystem
 {
     public static class FileSystemPath
     {

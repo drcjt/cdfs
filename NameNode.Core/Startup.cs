@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StructureMap;
-using NameNode.Core.IoC;
+using NameNode.IoC;
 using Microsoft.Extensions.Logging;
 
-namespace NameNode.Core
+namespace NameNode
 {
     public class Startup
     {

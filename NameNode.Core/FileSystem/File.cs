@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using NameNode.Core.FileSystem.Interfaces;
-using Protocols.Core;
+using NameNode.FileSystem.Interfaces;
+using Protocols;
 
-namespace NameNode.Core.FileSystem
+namespace NameNode.FileSystem
 {
     public class File : Node, IFile
     {
