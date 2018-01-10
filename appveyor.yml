@@ -17,11 +17,11 @@ build_script:
     - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=%SONARQUBE_TOKEN%"
     
 test_script:
-   - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/NameNodeTests.Core\NameNodeTests.Core.csproj" -output:coverage.xml -returntargetcode -mergeoutput
+   - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/NameNodeTests\NameNodeTests.csproj" -output:coverage.xml -returntargetcode -mergeoutput
 
-   - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/DataNodeTests.Core\DataNodeTests.Core.csproj" -output:coverage.xml -returntargetcode -mergeoutput
+   - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/DataNodeTests\DataNodeTests.csproj" -output:coverage.xml -returntargetcode -mergeoutput
 
-   - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/DFSClientTests.Core\DFSClientTests.Core.csproj" -output:coverage.xml -returntargetcode -mergeoutput
+   - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/DFSClientTests\DFSClientTests.csproj" -output:coverage.xml -returntargetcode -mergeoutput
     
 after_test: 
     - c:\users\appveyor\.nuget\packages\coveralls.io\1.4.2\tools\coveralls.net.exe --opencover coverage.xml
