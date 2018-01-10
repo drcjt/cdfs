@@ -12,10 +12,10 @@ install:
     
 build_script:
     - choco install "msbuild-sonarqube-runner" -y
-    - MSBuild.SonarQube.Runner.exe begin /k:"Cdfs" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=%SONARQUBE_TOKEN%" /d:"sonar.organization=drcjt-github"
+    - MSBuild.SonarQube.Runner.exe begin /k:"Cdfs" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=%SONARQUBE_TOKEN%" /d:"sonar.organization=drcjt-github" /d:"sonar.exclusions=**/*.js"
     - msbuild "Cdfs.sln" /verbosity:normal
     - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=%SONARQUBE_TOKEN%"
-
+    
 test_script:
    - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/NameNodeTests.Core\NameNodeTests.Core.csproj" -output:coverage.xml -returntargetcode -mergeoutput
 
