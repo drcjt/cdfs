@@ -10,7 +10,6 @@ namespace NameNode.Services
 {
     public class ClientProtocol : IClientProtocol
     {
-        private readonly ILogger<ClientProtocol> _logger;
         private readonly IFileSystem _fileSystem;
         private readonly IDataNodeRepository _dataNodeRepository;
 
