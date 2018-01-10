@@ -11,6 +11,9 @@ namespace DataNode.ProtocolWrappers
     {
         private HttpClient Client { get; set; }
 
+        private const string RegisterOperation = "/DataNodeProtocol/Register";
+        private const string SendHeartbeatOperation = "/DataNodeProtocol/SendHeartbeat";
+
         public DataNodeProtocol(IDataNodeOptions options)
         {
             Client = new HttpClient { BaseAddress = new Uri(options.NameNodeUri) };
@@ -21,7 +24,7 @@ namespace DataNode.ProtocolWrappers
         {
             var serializedDataNodeId = JsonConvert.SerializeObject(dataNodeId);
             var contentData = new StringContent(serializedDataNodeId, System.Text.Encoding.UTF8, "application/json");
-            var response = Client.PostAsync("/DataNodeProtocol/Register", contentData).Result;
+            var response = Client.PostAsync(RegisterOperation, contentData).Result;
             return JsonConvert.DeserializeObject<Guid>(response.Content.ReadAsStringAsync().Result);
         }
 
@@ -29,7 +32,7 @@ namespace DataNode.ProtocolWrappers
         {
             var serializedDataNodeId = JsonConvert.SerializeObject(dataNodeGuid);
             var contentData = new StringContent(serializedDataNodeId, System.Text.Encoding.UTF8, "application/json");
-            Client.PostAsync("/DataNodeProtocol/SendHeartbeat", contentData);
+            Client.PostAsync(SendHeartbeatOperation, contentData);
         }
     }
 }
