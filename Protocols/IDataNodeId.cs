@@ -8,6 +8,5 @@ namespace Protocols
     {
         string IPAddress { get; set; }
         string HostName { get; set; }
-        Guid Id { get; set; }
     }
 }

@@ -11,7 +11,6 @@ namespace NameNode.Services
 
         void SetLastUpdateTicks(Guid dataNodeGuid, long lastUpdateTicks);
 
-        bool IsDataNodeDead(DataNodeInfo dn);
         int LiveNodes { get; }
         int DeadNodes { get; }
     }

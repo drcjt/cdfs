@@ -17,6 +17,8 @@ namespace NameNode.IoC
             For<IClientProtocol>().Use<ClientProtocol>();
             For<IDataNodeProtocol>().Use<DataNodeProtocol>();
 
+            For<ITimeProvider>().Use<TimeProvider>().Singleton();
+            For<IRandomGenerator>().Use<RandomGenerator>().Singleton();
             For<IDataNodeRepository>().Use<DataNodeRepository>().Singleton();
             For<IDateTimeProvider>().Use<DateTimeProvider>();
 

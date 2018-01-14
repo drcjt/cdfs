@@ -58,7 +58,7 @@ namespace NameNode.Services
             var randomDataNodeID = _dataNodeRepository.GetRandomDataNodeId();
             var dataNodeDescriptor = _dataNodeRepository.GetDataNodeDescriptorById(randomDataNodeID);
 
-            var dataNodeID = new DataNodeId { HostName = dataNodeDescriptor.HostName, Id = randomDataNodeID, IPAddress = dataNodeDescriptor.IPAddress };
+            var dataNodeID = new DataNodeId { HostName = dataNodeDescriptor.HostName, IPAddress = dataNodeDescriptor.IPAddress };
 
             var locatedBlock = new LocatedBlock
             {

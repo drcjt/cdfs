@@ -10,9 +10,6 @@ namespace DFSClient
     {
         private RestClient Client { get; set; }
 
-        private const string RegisterOperation = "/DataNodeProtocol/Register";
-        private const string SendHeartbeatOperation = "/DataNodeProtocol/SendHeartbeat";
-
         private const string CreateOperation = "/ClientProtocol/Create";
         private const string AddBlockOperation = "/ClientProtocol/AddBlock";
         private const string MkdirOperation = "/ClientProtocol/Mkdir";

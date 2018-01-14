@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace NameNode.Services
 {
-    class DataNodeRepository : IDataNodeRepository
+    public class DataNodeRepository : IDataNodeRepository
     {
         private readonly IDictionary<Guid, DataNodeInfo> _dataNodes = new Dictionary<Guid, DataNodeInfo>();
+
+        private readonly IRandomGenerator _randomGenerator;
+        private readonly ITimeProvider _timeProvider;
+
+        public DataNodeRepository(IRandomGenerator randomGenerator, ITimeProvider timeProvider)
+        {
+            _randomGenerator = randomGenerator;
+            _timeProvider = timeProvider;
+        }
 
         public Guid AddDataNode(IDataNodeId descriptor)
         {
@@ -16,7 +25,7 @@ namespace NameNode.Services
             var dataNodeGuid = Guid.NewGuid();
 
             // Persist the data node information
-            _dataNodes[dataNodeGuid] = new DataNodeInfo { DataNodeId = descriptor };
+            _dataNodes[dataNodeGuid] = new DataNodeInfo { DataNodeId = descriptor, LastUpdateTicks = _timeProvider.Now.Ticks };
 
             // Return the data node ID
             return dataNodeGuid;
@@ -38,7 +47,6 @@ namespace NameNode.Services
                 var dataNodeId = _dataNodes[dataNodeGuid].DataNodeId;
 
                 var dataNodeIdCopy = new DataNodeId();
-                dataNodeIdCopy.Id = dataNodeId.Id;
                 dataNodeIdCopy.HostName = dataNodeId.HostName;
                 dataNodeIdCopy.IPAddress = dataNodeId.IPAddress;
 
@@ -49,19 +57,17 @@ namespace NameNode.Services
         }
 
         // Data nodes become dead if they haven't sent a hearbeat in the last 1000 milliseconds
-        private readonly int _heartBeatExpireIntervalMilliseconds = 1000;
+        public int HeartBeatExpireIntervalMilliseconds { get; set; } = 1000;
 
         // Check if a data node is dead
-        public bool IsDataNodeDead(DataNodeInfo dn)
+        private bool IsDataNodeDead(DataNodeInfo dn)
         {
-            return dn.LastUpdateTicks < DateTime.Now.AddMilliseconds(-_heartBeatExpireIntervalMilliseconds).Ticks;
+            return dn.LastUpdateTicks < _timeProvider.Now.AddMilliseconds(-HeartBeatExpireIntervalMilliseconds).Ticks;
         }
-
-        private readonly Random _random = new Random();
 
         public Guid GetRandomDataNodeId()
         {
-            return _dataNodes.Keys.ElementAt(_random.Next(_dataNodes.Count()));
+            return _dataNodes.Keys.ElementAt(_randomGenerator.Generate(_dataNodes.Count()));
         }
 
         public int LiveNodes => _dataNodes.Values.Count(c => !IsDataNodeDead(c));
