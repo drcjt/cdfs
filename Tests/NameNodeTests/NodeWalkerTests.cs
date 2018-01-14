@@ -11,13 +11,15 @@ namespace NameNodeTests
         {
             // Arrange
             var nodeWalker = new NodeWalker();
-            var root = new Node();
+            var rootDirectory = new Directory() { Name = "Root" };
+            var childDirectory = new Directory { Name = "A" };
+            rootDirectory.AddChild(childDirectory);
 
             // Act
-            var result = nodeWalker.GetNodeByPath(root, null);
+            var result = nodeWalker.GetNodeByPath(rootDirectory, null);
 
             // Assert
-            Assert.AreEqual(root, result);
+            Assert.AreEqual(rootDirectory, result);
         }
 
 
@@ -26,13 +28,31 @@ namespace NameNodeTests
         {
             // Arrange
             var nodeWalker = new NodeWalker();
-            var root = new Node();
+            var rootDirectory = new Directory() { Name = "Root" };
+            var childDirectory = new Directory { Name = "A" };
+            rootDirectory.AddChild(childDirectory);
 
             // Act
-            var result = nodeWalker.GetNodeByPath(root, "");
+            var result = nodeWalker.GetNodeByPath(rootDirectory, "");
 
             // Assert
-            Assert.AreEqual(root, result);
+            Assert.AreEqual(rootDirectory, result);
+        }
+
+        [Test]
+        public void GetNodeByPath_RootPath_ReturnsRoot()
+        {
+            // Arrange
+            var nodeWalker = new NodeWalker();
+            var rootDirectory = new Directory() { Name = "Root" };
+            var childDirectory = new Directory { Name = "A" };
+            rootDirectory.AddChild(childDirectory);
+
+            // Act
+            var result = nodeWalker.GetNodeByPath(rootDirectory, "\\");
+
+            // Assert
+            Assert.AreEqual(rootDirectory, result);
         }
 
         [Test]
