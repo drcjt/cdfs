@@ -10,6 +10,8 @@ namespace NameNode.Middleware
 {
     public class ErrorHandlingMiddleware
     {
+        // TODO : consider error handling in general as per https://www.devtrends.co.uk/blog/handling-errors-in-asp.net-core-web-api
+
         private readonly RequestDelegate _next;
         public ErrorHandlingMiddleware(RequestDelegate next)
         {

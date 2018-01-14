@@ -33,6 +33,8 @@ namespace DFSClient
             PerformRequest<object>(request);
         }
 
+        // TODO : review with respect to https://stackoverflow.com/questions/31516501/how-to-idiomatically-handle-http-error-codes-when-using-restsharp
+
         private T PerformRequest<T>(IRestRequest request) where T : new()
         {
             var response = Client.Execute<T>(request);
