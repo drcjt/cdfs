@@ -24,6 +24,6 @@ after_test:
 
     # Run sonarqube
     - choco install "msbuild-sonarqube-runner" -y
-    - MSBuild.SonarQube.Runner.exe begin /k:"Cdfs" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=%SONARQUBE_TOKEN%" /d:"sonar.organization=drcjt-github" /d:"sonar.exclusions=**/*.js" /d:"sonar.cs.opencover.reportsPaths=coverage.xml"
+    - MSBuild.SonarQube.Runner.exe begin /k:"Cdfs" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=%SONARQUBE_TOKEN%" /d:"sonar.organization=drcjt-github" /d:"sonar.exclusions=**/*.js" /d:"sonar.cs.opencover.reportsPaths=coverage.xml" /d:"sonar.coverage.exclusions=**/*Tests*"
     - msbuild "Cdfs.sln" /verbosity:normal
     - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=%SONARQUBE_TOKEN%"
