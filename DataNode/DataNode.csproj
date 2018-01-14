@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="refit" Version="4.0.1" />
+    <PackageReference Include="RestSharp" Version="106.2.1" />
     <PackageReference Include="StructureMap" Version="4.5.3" />
     <PackageReference Include="StructureMap.Microsoft.DependencyInjection" Version="1.4.0" />
   </ItemGroup>

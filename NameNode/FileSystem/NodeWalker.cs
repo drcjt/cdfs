@@ -14,7 +14,7 @@ namespace NameNode.FileSystem
 
                 foreach (var pathComponent in pathComponents)
                 {
-                    if (currentNode != null && currentNode is IDirectory)
+                    if (!string.IsNullOrEmpty(pathComponent) && currentNode != null && currentNode is IDirectory)
                     {
                         var childNode = (currentNode as IDirectory).GetChild(pathComponent);
                         currentNode = childNode ?? (stopAtLastExistingNode ? currentNode : null);

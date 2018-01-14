@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StructureMap;
 using NameNode.IoC;
 using Microsoft.Extensions.Logging;
+using NameNode.Middleware;
 
 namespace NameNode
 {
@@ -49,6 +50,7 @@ namespace NameNode
 
             app.UseStaticFiles();
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

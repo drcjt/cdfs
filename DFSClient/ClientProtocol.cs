@@ -1,15 +1,14 @@
-﻿using Newtonsoft.Json;
-using Protocols;
+﻿using Protocols;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Net;
 
 namespace DFSClient
 {
     public class ClientProtocol : IClientProtocol
     {
-        private HttpClient Client { get; set; }
+        private RestClient Client { get; set; }
 
         private const string RegisterOperation = "/DataNodeProtocol/Register";
         private const string SendHeartbeatOperation = "/DataNodeProtocol/SendHeartbeat";
@@ -17,71 +16,67 @@ namespace DFSClient
         private const string CreateOperation = "/ClientProtocol/Create";
         private const string AddBlockOperation = "/ClientProtocol/AddBlock";
         private const string MkdirOperation = "/ClientProtocol/Mkdir";
-        private const string DeleteOperation = "/ClientProtocol/Delete?filePath={0}";
-        private const string GetListingOperation = "/ClientProtocol/GetListing?filePath={0}";
+        private const string DeleteOperation = "/ClientProtocol/Delete";
+        private const string GetListingOperation = "/ClientProtocol/GetListing";
+
+        private const string SrcFileParameter = "srcFile";
+        private const string FilePathParameter = "filePath";
+        private const string DirectoryPathParameter = "directoryPath";
 
         public ClientProtocol(CommonSubOptions options)
         {
-            Client = new HttpClient { BaseAddress = new Uri(options.NameNodeUri) };
-            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            Client = new RestClient(options.NameNodeUri);
         }
 
-        public Guid RegisterDataNode(IDataNodeId dataNodeId)
+        private void PerformRequest(IRestRequest request)
         {
-            var serializedDataNodeId = JsonConvert.SerializeObject(dataNodeId);
-            var contentData = new StringContent(serializedDataNodeId, System.Text.Encoding.UTF8, "application/json");
-            var response = Client.PostAsync(RegisterOperation, contentData).Result;
-            return JsonConvert.DeserializeObject<Guid>(response.Content.ReadAsStringAsync().Result);
+            PerformRequest<object>(request);
         }
 
-        public void SendHeartbeat(Guid dataNodeGuid)
+        private T PerformRequest<T>(IRestRequest request) where T : new()
         {
-            var serializedDataNodeId = JsonConvert.SerializeObject(dataNodeGuid);
-            var contentData = new StringContent(serializedDataNodeId, System.Text.Encoding.UTF8, "application/json");
-            Client.PostAsync(SendHeartbeatOperation, contentData);
+            var response = Client.Execute<T>(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception(response.Content);
+            }
+            return response.Data;
         }
 
         public void Create(string srcFile, string filePath)
         {
-            var values = new Dictionary<string, string>
-            {
-                { "srcFile", srcFile },
-                { "filePath", filePath }
-            };
-            var contentData = new FormUrlEncodedContent(values);
-            Client.PostAsync(CreateOperation, contentData);
+            var request = new RestRequest(CreateOperation, Method.POST);
+            request.AddParameter(SrcFileParameter, srcFile);
+            request.AddParameter(FilePathParameter, filePath);
+            PerformRequest(request);
         }
 
         public LocatedBlock AddBlock(string srcFile)
         {
-            var values = new Dictionary<string, string>
-            {
-                { "srcFile", srcFile }
-            };
-            var contentData = new FormUrlEncodedContent(values);
-            var response = Client.PostAsync(AddBlockOperation, contentData).Result;
-            return JsonConvert.DeserializeObject<LocatedBlock>(response.Content.ReadAsStringAsync().Result);
+            var request = new RestRequest(AddBlockOperation, Method.POST);
+            request.AddParameter(SrcFileParameter, srcFile);
+            return PerformRequest<LocatedBlock>(request);
         }
 
         public void Delete(string filePath)
         {
-            Client.DeleteAsync(string.Format(DeleteOperation, filePath));
+            var request = new RestRequest(DeleteOperation, Method.DELETE);
+            request.AddParameter(FilePathParameter, filePath);
+            PerformRequest(request);
         }
 
         public void Mkdir(string directoryPath)
         {
-            var values = new Dictionary<string, string>
-            {
-                { "directoryPath", directoryPath }
-            };
-            var contentData = new FormUrlEncodedContent(values);
-            Client.PostAsync(MkdirOperation, contentData);
+            var request = new RestRequest(MkdirOperation, Method.POST);
+            request.AddParameter(DirectoryPathParameter, directoryPath);
+            PerformRequest(request);
         }
 
         public IList<CdfsFileStatus> GetListing(string filePath)
         {
-            var response = Client.GetAsync(string.Format(GetListingOperation, filePath)).Result;
-            return JsonConvert.DeserializeObject<IList<CdfsFileStatus>>(response.Content.ReadAsStringAsync().Result);
+            var request = new RestRequest(GetListingOperation);
+            request.AddParameter(FilePathParameter, filePath);
+            return PerformRequest<List<CdfsFileStatus>>(request);
         }
     }
 }
