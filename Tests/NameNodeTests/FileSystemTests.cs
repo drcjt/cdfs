@@ -252,5 +252,47 @@ namespace NameNodeTests
             Assert.IsTrue(result.Select(x => x.Name).Contains("File2"));
             Assert.IsTrue(result.Select(x => x.Name).Contains("Directory"));
         }
+
+        [Test]
+        public void GetFile_InvalidFilePath_ReturnsNull()
+        {
+            // Arrange
+            var stubLoggerFactory = new Mock<ILoggerFactory>();
+            stubLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
+            var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var stubNodeWalker = new Mock<INodeWalker>();
+
+            var fileSystem = new FileSystem(stubLoggerFactory.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
+
+            stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "Directory\\InvalidFile", true)).Returns<IFile>(null);
+
+            // Act
+            var result = fileSystem.GetFile("Directory\\InvalidFile");
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void GetFile_ValidDirectoryPath_ReturnsFile()
+        {
+            // Arrange
+            var stubLoggerFactory = new Mock<ILoggerFactory>();
+            stubLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
+            var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
+            var stubNodeWalker = new Mock<INodeWalker>();
+
+            var fileSystem = new FileSystem(stubLoggerFactory.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
+
+            var file1 = new File { Name = "File1" };
+
+            stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "Directory\\File1", false)).Returns(file1);
+
+            // Act
+            var result = fileSystem.GetFile("Directory\\File1");
+
+            // Assert
+            Assert.AreEqual(file1, result);
+        }
     }
 }
