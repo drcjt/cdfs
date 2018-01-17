@@ -1,6 +1,7 @@
 ﻿using NameNode.FileSystem;
 using NameNode.FileSystem.Interfaces;
 using NameNode.Services;
+using NameNode.Services.Interfaces;
 using NameNode.Status;
 using Protocols;
 using StructureMap;

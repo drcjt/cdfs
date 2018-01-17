@@ -1,7 +1,7 @@
 ﻿using Protocols;
 using System;
 
-namespace NameNode.Services
+namespace NameNode.Services.Interfaces
 {
     public interface IDataNodeRepository
     {

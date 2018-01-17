@@ -1,4 +1,4 @@
-﻿using NameNode.Services;
+﻿using NameNode.Services.Interfaces;
 
 namespace NameNode.Status
 {

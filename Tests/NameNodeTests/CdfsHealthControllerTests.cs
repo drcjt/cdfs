@@ -1,11 +1,9 @@
 ﻿using Moq;
 using NameNode.Controllers;
-using NameNode.Services;
+using NameNode.Services.Interfaces;
 using NameNode.Status;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NameNodeTests
 {

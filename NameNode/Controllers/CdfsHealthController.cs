@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NameNode.Models;
-using NameNode.Services;
+using NameNode.Services.Interfaces;
 using NameNode.Status;
 
 namespace NameNode.Controllers

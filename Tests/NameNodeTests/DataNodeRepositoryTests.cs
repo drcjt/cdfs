@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NameNode.Services;
+using NameNode.Services.Interfaces;
 using NUnit.Framework;
 using Protocols;
 using System;

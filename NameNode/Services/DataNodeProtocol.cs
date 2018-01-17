@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using NameNode.Services.Interfaces;
 using Protocols;
 using System;
 
