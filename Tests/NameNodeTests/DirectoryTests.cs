@@ -1,5 +1,6 @@
 ﻿using NameNode.FileSystem;
 using NUnit.Framework;
+using System.Collections;
 
 namespace NameNodeTests
 {
@@ -77,7 +78,7 @@ namespace NameNodeTests
         }
 
         [Test]
-        public void GetEnumerator_WithChildren_EnumeratesChildren()
+        public void GetEnumeratorOfINode_WithChildren_EnumeratesChildren()
         {
             // Arrange
             var nodeDirectory = new Directory();
@@ -96,6 +97,36 @@ namespace NameNodeTests
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual("Child_3", enumerator.Current.Name);
             Assert.IsFalse(enumerator.MoveNext());
+        }
+
+        [Test]
+        public void GetEnumerator_WithChildren_EnumeratesChildren()
+        {
+            // Arrange
+            var nodeDirectory = new Directory();
+            var child1 = new File() { Name = "Child_1" };
+            var child2 = new File() { Name = "Child_2" };
+            var child3 = new File() { Name = "Child_3" };
+            nodeDirectory.AddChild(child1);
+            nodeDirectory.AddChild(child2);
+            nodeDirectory.AddChild(child3);
+
+            // Act
+            var enumerator = nodeDirectory.AsEnumerable();
+
+            // Assert
+            CollectionAssert.AreEqual(new[] { child1, child2, child3 }, enumerator);
+        }
+    }
+
+    public static class EnumeratorHelper
+    {
+        public static IEnumerable AsEnumerable(this IEnumerable source)
+        {
+            foreach (var o in source)
+            {
+                yield return o;
+            }
         }
     }
 }
