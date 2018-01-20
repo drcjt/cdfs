@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NameNode.Models;
+using NameNode.Models.Builders;
 using NameNode.Services.Interfaces;
 using NameNode.Status;
 
@@ -10,10 +11,6 @@ namespace NameNode.Controllers
         private readonly INameNodeStatus _nameNodeStatus;
         private readonly IDataNodesStatus _dataNodesStatus;
 
-        public CdfsHealthController()
-        {
-        }
-
         public CdfsHealthController(INameNodeStatus nameNodeStatus, IDataNodesStatus dataNodesStatus)
         {
             _nameNodeStatus = nameNodeStatus;
@@ -22,19 +19,7 @@ namespace NameNode.Controllers
 
         public ActionResult Index()
         {
-            return View(CreateModel());
-        }
-
-        public NameNodeStatusModel CreateModel()
-        {
-            var model = new NameNodeStatusModel
-            {
-                Started = _nameNodeStatus.Started,
-                LiveNodes = _dataNodesStatus.LiveNodes,
-                DeadNodes = _dataNodesStatus.DeadNodes
-            };
-
-            return model;
+            return View(NameNodeStatusModelBuilder.CreateModel(_nameNodeStatus, _dataNodesStatus));
         }
     }
 }

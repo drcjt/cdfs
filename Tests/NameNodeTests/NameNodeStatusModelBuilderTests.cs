@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NameNode.Controllers;
+using NameNode.Models.Builders;
 using NameNode.Services.Interfaces;
 using NameNode.Status;
 using NUnit.Framework;
@@ -8,7 +9,7 @@ using System;
 namespace NameNodeTests
 {
     [TestFixture]
-    class CdfsHealthControllerTests
+    class NameNodeStatusModelBuilderTests
     {
         [Test]
         public void CreateModel_Always_ReturnsModel()
@@ -23,10 +24,9 @@ namespace NameNodeTests
             var mockDataNodesStatus = new Mock<IDataNodesStatus>();
             mockDataNodesStatus.Setup(x => x.DeadNodes).Returns(deadNodes);
             mockDataNodesStatus.Setup(x => x.LiveNodes).Returns(liveNodes);
-            var controller = new CdfsHealthController(mockNameNodeStatus.Object, mockDataNodesStatus.Object);
 
             // Act
-            var result = controller.CreateModel();
+            var result = NameNode.Models.Builders.NameNodeStatusModelBuilder.CreateModel(mockNameNodeStatus.Object, mockDataNodesStatus.Object);
 
             // Assert
             Assert.AreEqual(startedDateTime, result.Started);

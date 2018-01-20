@@ -3,6 +3,7 @@ using NameNode.Controllers;
 using NameNode.FileSystem;
 using NameNode.FileSystem.Interfaces;
 using NameNode.Models;
+using NameNode.Models.Builders;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,12 @@ using System.Text;
 namespace NameNodeTests
 {
     [TestFixture]
-    class ExplorerControllerTests
+    class FileStatusModelBuilderTests
     {
         [Test]
         public void CreateModel_ValidDirectoryPath_ReturnsStatusModel()
         {
+            // Arrange
             const string directoryPath = "directoryPath";
             const string directoryName = "directory";
             const string subDirectoryName = "subdirectory";
@@ -26,15 +28,10 @@ namespace NameNodeTests
             var childDirectory = new Directory { Name = subDirectoryName, Parent = rootNode };
             var childFile = new File { Name = fileName, Parent = childDirectory };
 
-            IList<INode> listing = new List<INode> { childFile };
-            
-            // Arrange
-            var mockFileSystem = new Mock<IFileSystem>();
-            mockFileSystem.Setup(x => x.GetListing(directoryPath)).Returns(listing);
-            var controller = new ExplorerController(mockFileSystem.Object);
+            IList<INode> files = new List<INode> { childFile };            
 
             // Act
-            var result = controller.CreateModel(directoryPath);
+            var result = FileStatusModelBuilder.CreateModel(directoryPath, files);
 
             // Assert
             Assert.IsNotNull(result);

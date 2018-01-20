@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NameNode.FileSystem.Interfaces;
 using NameNode.Models;
+using NameNode.Models.Builders;
 
 namespace NameNode.Controllers
 {
@@ -13,24 +14,10 @@ namespace NameNode.Controllers
             _fileSystem = fileSystem;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string path)
         {
-            return View(CreateModel(Request.Query["path"]));
-        }
-
-        public FileStatusModel CreateModel(string directoryPath)
-        {
-            var model = new FileStatusModel
-            {
-                Files = new List<FileStatus>()
-            };
-            var files = _fileSystem.GetListing(directoryPath);
-            foreach (var file in files)
-            {
-                model.Files.Add(new FileStatus() { Name = file.Name, IsFile = file is IFile, FullPath = file.FullPath });
-            }
-
-            return model;
+            var files = _fileSystem.GetListing(path);
+            return View(FileStatusModelBuilder.CreateModel(path, files));
         }
     }
 }
