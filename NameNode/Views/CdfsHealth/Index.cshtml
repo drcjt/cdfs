@@ -35,13 +35,21 @@
 
     <div class="container">
 
+        <div class="page-header"><h1>Overview</h1></div>
         <table class="table table-bordered table-striped">
             <tr><th>Started:</th><td>@Html.DisplayFor(model => model.Started)</td></tr>
+        </table>
+
+        <div class="page-header"><h1>Summary</h1></div>
+        <table class="table table-bordered table-striped">
             <tr><th>Live Nodes:</th><td>@Html.DisplayFor(model => model.LiveNodes)</td></tr>
             <tr><th>Dead Nodes:</th><td>@Html.DisplayFor(model => model.DeadNodes)</td></tr>
-        </table> 
+        </table>
 
-        <div class="row"><p>Cdfs, 2017.</p></div>
+        <div class="row">
+            <hr/>
+            <div class="col-xs-2"><p>Cdfs, 2017.</p></div>
+        </div>
     </div>
 </body>
 </html>
