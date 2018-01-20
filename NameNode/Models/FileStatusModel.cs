@@ -7,6 +7,7 @@ namespace NameNode.Models
 {
     public class FileStatusModel
     {
+        public string Directory { get; set; }
         public IList<FileStatus> Files { get; set; }
     }
 

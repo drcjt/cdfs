@@ -58,7 +58,7 @@ namespace NameNode.Services
         }
 
         // Data nodes become dead if they haven't sent a hearbeat in the last 1000 milliseconds
-        public int HeartBeatExpireIntervalMilliseconds { get; set; } = 1000;
+        public int HeartBeatExpireIntervalMilliseconds { get; set; } = 10000;
 
         // Check if a data node is dead
         private bool IsDataNodeDead(DataNodeInfo dn)

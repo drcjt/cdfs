@@ -23,5 +23,24 @@ namespace NameNode.FileSystem
         {
             return path1 == null ? null : Path.Combine(path1, path2);
         }
+
+        public static string GetFullPath(string path)
+        {
+            var fullPath = Path.DirectorySeparatorChar.ToString();
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                if (!path.StartsWith(Path.DirectorySeparatorChar))
+                {
+                    fullPath += path;
+                }
+                else
+                {
+                    fullPath = path;
+                }
+            }
+
+            return fullPath;
+        }
     }
 }

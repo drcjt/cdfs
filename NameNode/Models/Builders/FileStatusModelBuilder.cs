@@ -1,8 +1,6 @@
-﻿using NameNode.FileSystem.Interfaces;
-using System;
+﻿using NameNode.FileSystem;
+using NameNode.FileSystem.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NameNode.Models.Builders
 {
@@ -12,8 +10,10 @@ namespace NameNode.Models.Builders
         {
             var model = new FileStatusModel
             {
+                Directory = FileSystemPath.GetFullPath(directoryPath),
                 Files = new List<FileStatus>()
             };
+
             foreach (var file in files)
             {
                 model.Files.Add(new FileStatus() { Name = file.Name, IsFile = file is IFile, FullPath = file.FullPath });
