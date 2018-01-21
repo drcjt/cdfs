@@ -17,6 +17,7 @@ test_script:
    - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/NameNodeTests\NameNodeTests.csproj" -output:coverage.xml -returntargetcode -mergeoutput
    - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/DataNodeTests\DataNodeTests.csproj" -output:coverage.xml -returntargetcode -mergeoutput
    - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/DFSClientTests\DFSClientTests.csproj" -output:coverage.xml -returntargetcode -mergeoutput
+   - c:\users\appveyor\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -oldStyle -register:user -filter:"+[*]* -[*Tests*]* -[Moq*]*" -target:"dotnet.exe" -targetargs:"test /p:DebugType=full ./Tests/NameNodeIntegrationTests\NameNodeIntegrationTests.csproj" -output:coverage.xml -returntargetcode -mergeoutput
     
 after_test: 
     # Upload coverage to coveralls
