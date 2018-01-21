@@ -6,7 +6,7 @@ using System.Net;
 
 namespace DFSClient
 {
-    public class ClientProtocol : RestClient, IRestClientProtocol
+    public class ClientProtocol : IRestClientProtocol
     {
         private const string CreateOperation = "/ClientProtocol/Create";
         private const string AddBlockOperation = "/ClientProtocol/AddBlock";
@@ -18,6 +18,25 @@ namespace DFSClient
         private const string FilePathParameter = "filePath";
         private const string DirectoryPathParameter = "directoryPath";
 
+        private readonly IRestClient _restClient;
+
+        public ClientProtocol(IRestClient restClient)
+        {
+            _restClient = restClient;
+        }
+
+        public Uri BaseUrl
+        {
+            get
+            {
+                return _restClient.BaseUrl;
+            }
+            set
+            {
+                _restClient.BaseUrl = value;
+            }
+        }
+
         private void PerformRequest(IRestRequest request)
         {
             PerformRequest<object>(request);
@@ -27,7 +46,7 @@ namespace DFSClient
 
         private T PerformRequest<T>(IRestRequest request) where T : new()
         {
-            var response = Execute<T>(request);
+            var response = _restClient.Execute<T>(request);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new Exception(response.Content);

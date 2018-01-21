@@ -6,7 +6,8 @@ using System.Text;
 
 namespace DFSClient
 {
-    public interface IRestClientProtocol : IRestClient, IClientProtocol 
+    public interface IRestClientProtocol : IClientProtocol 
     {
+        Uri BaseUrl { get; set; }
     }
 }
