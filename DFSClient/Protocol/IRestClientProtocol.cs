@@ -1,10 +1,7 @@
 ﻿using Protocols;
-using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DFSClient
+namespace DFSClient.Protocol
 {
     public interface IRestClientProtocol : IClientProtocol 
     {

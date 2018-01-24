@@ -1,13 +1,10 @@
-﻿using DFSClient;
+﻿using DFSClient.Protocol;
 using Moq;
 using NUnit.Framework;
 using Protocols;
 using RestSharp;
-using SemanticComparison.Fluent;
-using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace DFSClientTests
 {

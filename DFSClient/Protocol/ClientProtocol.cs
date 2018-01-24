@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace DFSClient
+namespace DFSClient.Protocol
 {
     public class ClientProtocol : IRestClientProtocol
     {

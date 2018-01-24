@@ -1,8 +1,9 @@
-﻿using DFSClient.Commands;
-using Protocols;
+﻿using DFSClient.CommandBuilders;
+using DFSClient.Commands;
+using DFSClient.Options;
+using DFSClient.Protocol;
 using RestSharp;
 using StructureMap;
-using System;
 
 namespace DFSClient
 {
@@ -23,6 +24,12 @@ namespace DFSClient
                 c.For<ICommandHandler<PutCommand>>().Use<PutCommandHandler>();
                 c.For<ICommandHandler<MkdirCommand>>().Use<MkdirCommandHandler>();
                 c.For<ICommandHandler<DeleteCommand>>().Use<DeleteCommandHandler>();
+
+                c.For<ICommandFactory>().Use<CommandFactory>();
+                c.For<ICommandBuilder<ListingSubOptions>>().Use<ListingCommandBuilder>();
+                c.For<ICommandBuilder<PutSubOptions>>().Use<PutCommandBuilder>();
+                c.For<ICommandBuilder<MkdirSubOptions>>().Use<MkdirCommandBuilder>();
+                c.For<ICommandBuilder<DeleteSubOptions>>().Use<DeleteCommandBuilder>();
             });
 
             var host = container.GetInstance<IClientHost>();

@@ -1,4 +1,6 @@
-﻿namespace DFSClient.Commands
+﻿using DFSClient.Protocol;
+
+namespace DFSClient.Commands
 {
     public class DeleteCommand : ICommand
     {

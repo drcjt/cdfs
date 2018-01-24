@@ -1,8 +1,5 @@
-﻿using DFSClient;
+﻿using DFSClient.Options;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DFSClientTests
 {

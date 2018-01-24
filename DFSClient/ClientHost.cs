@@ -1,8 +1,8 @@
-﻿using DFSClient.Commands;
-using Protocols;
+﻿using DFSClient.CommandBuilders;
+using DFSClient.Commands;
+using DFSClient.Options;
+using DFSClient.Protocol;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DFSClient
 {
@@ -12,12 +12,14 @@ namespace DFSClient
         private readonly IRestClientProtocol _clientProtocol;
         private readonly IConsole _console;
         private readonly ICommandDispatcher _commandDispatcher;
-        public ClientHost(IOptionParser optionParser, IRestClientProtocol clientProtocol, IConsole console, ICommandDispatcher commandDispatcher)
+        private readonly ICommandFactory _commandFactory;
+        public ClientHost(IOptionParser optionParser, IRestClientProtocol clientProtocol, IConsole console, ICommandDispatcher commandDispatcher, ICommandFactory commandFactory)
         {
             _optionParser = optionParser;
             _clientProtocol = clientProtocol;
             _console = console;
             _commandDispatcher = commandDispatcher;
+            _commandFactory = commandFactory;
         }
 
         public void Run(string[] args)
@@ -25,14 +27,10 @@ namespace DFSClient
             var options = _optionParser.ParseOptions(args);
             if (options != null)
             {
-                Run(options);
+                _clientProtocol.BaseUrl = new Uri(options.NameNodeUri);
+                var command = _commandFactory.Build(options);
+                _commandDispatcher.Dispatch(command);
             }
-        }
-
-        private void Run(CommonSubOptions options)
-        {
-            _clientProtocol.BaseUrl = new Uri(options.NameNodeUri);
-            _commandDispatcher.Dispatch(options.Command);
         }
     }
 }
