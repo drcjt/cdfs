@@ -10,14 +10,12 @@ namespace DFSClient
     {
         private readonly IOptionParser _optionParser;
         private readonly IRestClientProtocol _clientProtocol;
-        private readonly IConsole _console;
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly ICommandFactory _commandFactory;
-        public ClientHost(IOptionParser optionParser, IRestClientProtocol clientProtocol, IConsole console, ICommandDispatcher commandDispatcher, ICommandFactory commandFactory)
+        public ClientHost(IOptionParser optionParser, IRestClientProtocol clientProtocol, ICommandDispatcher commandDispatcher, ICommandFactory commandFactory)
         {
             _optionParser = optionParser;
             _clientProtocol = clientProtocol;
-            _console = console;
             _commandDispatcher = commandDispatcher;
             _commandFactory = commandFactory;
         }
