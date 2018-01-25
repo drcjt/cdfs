@@ -1,30 +1,38 @@
-﻿using DataNode.Options;
-using Newtonsoft.Json;
-using Protocols;
+﻿using Protocols;
 using RestSharp;
 using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
 
 namespace DataNode.ProtocolWrappers
 {
-    public class DataNodeProtocol : IDataNodeProtocol
+    public class DataNodeProtocol : IRestDataNodeProtocol
     {
-        private RestClient Client { get; set; }
-
         private const string RegisterOperation = "/DataNodeProtocol/Register";
         private const string SendHeartbeatOperation = "/DataNodeProtocol/SendHeartbeat";
 
-        public DataNodeProtocol(IDataNodeOptions options)
+        private readonly IRestClient _restClient;
+
+        public DataNodeProtocol(IRestClient restClient)
         {
-            Client = new RestClient(options.NameNodeUri);
+            _restClient = restClient;
+        }
+
+        public Uri BaseUrl
+        {
+            get
+            {
+                return _restClient.BaseUrl;
+            }
+            set
+            {
+                _restClient.BaseUrl = value;
+            }
         }
 
         public Guid RegisterDataNode(IDataNodeId dataNodeId)
         {
             var request = new RestRequest(RegisterOperation, Method.POST);
             request.AddJsonBody(dataNodeId);
-            var restResponse = Client.Execute<Guid>(request);
+            var restResponse = _restClient.Execute<Guid>(request);
             return restResponse.Data;
         }
 
@@ -32,7 +40,7 @@ namespace DataNode.ProtocolWrappers
         {
             var request = new RestRequest(SendHeartbeatOperation, Method.POST);
             request.AddJsonBody(dataNodeGuid);
-            Client.Execute(request);
+            _restClient.Execute(request);
         }
     }
 }

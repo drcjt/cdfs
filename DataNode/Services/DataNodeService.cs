@@ -1,29 +1,31 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DataNode.Options;
+using DataNode.ProtocolWrappers;
+using Microsoft.Extensions.Configuration;
 using Protocols;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace DataNode.Services
 {
     public class DataNodeService : IDataNodeApplication
     {
-        private readonly IDataNodeProtocol _nameNode;
+        private readonly IRestDataNodeProtocol _nameNode;
+        private readonly IDataNodeOptions _dataNodeOptions;
         private Guid ID { get; set; }
 
-        public DataNodeService(IDataNodeProtocol nameNode, IConfiguration configuration)
+        public DataNodeService(IRestDataNodeProtocol nameNode, IConfiguration configuration, IDataNodeOptions dataNodeOptions)
         {
             _nameNode = nameNode;
+            _dataNodeOptions = dataNodeOptions;
         }
 
         public void Run()
         {
             var dataNodeId = new DataNodeId { IPAddress = GetLocalIPAddress(), HostName = Dns.GetHostName() };
 
+            _nameNode.BaseUrl = new Uri(_dataNodeOptions.NameNodeUri);
             ID = _nameNode.RegisterDataNode(dataNodeId);
 
             var timer = new Timer(1000);
