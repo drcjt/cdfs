@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{32C927B0-5886-4CD4-8727-E9BC16385678}"
 EndProject
@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolsTests", "Tests\Pro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataNodeIntegrationTests", "Tests\DataNodeIntegrationTests\DataNodeIntegrationTests.csproj", "{7CBD43B3-8A5D-4DD6-B45F-48FCBE7BD010}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFSClientIntegrationTests", "Tests\DFSClientIntegrationTests\DFSClientIntegrationTests.csproj", "{537F1D7F-4C3D-43FF-AA0C-ADC2D72D6531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFSClientIntegrationTests", "Tests\DFSClientIntegrationTests\DFSClientIntegrationTests.csproj", "{537F1D7F-4C3D-43FF-AA0C-ADC2D72D6531}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
