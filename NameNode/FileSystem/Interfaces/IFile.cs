@@ -6,7 +6,7 @@ namespace NameNode.FileSystem.Interfaces
     public interface IFile : INode
     {
         // Get blocks for the file
-        IList<Block> GetBlocks();
+        ICollection<Block> GetBlocks();
 
         // Add new block for the file
         void AddBlock(Block block);

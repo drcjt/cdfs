@@ -100,7 +100,7 @@ namespace NameNode.FileSystem
             OnFileSystemChanged();
         }
 
-        public IList<INode> GetListing(string directoryPath)
+        public ICollection<INode> GetListing(string directoryPath)
         {
             var directory = _walker.GetNodeByPath(Root, directoryPath, true) as IDirectory;
 

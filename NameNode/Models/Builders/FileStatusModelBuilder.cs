@@ -6,7 +6,7 @@ namespace NameNode.Models.Builders
 {
     static public class FileStatusModelBuilder
     {
-        static public FileStatusModel CreateModel(string directoryPath, IList<INode> files)
+        static public FileStatusModel CreateModel(string directoryPath, ICollection<INode> files)
         {
             var model = new FileStatusModel
             {

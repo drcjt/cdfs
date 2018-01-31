@@ -32,11 +32,11 @@ namespace NameNode.Services
             _fileSystem.Mkdir(directoryPath);
         }
 
-        public IList<CdfsFileStatus> GetListing(string filePath)
+        public ICollection<CdfsFileStatus> GetListing(string filePath)
         {
             var nodes = _fileSystem.GetListing(filePath);
 
-            IList<CdfsFileStatus> results = new List<CdfsFileStatus>();
+            ICollection<CdfsFileStatus> results = new List<CdfsFileStatus>();
             foreach (var inode in nodes)
             {
                 var fileStatus = new CdfsFileStatus() { FilePath = inode.Name, IsDirectory = inode is IDirectory };

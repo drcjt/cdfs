@@ -62,6 +62,7 @@ namespace DataNodeTests
             _mockRestClient.Verify(x => x.Execute(It.Is<RestRequest>(r => VerifyRestRequest(restRequest, r))));
         }
 
+        // TODO: Try using fluent assertions to remove this method
         private bool VerifyRestRequest(RestRequest expected, RestRequest actual)
         {
             bool result = true;

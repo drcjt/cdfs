@@ -15,8 +15,8 @@ namespace DFSClientTests
         public void Handle_WithPutCommand_CallsPutAPI()
         {
             const string testFilePath = "TestFilePath";
-            CdfsFileStatus expectedFileStatus = new CdfsFileStatus();
-            IList<CdfsFileStatus> expectedFileList = new List<CdfsFileStatus>() { expectedFileStatus };
+            var expectedFileStatus = new CdfsFileStatus();
+            var expectedFileList = new List<CdfsFileStatus>() { expectedFileStatus };
 
             // Arrange
             var mockClientProtocol = new Mock<IRestClientProtocol>();

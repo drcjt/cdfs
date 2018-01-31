@@ -7,7 +7,7 @@ namespace NameNode.FileSystem
 {
     public class Directory : Node, IDirectory
     {
-        private readonly IList<INode> _children = new List<INode>();
+        private readonly ICollection<INode> _children = new List<INode>();
 
         public int ChildCount { get => _children.Count; }
 

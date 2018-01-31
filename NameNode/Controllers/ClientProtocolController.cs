@@ -42,7 +42,7 @@ namespace NameNode.Controllers
         }
 
         [HttpGet]
-        public IList<CdfsFileStatus> GetListing(string filePath)
+        public ICollection<CdfsFileStatus> GetListing(string filePath)
         {
             return _clientProtocol.GetListing(filePath);
         }       

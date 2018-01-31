@@ -125,6 +125,7 @@ namespace DFSClientTests
             Assert.AreEqual(result, restResponse.Data);
         }
 
+        // TODO: Try using fluent assertions to remove this method
         private bool VerifyRestRequest(RestRequest expected, RestRequest actual)
         {
             bool result = true;

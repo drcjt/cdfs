@@ -9,7 +9,7 @@ namespace NameNode.FileSystem.Interfaces
         void Create(string srcFile, string directoryPath);
         void Delete(string filePath);
         void Mkdir(string directoryPath);
-        IList<INode> GetListing(string directoryPath);
+        ICollection<INode> GetListing(string directoryPath);
 
         IFile GetFile(string srcFile);
     }

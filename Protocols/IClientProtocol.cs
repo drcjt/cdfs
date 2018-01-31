@@ -10,6 +10,6 @@ namespace Protocols
         LocatedBlock AddBlock(string srcFile);
         void Delete(string filePath);
         void Mkdir(string directoryPath);
-        IList<CdfsFileStatus> GetListing(string filePath);
+        ICollection<CdfsFileStatus> GetListing(string filePath);
     }
 }

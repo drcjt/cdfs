@@ -83,7 +83,7 @@ namespace DFSClient.Protocol
             PerformRequest(request);
         }
 
-        public IList<CdfsFileStatus> GetListing(string filePath)
+        public ICollection<CdfsFileStatus> GetListing(string filePath)
         {
             var request = new RestRequest(GetListingOperation);
             request.AddParameter(FilePathParameter, filePath);

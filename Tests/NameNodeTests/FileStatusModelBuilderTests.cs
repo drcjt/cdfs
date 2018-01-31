@@ -28,7 +28,7 @@ namespace NameNodeTests
             var childDirectory = new Directory { Name = subDirectoryName, Parent = rootNode };
             var childFile = new File { Name = fileName, Parent = childDirectory };
 
-            IList<INode> files = new List<INode> { childFile };            
+            var files = new List<INode> { childFile };            
 
             // Act
             var result = FileStatusModelBuilder.CreateModel(directoryPath, files);

@@ -8,6 +8,6 @@ namespace Protocols
     {
         public Block Block { get; set; }
 
-        public IList<DataNodeId> Locations { get; set; }
+        public ICollection<DataNodeId> Locations { get; set; }
     }
 }
