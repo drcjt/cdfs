@@ -59,15 +59,15 @@ namespace NameNodeTests
         {
             // Arrange
             var mockClientProtocol = new Mock<IClientProtocol>();
-            var mockListing = new List<CdfsFileStatus> { new CdfsFileStatus() };
-            mockClientProtocol.Setup(x => x.GetListing("filePath")).Returns(mockListing);
+            var listing = new List<CdfsFileStatus> { new CdfsFileStatus() };
+            mockClientProtocol.Setup(x => x.GetListing("filePath")).Returns(listing);
             var controller = new ClientProtocolController(mockClientProtocol.Object);
 
             // Act
             var result = controller.GetListing("filePath");
 
             // Assert
-            CollectionAssert.AreEqual(mockListing, result);
+            CollectionAssert.AreEqual(listing, result);
             mockClientProtocol.VerifyAll();
         }
     }

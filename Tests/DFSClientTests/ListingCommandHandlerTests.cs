@@ -19,17 +19,16 @@ namespace DFSClientTests
             var expectedFileList = new List<CdfsFileStatus>() { expectedFileStatus };
 
             // Arrange
-            var mockClientProtocol = new Mock<IRestClientProtocol>();
+            var stubClientProtocol = new Mock<IRestClientProtocol>();
             var mockConsole = new Mock<IConsole>();
-            var sut = new ListingCommandHandler(mockClientProtocol.Object, mockConsole.Object);
-            var stubListingCommand = new ListingCommand() { FilePath = testFilePath };
-            mockClientProtocol.Setup(x => x.GetListing(testFilePath)).Returns(expectedFileList);
+            var sut = new ListingCommandHandler(stubClientProtocol.Object, mockConsole.Object);
+            var listingCommand = new ListingCommand() { FilePath = testFilePath };
+            stubClientProtocol.Setup(x => x.GetListing(testFilePath)).Returns(expectedFileList);
 
             // Act
-            sut.Handle(stubListingCommand);
+            sut.Handle(listingCommand);
 
             // Assert
-            mockClientProtocol.Verify(x => x.GetListing(testFilePath));
             mockConsole.Verify(x => x.WriteLine(expectedFileStatus));
         }
     }

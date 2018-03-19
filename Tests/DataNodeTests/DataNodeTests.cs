@@ -19,12 +19,12 @@ namespace DataNodeTests
             var mockDataNodeProtocol = new Mock<IRestDataNodeProtocol>();
             mockDataNodeProtocol.Setup(x => x.RegisterDataNode(It.IsAny<DataNodeId>())).Returns(Guid.NewGuid());
 
-            var mockConfiguration = new Mock<IConfiguration>();
+            var stubConfiguration = new Mock<IConfiguration>();
 
-            var mockDataNodeOptions = new Mock<IDataNodeOptions>();
-            mockDataNodeOptions.SetupGet(x => x.NameNodeUri).Returns("http://localhost");
+            var stubDataNodeOptions = new Mock<IDataNodeOptions>();
+            stubDataNodeOptions.SetupGet(x => x.NameNodeUri).Returns("http://localhost");
 
-            var sut = new DataNodeService(mockDataNodeProtocol.Object, mockConfiguration.Object, mockDataNodeOptions.Object);
+            var sut = new DataNodeService(mockDataNodeProtocol.Object, stubConfiguration.Object, stubDataNodeOptions.Object);
 
             // Act
             sut.Run();
@@ -40,11 +40,11 @@ namespace DataNodeTests
             var mockDataNodeProtocol = new Mock<IRestDataNodeProtocol>();
             mockDataNodeProtocol.Setup(x => x.SendHeartbeat(It.IsAny<Guid>()));
 
-            var mockConfiguration = new Mock<IConfiguration>();
+            var stubConfiguration = new Mock<IConfiguration>();
 
-            var mockDataNodeOptions = new Mock<IDataNodeOptions>();
+            var stubDataNodeOptions = new Mock<IDataNodeOptions>();
 
-            var sut = new DataNodeService(mockDataNodeProtocol.Object, mockConfiguration.Object, mockDataNodeOptions.Object);
+            var sut = new DataNodeService(mockDataNodeProtocol.Object, stubConfiguration.Object, stubDataNodeOptions.Object);
 
             // Act
             sut.SendHeartbeat(null, null);

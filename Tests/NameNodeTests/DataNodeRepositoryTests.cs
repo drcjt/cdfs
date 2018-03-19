@@ -55,21 +55,21 @@ namespace NameNodeTests
             stubRandomGenerator.Setup(x => x.Generate(It.IsAny<int>())).Returns(0);
             var stubTimeProvider = new Mock<ITimeProvider>();
             var sut = new DataNodeRepository(stubRandomGenerator.Object, stubTimeProvider.Object);
-            var mockDataNodeId = new DataNodeId()
+            var dataNodeId = new DataNodeId()
             {
                 IPAddress = "IPAddress",
                 HostName = "HostName",
             };
-            var dataNodeId = sut.AddDataNode(mockDataNodeId);
+            var dataNodeGuid = sut.AddDataNode(dataNodeId);
 
             // Act
-            var result = sut.GetDataNodeDescriptorById(dataNodeId);
+            var result = sut.GetDataNodeDescriptorById(dataNodeGuid);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreNotEqual(result, mockDataNodeId); // Validate result is a copy of the original DataNodeId object
-            Assert.AreEqual(mockDataNodeId.IPAddress, result.IPAddress);
-            Assert.AreEqual(mockDataNodeId.HostName, result.HostName);
+            Assert.AreNotEqual(result, dataNodeId); // Validate result is a copy of the original DataNodeId object
+            Assert.AreEqual(dataNodeId.IPAddress, result.IPAddress);
+            Assert.AreEqual(dataNodeId.HostName, result.HostName);
         }
 
         [Test]
@@ -112,18 +112,18 @@ namespace NameNodeTests
             stubRandomGenerator.Setup(x => x.Generate(It.IsAny<int>())).Returns(0);
             var stubTimeProvider = new Mock<ITimeProvider>();
             var sut = new DataNodeRepository(stubRandomGenerator.Object, stubTimeProvider.Object);
-            var mockDataNodeId = new DataNodeId()
+            var dataNodeId = new DataNodeId()
             {
                 IPAddress = "IPAddress",
                 HostName = "HostName",
             };
-            var dataNodeId = sut.AddDataNode(mockDataNodeId);
+            var dataNodeGuid = sut.AddDataNode(dataNodeId);
 
             // Act
             var result = sut.GetRandomDataNodeId();
 
             // Assert
-            Assert.AreEqual(dataNodeId, result);
+            Assert.AreEqual(dataNodeGuid, result);
         }
 
         [Test]
@@ -135,12 +135,12 @@ namespace NameNodeTests
             var stubTimeProvider = new Mock<ITimeProvider>();
             stubTimeProvider.Setup(x => x.Now).Returns(DateTime.Now);
             var sut = new DataNodeRepository(stubRandomGenerator.Object, stubTimeProvider.Object);
-            var mockDataNodeId = new DataNodeId()
+            var dataNodeId = new DataNodeId()
             {
                 IPAddress = "IPAddress",
                 HostName = "HostName",
             };
-            sut.AddDataNode(mockDataNodeId);
+            sut.AddDataNode(dataNodeId);
 
             // Act
             var result = sut.LiveNodes;
@@ -159,12 +159,12 @@ namespace NameNodeTests
             var sut = new DataNodeRepository(stubRandomGenerator.Object, stubTimeProvider.Object);
             var now = DateTime.Now;
             stubTimeProvider.Setup(x => x.Now).Returns(now);
-            var mockDataNodeId = new DataNodeId()
+            var dataNodeId = new DataNodeId()
             {
                 IPAddress = "IPAddress",
                 HostName = "HostName",
             };
-            var dataNodeId = sut.AddDataNode(mockDataNodeId);
+            sut.AddDataNode(dataNodeId);
 
             stubTimeProvider.Setup(x => x.Now).Returns(now.AddMilliseconds(sut.HeartBeatExpireIntervalMilliseconds + 1));
 

@@ -16,9 +16,9 @@ namespace NameNodeTests
         {
             // Arrange
             var stubDataNodeRepository = new Mock<IDataNodeRepository>();
-            var mockDataNodeId = new Mock<IDataNodeId>();
+            var stubDataNodeId = new Mock<IDataNodeId>();
             var expectedDataNodeID = Guid.NewGuid();
-            stubDataNodeRepository.Setup(x => x.AddDataNode(mockDataNodeId.Object)).Returns(expectedDataNodeID);
+            stubDataNodeRepository.Setup(x => x.AddDataNode(stubDataNodeId.Object)).Returns(expectedDataNodeID);
 
             var stubDateTimeProvider = new Mock<IDateTimeProvider>();
 
@@ -28,7 +28,7 @@ namespace NameNodeTests
             var dataNodeProtocol = new DataNodeProtocol(stubLoggerFactory.Object, stubDataNodeRepository.Object, stubDateTimeProvider.Object);
 
             // Act
-            var dataNodeID = dataNodeProtocol.RegisterDataNode(mockDataNodeId.Object);
+            var dataNodeID = dataNodeProtocol.RegisterDataNode(stubDataNodeId.Object);
 
             // Assert
             Assert.AreEqual(expectedDataNodeID, dataNodeID);
@@ -45,10 +45,10 @@ namespace NameNodeTests
             var mockDataNodeRepository = new Mock<IDataNodeRepository>();
             var dataNodeID = Guid.NewGuid();
 
-            var mockLoggerFactory = new Mock<ILoggerFactory>();
-            mockLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
+            var stubLoggerFactory = new Mock<ILoggerFactory>();
+            stubLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
 
-            var dataNodeProtocol = new DataNodeProtocol(mockLoggerFactory.Object, mockDataNodeRepository.Object, stubDateTimeProvider.Object);
+            var dataNodeProtocol = new DataNodeProtocol(stubLoggerFactory.Object, mockDataNodeRepository.Object, stubDateTimeProvider.Object);
 
             // Act
             dataNodeProtocol.SendHeartbeat(dataNodeID);

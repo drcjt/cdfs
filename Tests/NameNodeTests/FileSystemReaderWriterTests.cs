@@ -13,7 +13,7 @@ namespace NameNodeTests
     class FileSystemReaderWriterTests
     {
         [Test]
-        public void WriteFileSystem_EmptyRootDirectory_SerailizesAndWritesDirectory()
+        public void WriteFileSystem_EmptyRootDirectory_WritesSerializedRootDirectory()
         {
             // Arrange
             var rootDirectory = new Directory { Name = "Root" };
@@ -22,21 +22,20 @@ namespace NameNodeTests
             stubLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
 
             var mockFileSystemImageFile = new Mock<IFileSystemImageFile>();
-            var mockFileSystemSerializer = new Mock<IFileSystemSerializer>();
+            var stubFileSystemSerializer = new Mock<IFileSystemSerializer>();
 
             var serializedRootLines = new List<string> { "Serialized Root" };
 
-            mockFileSystemSerializer.Setup(x => x.Serialize(rootDirectory)).Returns(serializedRootLines);
+            stubFileSystemSerializer.Setup(x => x.Serialize(rootDirectory)).Returns(serializedRootLines);
             mockFileSystemImageFile.Setup(x => x.WriteFileSystemImage(serializedRootLines));
 
-            var fileSystemReaderWriter = new FileSystemReaderWriter(stubLoggerFactory.Object, mockFileSystemSerializer.Object, mockFileSystemImageFile.Object);
+            var fileSystemReaderWriter = new FileSystemReaderWriter(stubLoggerFactory.Object, stubFileSystemSerializer.Object, mockFileSystemImageFile.Object);
 
             // Act
             fileSystemReaderWriter.WriteFileSystem(rootDirectory);
 
             // Verify mocks?
             mockFileSystemImageFile.VerifyAll();
-            mockFileSystemSerializer.VerifyAll();
         }
 
         [Test]

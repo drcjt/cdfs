@@ -157,12 +157,12 @@ namespace NameNodeTests
             var stubLoggerFactory = new Mock<ILoggerFactory>();
             stubLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
-            var stubNodeWalker = new Mock<INodeWalker>();
+            var root = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLoggerFactory.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLoggerFactory.Object, root.Object, stubFileSystemReaderWriter.Object);
 
-            var mockRoot = new Directory { Name = "" };
-            stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "\\", true)).Returns(mockRoot);
+            var fakeRoot = new Directory { Name = "" };
+            root.Setup(x => x.GetNodeByPath(fileSystem.Root, "\\", true)).Returns(fakeRoot);
 
             // Act
             var ex = Assert.Throws<ArgumentException>(() => fileSystem.Mkdir("\\"));
@@ -211,11 +211,11 @@ namespace NameNodeTests
             var stubLoggerFactory = new Mock<ILoggerFactory>();
             stubLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<String>())).Returns(new Mock<ILogger>().Object);
             var stubFileSystemReaderWriter = new Mock<IFileSystemReaderWriter>();
-            var mockNodeWalker = new Mock<INodeWalker>();
+            var stubNodeWalker = new Mock<INodeWalker>();
 
-            var fileSystem = new FileSystem(stubLoggerFactory.Object, mockNodeWalker.Object, stubFileSystemReaderWriter.Object);
+            var fileSystem = new FileSystem(stubLoggerFactory.Object, stubNodeWalker.Object, stubFileSystemReaderWriter.Object);
 
-            mockNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewDirectory\\NewSubDirectory", true)).Returns<INode>(null);
+            stubNodeWalker.Setup(x => x.GetNodeByPath(fileSystem.Root, "NewDirectory\\NewSubDirectory", true)).Returns<INode>(null);
 
             // Act
             var ex = Assert.Throws<ArgumentException>(() => fileSystem.GetListing("\\"));

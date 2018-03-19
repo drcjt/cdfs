@@ -19,14 +19,14 @@ namespace NameNodeTests
             const int liveNodes = 10;
 
             // Arrange
-            var mockNameNodeStatus = new Mock<INameNodeStatus>();
-            mockNameNodeStatus.Setup(x => x.Started).Returns(startedDateTime);
-            var mockDataNodesStatus = new Mock<IDataNodesStatus>();
-            mockDataNodesStatus.Setup(x => x.DeadNodes).Returns(deadNodes);
-            mockDataNodesStatus.Setup(x => x.LiveNodes).Returns(liveNodes);
+            var stubNameNodeStatus = new Mock<INameNodeStatus>();
+            stubNameNodeStatus.Setup(x => x.Started).Returns(startedDateTime);
+            var stubDataNodesStatus = new Mock<IDataNodesStatus>();
+            stubDataNodesStatus.Setup(x => x.DeadNodes).Returns(deadNodes);
+            stubDataNodesStatus.Setup(x => x.LiveNodes).Returns(liveNodes);
 
             // Act
-            var result = NameNode.Models.Builders.NameNodeStatusModelBuilder.CreateModel(mockNameNodeStatus.Object, mockDataNodesStatus.Object);
+            var result = NameNode.Models.Builders.NameNodeStatusModelBuilder.CreateModel(stubNameNodeStatus.Object, stubDataNodesStatus.Object);
 
             // Assert
             Assert.AreEqual(startedDateTime, result.Started);
