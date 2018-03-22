@@ -1,4 +1,5 @@
-﻿using NameNode.FileSystem.Interfaces;
+﻿using NameNode.BlockManagement;
+using NameNode.FileSystem.Interfaces;
 using NameNode.Services.Interfaces;
 using Protocols;
 using System;
@@ -47,21 +48,24 @@ namespace NameNode.Services
 
         public LocatedBlock AddBlock(string srcFile)
         {
-            var blockId = Guid.NewGuid();
-            var block = new Block(blockId, 0, DateTime.Now);
-
-            var node = _fileSystem.GetFile(srcFile);
-            node.AddBlock(block);
-
             var randomDataNodeID = _dataNodeRepository.GetRandomDataNodeId();
             var dataNodeDescriptor = _dataNodeRepository.GetDataNodeDescriptorById(randomDataNodeID);
 
             var dataNodeID = new DataNodeId { HostName = dataNodeDescriptor.HostName, IPAddress = dataNodeDescriptor.IPAddress };
+            var dataNodeIds = new List<DataNodeId> { dataNodeID };
+
+            var blockId = Guid.NewGuid();
+            var block = new Block(blockId, 0, DateTime.Now);
+
+            var blockInfo = new BlockInfo(block, dataNodeIds);
+
+            var node = _fileSystem.GetFile(srcFile);
+            node.AddBlock(blockInfo);
 
             var locatedBlock = new LocatedBlock
             {
                 Block = block,
-                Locations = new List<DataNodeId> { dataNodeID }
+                Locations = dataNodeIds
             };
 
             return locatedBlock;

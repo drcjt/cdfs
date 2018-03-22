@@ -25,7 +25,7 @@ namespace NameNode.Controllers
         [HttpPost]
         public LocatedBlock AddBlock(string srcFile)
         {
-            return null;
+            return _clientProtocol.AddBlock(srcFile);
         }
 
         // DELETE: api/Delete

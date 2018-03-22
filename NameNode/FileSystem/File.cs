@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NameNode.BlockManagement;
 using NameNode.FileSystem.Interfaces;
 using Protocols;
 
@@ -6,14 +7,14 @@ namespace NameNode.FileSystem
 {
     public class File : Node, IFile
     {
-        private readonly ICollection<Block> _blocks = new List<Block>();
+        private readonly ICollection<BlockInfo> _blocks = new List<BlockInfo>();
 
-        public void AddBlock(Block block)
+        public void AddBlock(BlockInfo blockInfo)
         {
-            _blocks.Add(block);
+            _blocks.Add(blockInfo);
         }
 
-        public ICollection<Block> GetBlocks()
+        public ICollection<BlockInfo> GetBlocks()
         {
             return _blocks;
         }

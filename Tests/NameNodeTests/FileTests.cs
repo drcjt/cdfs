@@ -1,7 +1,9 @@
-﻿using NameNode.FileSystem;
+﻿using NameNode.BlockManagement;
+using NameNode.FileSystem;
 using NUnit.Framework;
 using Protocols;
 using System;
+using System.Collections.Generic;
 
 namespace NameNodeTests
 {
@@ -26,9 +28,9 @@ namespace NameNodeTests
         {
             // Arrange
             var file = new File();
-            var block1 = new Block(Guid.NewGuid(), 10, DateTime.Now);
-            var block2 = new Block(Guid.NewGuid(), 20, DateTime.Now);
-            var block3 = new Block(Guid.NewGuid(), 30, DateTime.Now);
+            var block1 = new BlockInfo(new Block(Guid.NewGuid(), 10, DateTime.Now), new List<DataNodeId> { new DataNodeId() });
+            var block2 = new BlockInfo(new Block(Guid.NewGuid(), 20, DateTime.Now), new List<DataNodeId> { new DataNodeId() });
+            var block3 = new BlockInfo(new Block(Guid.NewGuid(), 30, DateTime.Now), new List<DataNodeId> { new DataNodeId() });
             file.AddBlock(block1);
             file.AddBlock(block2);
             file.AddBlock(block3);

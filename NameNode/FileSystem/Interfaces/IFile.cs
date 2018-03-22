@@ -1,4 +1,5 @@
-﻿using Protocols;
+﻿using NameNode.BlockManagement;
+using Protocols;
 using System.Collections.Generic;
 
 namespace NameNode.FileSystem.Interfaces
@@ -6,9 +7,9 @@ namespace NameNode.FileSystem.Interfaces
     public interface IFile : INode
     {
         // Get blocks for the file
-        ICollection<Block> GetBlocks();
+        ICollection<BlockInfo> GetBlocks();
 
         // Add new block for the file
-        void AddBlock(Block block);
+        void AddBlock(BlockInfo blockInfo);
     }
 }

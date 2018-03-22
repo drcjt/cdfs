@@ -70,5 +70,20 @@ namespace NameNodeTests
             CollectionAssert.AreEqual(listing, result);
             mockClientProtocol.VerifyAll();
         }
+
+        [Test]
+        public void AddBlock_Always_InvokesAddBlock()
+        {
+            // Arrange
+            var mockClientProtocol = new Mock<IClientProtocol>();
+            mockClientProtocol.Setup(x => x.AddBlock("filePath"));
+            var controller = new ClientProtocolController(mockClientProtocol.Object);
+
+            // Act
+            controller.AddBlock("filePath");
+
+            // Assert
+            mockClientProtocol.VerifyAll();
+        }
     }
 }
