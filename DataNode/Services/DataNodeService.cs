@@ -21,9 +21,9 @@ namespace DataNode.Services
             _dataNodeOptions = dataNodeOptions;
         }
 
-        public void Run()
+        public void Run(string url)
         {
-            var dataNodeId = new DataNodeId { IPAddress = GetLocalIPAddress(), HostName = Dns.GetHostName() };
+            var dataNodeId = new DataNodeId { IPAddress = url, HostName = Dns.GetHostName() };
 
             _nameNode.BaseUrl = new Uri(_dataNodeOptions.NameNodeUri);
             ID = _nameNode.RegisterDataNode(dataNodeId);

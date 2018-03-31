@@ -1,4 +1,5 @@
-﻿using Protocols;
+﻿using Newtonsoft.Json;
+using Protocols;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -47,11 +48,17 @@ namespace DFSClient.Protocol
         private T PerformRequest<T>(IRestRequest request) where T : new()
         {
             var response = _restClient.Execute<T>(request);
+
+            // TODO : for some reason just using response.Data doesn't work with
+            // LocatedBlock objects - needs further investigation
+            var result = JsonConvert.DeserializeObject<T>(response.Content);
+
             if (response.StatusCode != HttpStatusCode.OK)
             {
+
                 throw new Exception(response.Content);
             }
-            return response.Data;
+            return result;
         }
 
         public void Create(string srcFile, string filePath)

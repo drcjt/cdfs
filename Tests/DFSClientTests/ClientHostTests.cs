@@ -21,12 +21,13 @@ namespace DFSClientTests
             var stubOptionParser = new Mock<IOptionParser>();
             var listingSubOptions = new ListingSubOptions() { NameNodeUri = testNameNodeUri, FilePath = new List<string> { } };
             stubOptionParser.Setup(x => x.ParseOptions(It.IsAny<string[]>())).Returns(listingSubOptions);
-            var stubClientProtocol = new Mock<IRestClientProtocol>();
+            var stubClientProtocol = new Mock<IRestClientProtocol>();           
             stubClientProtocol.SetupProperty(x => x.BaseUrl);
+            var stubDataTransferProtocol = new Mock<IRestDataTransferProtocol>();
             var mockCommandDispatcher = new Mock<ICommandDispatcher>();
             var stubCommandFactory = new Mock<ICommandFactory>();
 
-            var sut = new ClientHost(stubOptionParser.Object, stubClientProtocol.Object, mockCommandDispatcher.Object, stubCommandFactory.Object);
+            var sut = new ClientHost(stubOptionParser.Object, stubClientProtocol.Object, stubDataTransferProtocol.Object, mockCommandDispatcher.Object, stubCommandFactory.Object);
 
             // Act
             sut.Run(new string[] { });

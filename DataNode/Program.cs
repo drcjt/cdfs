@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.Extensions.Configuration;
 
 namespace DataNode
 {
@@ -11,8 +13,9 @@ namespace DataNode
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            WebHost.CreateDefaultBuilder(args).
+                UseStartup<Startup>().
+                UseConfiguration(new ConfigurationBuilder().AddCommandLine(args).Build()).
+                Build();
     }
 }

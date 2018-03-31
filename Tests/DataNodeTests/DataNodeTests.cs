@@ -27,7 +27,7 @@ namespace DataNodeTests
             var sut = new DataNodeService(mockDataNodeProtocol.Object, stubConfiguration.Object, stubDataNodeOptions.Object);
 
             // Act
-            sut.Run();
+            sut.Run("http://localhost");
 
             // Assert
             mockDataNodeProtocol.VerifyAll();

@@ -15,6 +15,7 @@ namespace DFSClient
             {
                 c.For<IClientHost>().Use<ClientHost>();
                 c.For<IRestClientProtocol>().Use<ClientProtocol>().Singleton();
+                c.For<IRestDataTransferProtocol>().Use<DataTransferProtocol>().Singleton();
                 c.For<IConsole>().Use<ConsoleWrapper>();
                 c.For<ICommandDispatcher>().Use<CommandDispatcher>();
                 c.For<IOptionParser>().Use<OptionParser>();

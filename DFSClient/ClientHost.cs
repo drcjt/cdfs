@@ -10,12 +10,14 @@ namespace DFSClient
     {
         private readonly IOptionParser _optionParser;
         private readonly IRestClientProtocol _clientProtocol;
+        private readonly IRestDataTransferProtocol _dataTransferProtocol;
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly ICommandFactory _commandFactory;
-        public ClientHost(IOptionParser optionParser, IRestClientProtocol clientProtocol, ICommandDispatcher commandDispatcher, ICommandFactory commandFactory)
+        public ClientHost(IOptionParser optionParser, IRestClientProtocol clientProtocol, IRestDataTransferProtocol dataTransferProtocol, ICommandDispatcher commandDispatcher, ICommandFactory commandFactory)
         {
             _optionParser = optionParser;
             _clientProtocol = clientProtocol;
+            _dataTransferProtocol = dataTransferProtocol;
             _commandDispatcher = commandDispatcher;
             _commandFactory = commandFactory;
         }
@@ -26,6 +28,7 @@ namespace DFSClient
             if (options != null)
             {
                 _clientProtocol.BaseUrl = new Uri(options.NameNodeUri);
+                _dataTransferProtocol.BaseUrl = new Uri(options.NameNodeUri);
                 var command = _commandFactory.Build(options);
                 _commandDispatcher.Dispatch(command);
             }

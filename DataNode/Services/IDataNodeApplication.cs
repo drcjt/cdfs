@@ -2,6 +2,6 @@
 {
     public interface IDataNodeApplication
     {
-        void Run();
+        void Run(string url);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DFSClient.Protocol;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using Protocols;
 using RestSharp;
@@ -51,7 +52,8 @@ namespace DFSClientTests
             // Arrange
             var restResponse = new RestResponse<LocatedBlock>();
             restResponse.StatusCode = HttpStatusCode.OK;
-            restResponse.Data = new LocatedBlock();
+            var locatedBlock = new LocatedBlock();
+            restResponse.Content = JsonConvert.SerializeObject(locatedBlock);
 
             var restRequest = new RestRequest("/ClientProtocol/AddBlock", Method.POST);
             restRequest.AddParameter(srcFile, testSrcFile);
@@ -63,7 +65,8 @@ namespace DFSClientTests
 
             // Assert
             _mockRestClient.Verify(x => x.Execute<LocatedBlock>(It.Is<RestRequest>(r => VerifyRestRequest(restRequest, r))));
-            Assert.AreEqual(result, restResponse.Data);
+            Assert.AreEqual(result.Block, locatedBlock.Block);
+            Assert.AreEqual(result.Locations, locatedBlock.Locations);
         }
 
         [Test]
@@ -110,7 +113,8 @@ namespace DFSClientTests
             // Arrange
             var restResponse = new RestResponse<List<CdfsFileStatus>>();
             restResponse.StatusCode = HttpStatusCode.OK;
-            restResponse.Data = new List<CdfsFileStatus> {  };
+            var listOfCdfsFileStatus = new List<CdfsFileStatus> { };
+            restResponse.Content = JsonConvert.SerializeObject(listOfCdfsFileStatus);
 
             var restRequest = new RestRequest("/ClientProtocol/GetListing", Method.GET);
             restRequest.AddParameter(filePath, testFilePath);
@@ -122,7 +126,7 @@ namespace DFSClientTests
 
             // Assert
             _mockRestClient.Verify(x => x.Execute<List<CdfsFileStatus>>(It.Is<RestRequest>(r => VerifyRestRequest(restRequest, r))));
-            Assert.AreEqual(result, restResponse.Data);
+            Assert.AreEqual(result, listOfCdfsFileStatus);
         }
 
         // TODO: Try using fluent assertions to remove this method
