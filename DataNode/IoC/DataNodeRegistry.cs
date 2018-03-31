@@ -3,6 +3,7 @@ using DataNode.Services;
 using RestSharp;
 using StructureMap;
 using StructureMap.Pipeline;
+using Protocols;
 
 namespace DataNode.IoC
 {
@@ -13,6 +14,8 @@ namespace DataNode.IoC
             For<IDataNodeApplication>().LifecycleIs(Lifecycles.Container).Use<DataNodeService>();
             For<IRestDataNodeProtocol>().LifecycleIs(Lifecycles.Container).Use<DataNodeProtocol>();
             For<IRestClient>().Use<RestClient>();
+
+            For<IDataTransferProtocol>().Use<DataTransferProtocol>();
         }
     }
 }
