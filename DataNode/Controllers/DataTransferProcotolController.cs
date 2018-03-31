@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Protocols;
-using System.Collections.Generic;
+using System;
 
 namespace DataNode.Controllers
 {
@@ -16,9 +16,9 @@ namespace DataNode.Controllers
 
         // PATCH: api/WriteBlock/<Block Id>
         [HttpPatch]
-        public void WriteBlock(string blockID)
+        public void WriteBlock(string id)
         {
-            var block = new Block(blockID, 0, null);
+            var block = new Block(new Guid(id), 0, DateTime.Now);
             _dataTransferProtocol.WriteBlock(block, Request.Body);
         }
    }

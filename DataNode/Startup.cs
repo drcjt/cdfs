@@ -27,7 +27,8 @@ namespace DataNode
             var container = new Container();
 
             var nameNodeUri = Configuration.GetValue<string>("ConnectionStrings:NameNodeConnection", "http://localhost:5150");
-            var dataNodeOptions = new DataNodeOptions { NameNodeUri = nameNodeUri };
+            var blocksPath = Configuration.GetValue<string>("BlocksPath", "Blocks");
+            var dataNodeOptions = new DataNodeOptions { NameNodeUri = nameNodeUri, BlocksPath = blocksPath };
 
             container.Configure(config =>
             {
